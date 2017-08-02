@@ -56,25 +56,30 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
     /**
      * @param $identifier
      * @param Config|null $children
-     * @param null $parent
+     * @param Resource|null $parent
      * @return array
      */
-    protected function loadResource($identifier, Config $children = null, $parent = null)
+    protected function loadResource($identifier, Config $children = null, Resource $parent = null)
     {
         /** @var array $resources */
         $resources = [];
-        /** @var string $role */
-        $role = new Resource($identifier, $parent);
-        $resources[] = $role;
+        /** @var string $resource */
+        $resource = new Resource($identifier, $parent);
+        $resources[] = $resource;
 
         if (! is_null($children)) {
             foreach ($children as $key => $value) {
+
                 if (is_string($value)) {
-                    $resources = ArrayUtils::merge($resources, $this->loadResource($value, null, $role));
+                    $resources = ArrayUtils::merge(
+                        $resources, $this->loadResource($value, null, $resource)
+                    );
                     continue;
                 }
 
-                $resources = ArrayUtils::merge($resources, $this->loadResource($key, $value, $role));
+                $resources = ArrayUtils::merge(
+                    $resources, $this->loadResource($key, $value, $resource)
+                );
             }
         }
 

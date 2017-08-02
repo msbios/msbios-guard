@@ -97,8 +97,7 @@ class RouteListenerAggregate extends AbstractListenerAggregate implements
         }
 
         /** @var string $routeName */
-        $routeName = $event->getRouteMatch()
-            ->getMatchedRouteName();
+        $routeName = $routeMatch->getMatchedRouteName();
 
         try {
             if ($authenticationService->isAllowed("route/{$routeName}")) {

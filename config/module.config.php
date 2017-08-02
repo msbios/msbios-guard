@@ -54,17 +54,14 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'role_providers' => [
             Provider\RoleProvider::class => [
-                // 'GUEST' => [],
-                // 'USER' => [
-                //     'children' => [
-                //         'ADMIN' => []
-                //     ]
-                // ]
-
                 'GUEST',
                 'USER' => [
                     'MODERATOR' => [
-                        'ADMIN'
+                        'ADMIN' => [
+                            'SUPERADMIN' => [
+                                'DEVELOPER'
+                            ]
+                        ]
                     ]
                 ]
             ]
@@ -73,50 +70,20 @@ return [
         // Resource providers to be used to load all available resources into Zend\Permissions\Acl\Acl
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
-            Provider\ResourceProvider::class => [
-                'NEWS',
-                'FORUM' => [
-                    'COMMENTS' => [
-                        'CREATE', 'EDIT'
-                    ]
-                ],
-            ]
+            Provider\ResourceProvider::class => []
         ],
 
         // Rule providers to be used to load all available rules into Zend\Permissions\Acl\Acl
         // Keys are the provider service names, values are the options to be passed to the provider
         'rule_providers' => [
             Provider\RuleProvider::class => [
-                'allow' => [
-                    // allow guests and users (and admins, through inheritance)
-                    // the "wear" privilege on the resource "pants"
-                    [['GUEST', 'USER'], 'NEWS', 'VIEW'],
-                    [['USER'], 'FORUM', 'VIEW'],
-                    [['USER'], 'COMMENTS', ['VIEW', 'CREATE']],
-                    [['ADMIN'], 'COMMENTS', ['EDIT', 'DELETE']],
-                ],
-                'deny' => [
-                    [['ADMIN'], 'COMMENTS', ['EDIT', 'DELETE']],
-                ]
+                'allow' => [],
+                'deny' => []
             ]
         ],
 
         // Guard listeners to be attached to the application event manager
-        'guard_listeners' => [
-            // Listener\ControllerListenerAggregate::class => [
-            //     [
-            //         'controller' => \MSBios\Application\Controller\IndexController::class,
-            //         'action' => 'index',
-            //         'roles' => ['GUEST']
-            //     ]
-            // ],
-            // Listener\RouteListenerAggregate::class => [
-            //     [
-            //         'route' => 'home',
-            //         'roles' => ['GUEST']
-            //     ]
-            // ]
-        ]
+        'guard_listeners' => []
     ],
 
 

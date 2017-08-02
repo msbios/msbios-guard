@@ -7,6 +7,7 @@
 namespace MSBios\Guard\Factory;
 
 use Interop\Container\ContainerInterface;
+use MSBios\Guard\Exception\InvalidProviderException;
 use MSBios\Guard\Module;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -34,15 +35,17 @@ abstract class AbstractProviderFactory implements FactoryInterface
         $providers = [];
 
         foreach ($config as $provider => $options) {
-            if (is_string($provider) && $container->has($provider)) {
-                $providers[] = $container->get($provider);
-                continue;
-            } elseif (is_string($options) && $container->has($provider)) {
+            if (is_string($options) && $container->has($options)) {
                 $providers[] = $container->get($options);
-                continue;
+            } elseif (is_string($provider) && $container->has($provider)) {
+                $providers[] = $container->get($provider);
+            } elseif (is_string($options) && class_exists($options)) {
+                $providers[] = new $options($container);
+            } elseif (class_exists($provider)) {
+                $providers[] = new $provider($container, $options);
+            } else {
+                throw new InvalidProviderException('Incorrect registered provider');
             }
-
-            $providers[] = new $provider($container, $options);
         }
 
         return $providers;

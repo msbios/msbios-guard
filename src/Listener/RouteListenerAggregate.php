@@ -16,6 +16,7 @@ use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
+use Zend\Router\Http\RouteMatch;
 
 /**
  * Class RouteListener
@@ -87,6 +88,13 @@ class RouteListenerAggregate extends AbstractListenerAggregate implements
     {
         /** @var AuthenticationService $authenticationService */
         $authenticationService = $this->serviceLocator->get(AuthenticationService::class);
+
+        /** @var RouteMatch $routeMatch */
+        $routeMatch = $event->getRouteMatch();
+
+        if (!$routeMatch instanceof RouteMatch) {
+            return;
+        }
 
         /** @var string $routeName */
         $routeName = $event->getRouteMatch()

@@ -6,6 +6,7 @@
 
 namespace MSBios\Guard\Listener;
 
+use MSBios\Guard\Module;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Provider\ProviderInterface;
 use Zend\Config\Config;
@@ -42,6 +43,15 @@ abstract class AbstractListenerAggregate extends DefaultAbstractListenerAggregat
     }
 
     /**
+     * @return ViewModel
+     */
+    protected function factoryDeniedViewModel()
+    {
+        return (new ViewModel)
+            ->setTemplate($this->serviceLocator->get(Module::class)->get('template'));
+    }
+
+    /**
      * @param EventInterface $event
      */
     protected function prepareDeniedResponse(EventInterface $event)
@@ -49,11 +59,11 @@ abstract class AbstractListenerAggregate extends DefaultAbstractListenerAggregat
         /** @var Response $response */
         $response = $event->getResponse();
         /** @var HttpResponse $response */
-        $response = $response ?: new Response();
+        $response = $response ?: new Response;
         $response->setStatusCode(HttpResponse::STATUS_CODE_403);
 
         $event->getViewModel()
-            ->addChild((new ViewModel)->setTemplate('error/403'));
+            ->addChild($this->factoryDeniedViewModel());
 
         $event->setResponse($response);
     }

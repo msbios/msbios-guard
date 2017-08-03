@@ -19,6 +19,10 @@ use Zend\View\Model\ViewModel;
  */
 class ForbiddenListener extends AbstractListenerAggregate
 {
+
+    /** EVENT_UNAUTHORIZED */
+    const EVENT_UNAUTHORIZED = 'unauthorized.post';
+
     /**
      * @param EventManagerInterface $events
      * @param int $priority
@@ -59,6 +63,9 @@ class ForbiddenListener extends AbstractListenerAggregate
                 $response = $response ?: new Response;
                 $response->setStatusCode(Response::STATUS_CODE_403);
                 $event->setResponse($response);
+
+                $event->setName(self::EVENT_UNAUTHORIZED);
+                $event->getTarget()->getEventManager()->triggerEvent($event);
                 break;
         }
 

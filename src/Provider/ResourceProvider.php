@@ -7,7 +7,6 @@ namespace MSBios\Guard\Provider;
 
 use MSBios\Guard\Acl\Resource;
 use Zend\Config\Config;
-use Zend\Permissions\Acl\Resource\GenericResource;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 
@@ -63,6 +62,7 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
     {
         /** @var array $resources */
         $resources = [];
+
         /** @var string $resource */
         $resource = new Resource($identifier, $parent);
         $resources[] = $resource;

@@ -8,7 +8,7 @@ namespace MSBios\Guard\Acl;
 use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
- * Interface HierarchicalRoleInterface
+ * Interface HierarchicalResourceInterface
  * @package MSBios\Guard\Acl
  */
 interface HierarchicalResourceInterface extends ResourceInterface

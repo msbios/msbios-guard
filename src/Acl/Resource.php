@@ -22,7 +22,7 @@ class Resource implements HierarchicalResourceInterface
     protected $identifier;
 
     /**
-     * Role constructor.
+     * Resource constructor.
      * @param $identifier
      * @param null $parent
      */

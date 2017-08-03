@@ -7,6 +7,7 @@
 namespace MSBios\Guard\Listener;
 
 use MSBios\Guard\Acl\Resource;
+use MSBios\Guard\Exception\UnAuthorizedException;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
@@ -15,7 +16,6 @@ use Zend\Config\Config;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 use Zend\Router\Http\RouteMatch;
@@ -100,13 +100,13 @@ class RouteListener extends AbstractListenerAggregate implements
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'onRender'], $priority);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'onRoute'], $priority);
     }
 
     /**
      * @param EventInterface $event
      */
-    public function onRender(MvcEvent $event)
+    public function onRoute(MvcEvent $event)
     {
         /** @var AuthenticationService $authenticationService */
         $authenticationService = $this->serviceManager->get(AuthenticationService::class);
@@ -127,6 +127,7 @@ class RouteListener extends AbstractListenerAggregate implements
 
         $event->setError(self::ERROR);
         $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+        $event->setParam('exception', new UnAuthorizedException("You are not authorized to access {$routeName}"));
         $event->getTarget()->getEventManager()->triggerEvent($event);
     }
 }

@@ -33,23 +33,34 @@ class ForbiddenListener extends AbstractListenerAggregate
      */
     public function onDispatchError(EventInterface $event)
     {
-        /** @var string $error */
+        // Do nothing if no error in the event
         $error = $event->getError();
         if (empty($error)) {
             return;
         }
 
-        /** @var ViewModel $viewModel */
-        $viewModel = new ViewModel;
-        $viewModel->setTemplate('error/403');
-        $event->getViewModel()->addChild($viewModel);
+        // Do nothing if the result is a response object
+        $result = $event->getResult();
+        if ($result instanceof Response) {
+            return;
+        }
 
-        /** @var Response $response */
-        $response = $event->getResponse();
+        switch ($error) {
+            case RouteListener::ERROR:
+                /** @var ViewModel $viewModel */
+                $viewModel = new ViewModel;
+                $viewModel->setTemplate('error/403');
+                $event->getViewModel()->addChild($viewModel);
 
-        /** @var Response $response */
-        $response = $response ?: new Response;
-        $response->setStatusCode(Response::STATUS_CODE_403);
-        $event->setResponse($response);
+                /** @var Response $response */
+                $response = $event->getResponse();
+
+                /** @var Response $response */
+                $response = $response ?: new Response;
+                $response->setStatusCode(Response::STATUS_CODE_403);
+                $event->setResponse($response);
+                break;
+        }
+
     }
 }

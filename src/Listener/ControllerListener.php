@@ -11,6 +11,7 @@ use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
 use MSBios\Guard\Service\AuthenticationService;
 use Zend\Config\Config;
+use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\MvcEvent;
@@ -18,10 +19,10 @@ use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 use Zend\Router\RouteMatch;
 
 /**
- * Class ControllerListenerAggregate
+ * Class ControllerListener
  * @package MSBios\Guard\Listener
  */
-class ControllerListenerAggregate extends AbstractListenerAggregate implements
+class ControllerListener extends AbstractListenerAggregate implements
     ResourceProviderInterface,
     RuleProviderInterface
 {

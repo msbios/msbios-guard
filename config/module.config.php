@@ -18,7 +18,8 @@ return [
 
     'service_manager' => [
         'factories' => [
-            Collector\RoleCollector::class => \Zend\ServiceManager\Factory\InvokableFactory::class,
+            // Collectors
+            Collector\RoleCollector::class => Factory\RoleCollectorFactory::class,
 
             // Providers
             Provider\GuardProviderInterface::class => Factory\ListenerFactory::class,
@@ -28,7 +29,10 @@ return [
             Provider\RoleProviderInterface::class => Factory\RoleProvidersFactory::class,
             Provider\RuleProviderInterface::class => Factory\RuleProvidersFactory::class,
 
+            // Services
             Service\AuthenticationService::class => Factory\AuthenticationServiceFactory::class,
+
+            // Customs
             Module::class => Factory\ModuleFactory::class
         ]
     ],

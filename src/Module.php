@@ -7,6 +7,7 @@
 namespace MSBios\Guard;
 
 use Interop\Container\ContainerInterface;
+use MSBios\Guard\Listener\ForbiddenListener;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Service\AuthenticationService;
 use MSBios\ModuleInterface;
@@ -56,6 +57,8 @@ class Module implements
         foreach ($listeners as $listener) {
             $listener->attach($target->getEventManager());
         }
+
+        (new ForbiddenListener)->attach($target->getEventManager());
     }
 
     /**

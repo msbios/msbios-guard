@@ -7,27 +7,49 @@
 namespace MSBios\Guard\Listener;
 
 use MSBios\Guard\Acl\Resource;
+use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
 use MSBios\Guard\Service\AuthenticationService;
 use Zend\Config\Config;
+use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 use Zend\Router\Http\RouteMatch;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class RouteListener
  * @package MSBios\Guard\Listener
  */
-class RouteListenerAggregate extends AbstractListenerAggregate implements
+class RouteListener extends AbstractListenerAggregate implements
     ResourceProviderInterface,
-    RuleProviderInterface
+    RuleProviderInterface,
+    GuardProviderInterface
 {
+
+    /** @var ServiceLocatorInterface */
+    protected $serviceManager;
+
+    /** @var Config */
+    protected $options;
+
     /** @const ERROR */
     const ERROR = 'error-unauthorized-route';
+
+    /**
+     * RouteListenerAggregate constructor.
+     * @param ServiceLocatorInterface $serviceManager
+     * @param Config $options
+     */
+    public function __construct(ServiceLocatorInterface $serviceManager, Config $options)
+    {
+        $this->serviceManager = $serviceManager;
+        $this->options = $options;
+    }
 
     /**
      * @return mixed
@@ -78,23 +100,19 @@ class RouteListenerAggregate extends AbstractListenerAggregate implements
      */
     public function attach(EventManagerInterface $events, $priority = 1)
     {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], $priority);
+        $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'onRender'], $priority);
     }
 
     /**
      * @param EventInterface $event
      */
-    public function onRender(EventInterface $event)
+    public function onRender(MvcEvent $event)
     {
         /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->serviceLocator->get(AuthenticationService::class);
+        $authenticationService = $this->serviceManager->get(AuthenticationService::class);
 
         /** @var RouteMatch $routeMatch */
         $routeMatch = $event->getRouteMatch();
-
-        if (!$routeMatch instanceof RouteMatch) {
-            return;
-        }
 
         /** @var string $routeName */
         $routeName = $routeMatch->getMatchedRouteName();
@@ -107,6 +125,8 @@ class RouteListenerAggregate extends AbstractListenerAggregate implements
             // Do SomeThing
         }
 
-        $this->prepareDeniedResponse($event);
+        $event->setError(self::ERROR);
+        $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+        $event->getTarget()->getEventManager()->triggerEvent($event);
     }
 }

@@ -6,6 +6,7 @@
 
 namespace MSBios\Guard\Collector;
 
+use MSBios\Guard\Provider\IdentityProviderInterface;
 use Zend\Mvc\MvcEvent;
 use ZendDeveloperTools\Collector\CollectorInterface;
 
@@ -18,10 +19,22 @@ class RoleCollector implements CollectorInterface, \Serializable
     const NAME = 'msbios_guard_authorize_role_collector';
     const PRIORITY = 150;
 
+    /** @var  IdentityProviderInterface */
+    protected $identityProvider;
+
     /**
      * @var array|string[] collected role ids
      */
     protected $collectedRoles = [];
+
+    /**
+     * RoleCollector constructor.
+     * @param IdentityProviderInterface $identityProvider
+     */
+    public function __construct(IdentityProviderInterface $identityProvider)
+    {
+        $this->identityProvider = $identityProvider;
+    }
 
     /**
      * Collector Name.
@@ -50,7 +63,7 @@ class RoleCollector implements CollectorInterface, \Serializable
      */
     public function collect(MvcEvent $mvcEvent)
     {
-        $this->collectedRoles[] = 'GUEST';
+        $this->collectedRoles = $this->identityProvider->getIdentityRoles();
     }
 
     /**

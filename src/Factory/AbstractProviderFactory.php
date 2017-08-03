@@ -35,6 +35,7 @@ abstract class AbstractProviderFactory implements FactoryInterface
         $providers = [];
 
         foreach ($config as $provider => $options) {
+
             if (is_string($options) && $container->has($options)) {
                 $providers[] = $container->get($options);
             } elseif (is_string($provider) && $container->has($provider)) {

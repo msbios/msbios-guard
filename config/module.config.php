@@ -17,6 +17,9 @@ return [
     ],
 
     'service_manager' => [
+        'invokables' => [
+            Listener\UnAuthorizedListener::class => Listener\UnAuthorizedListener::class
+        ],
         'factories' => [
             // Collectors
             Collector\RoleCollector::class => Factory\RoleCollectorFactory::class,
@@ -49,7 +52,12 @@ return [
         'identity_provider' => Provider\Identity\AuthenticationProvider::class,
 
         // strategy service name for the strategy listener to be used when permission-related errors are detected
-        'unauthorized_strategy' => Listener\UnAuthorizedListener::class,
+        'unauthorized_strategy' => [
+            'listener' => Listener\UnAuthorizedListener::class,
+            'method' => 'onDispatchError',
+            'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
+            'priority' => -100500,
+        ],
 
         // Template name for the unauthorized strategy
         'template' => 'error/403',

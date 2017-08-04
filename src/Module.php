@@ -7,16 +7,19 @@
 namespace MSBios\Guard;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Listener\UnAuthorizedListener;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\ModuleInterface;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\LazyEventListener;
+use Zend\EventManager\LazyListenerAggregate;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
+use Zend\Mvc\ApplicationInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Module
@@ -47,11 +50,14 @@ class Module implements
      */
     public function onBootstrap(EventInterface $e)
     {
-        /** @var Application $target */
+        /** @var ApplicationInterface $target */
         $target = $e->getTarget();
 
         /** @var EventManagerInterface $eventManager */
         $eventManager = $target->getEventManager();
+
+        /** @var ServiceLocatorInterface $serviceManager */
+        $serviceManager = $target->getServiceManager();
 
         /** @var array $listeners */
         $listeners = $target->getServiceManager()
@@ -61,7 +67,17 @@ class Module implements
             $listener->attach($eventManager);
         }
 
-        (new UnAuthorizedListener)->attach($eventManager);
+        /** @var LazyEventListener $listener */
+        $listener = new LazyEventListener(
+            $serviceManager->get(self::class)
+                ->get('unauthorized_strategy')
+                ->toArray(),
+            $serviceManager
+        );
+
+        /** @var LazyListenerAggregate $aggregate */
+        $aggregate = new LazyListenerAggregate([$listener], $serviceManager);
+        $aggregate->attach($eventManager);
     }
 
     /**

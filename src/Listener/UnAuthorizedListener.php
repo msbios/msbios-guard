@@ -8,14 +8,11 @@ namespace MSBios\Guard\Listener;
 
 use MSBios\Guard\Exception\UnAuthorizedException;
 use MSBios\Guard\Module;
-use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
-use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Http\Response as HttpResponse;
 use Zend\Mvc\Application;
 use Zend\Mvc\ApplicationInterface;
-use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface;
 use Zend\View\Model\ViewModel;
 
@@ -23,19 +20,10 @@ use Zend\View\Model\ViewModel;
  * Class UnAuthorizedListener
  * @package MSBios\Guard\Listener
  */
-class UnAuthorizedListener extends AbstractListenerAggregate
+class UnAuthorizedListener
 {
     /** EVENT_UNAUTHORIZED */
     const EVENT_UNAUTHORIZED = 'unauthorized';
-
-    /**
-     * @param EventManagerInterface $events
-     * @param int $priority
-     */
-    public function attach(EventManagerInterface $events, $priority = -1000000000)
-    {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'onDispatchError'], $priority);
-    }
 
     /**
      * @param EventInterface $event

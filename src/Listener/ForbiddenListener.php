@@ -6,10 +6,12 @@
 
 namespace MSBios\Guard\Listener;
 
+use MSBios\Guard\Module;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Response;
+use Zend\Mvc\ApplicationInterface;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
@@ -51,9 +53,15 @@ class ForbiddenListener extends AbstractListenerAggregate
 
         switch ($error) {
             case RouteListener::ERROR:
+            case ControllerListener::ERROR:
+                /** @var ApplicationInterface $target */
+                $target = $event->getTarget();
+
                 /** @var ViewModel $viewModel */
                 $viewModel = new ViewModel;
-                $viewModel->setTemplate('error/403');
+                $viewModel->setTemplate(
+                    $target->getServiceManager()->get(Module::class)->get('template')
+                );
                 $event->getViewModel()->addChild($viewModel);
 
                 /** @var Response $response */
@@ -65,7 +73,7 @@ class ForbiddenListener extends AbstractListenerAggregate
                 $event->setResponse($response);
 
                 $event->setName(self::EVENT_UNAUTHORIZED);
-                $event->getTarget()->getEventManager()->triggerEvent($event);
+                $target->getEventManager()->triggerEvent($event);
                 break;
         }
     }

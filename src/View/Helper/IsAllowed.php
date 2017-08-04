@@ -6,7 +6,7 @@
 
 namespace MSBios\Guard\View\Helper;
 
-use MSBios\Guard\Service\GuardManager;
+use MSBios\Guard\GuardManager;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -16,15 +16,15 @@ use Zend\View\Helper\AbstractHelper;
 class IsAllowed extends AbstractHelper
 {
     /** @var GuardManager */
-    protected $authenticationService;
+    protected $guardManager;
 
     /**
      * IsAllowed constructor.
-     * @param GuardManager $authenticationService
+     * @param GuardManager $guardManager
      */
-    public function __construct(GuardManager $authenticationService)
+    public function __construct(GuardManager $guardManager)
     {
-        $this->authenticationService = $authenticationService;
+        $this->guardManager = $guardManager;
     }
 
     /**
@@ -34,6 +34,6 @@ class IsAllowed extends AbstractHelper
      */
     public function __invoke($resource, $privilege = null)
     {
-        return $this->authenticationService->isAllowed($resource, $privilege);
+        return $this->guardManager->isAllowed($resource, $privilege);
     }
 }

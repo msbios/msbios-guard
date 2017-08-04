@@ -9,7 +9,6 @@ namespace MSBios\Guard;
 use Interop\Container\ContainerInterface;
 use MSBios\Guard\Listener\ForbiddenListener;
 use MSBios\Guard\Provider\GuardProviderInterface;
-use MSBios\Guard\Service\GuardManager;
 use MSBios\ModuleInterface;
 use Zend\EventManager\EventInterface;
 use Zend\Loader\AutoloaderFactory;

@@ -6,10 +6,12 @@
 
 namespace MSBios\Guard\Listener;
 
+use MSBios\Guard\Acl\Resource;
+use MSBios\Guard\Exception\UnAuthorizedException;
+use MSBios\Guard\GuardManager;
+use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
-use MSBios\Guard\Resource;
-use MSBios\Guard\Service\GuardManager;
 use Zend\Config\Config;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
@@ -25,7 +27,8 @@ use Zend\ServiceManager\ServiceLocatorInterface;
  */
 class ControllerListener extends AbstractListenerAggregate implements
     ResourceProviderInterface,
-    RuleProviderInterface
+    RuleProviderInterface,
+    GuardProviderInterface
 {
     /** @var ServiceLocatorInterface */
     protected $serviceManager;
@@ -34,7 +37,7 @@ class ControllerListener extends AbstractListenerAggregate implements
     protected $options;
 
     /** @const ERROR */
-    const ERROR = 'error-unauthorized-route';
+    const ERROR = 'error-unauthorized-controller';
 
     /**
      * ControllerListener constructor.
@@ -103,18 +106,22 @@ class ControllerListener extends AbstractListenerAggregate implements
      */
     public function onRoute(EventInterface $event)
     {
-        /** @var GuardManager $authenticationService */
-        $authenticationService = $this->serviceManager->get(GuardManager::class);
+        /** @var GuardManager $guardManager */
+        $guardManager = $event->getTarget()
+            ->getServiceManager()
+            ->get(GuardManager::class);
 
         /** @var RouteMatch $routeMatch */
         $routeMatch = $event->getRouteMatch();
 
+        /** @var string $controllerName */
+        $controllerName = $routeMatch->getParam('controller');
+
+        /** @var string $actionName */
+        $actionName = $routeMatch->getParam('action');
+
         try {
-            if ($authenticationService->isAllowed(
-                $routeMatch->getParam('controller'),
-                $routeMatch->getParam('action')
-            )
-            ) {
+            if ($guardManager->isAllowed($controllerName, $actionName)) {
                 return;
             }
         } catch (InvalidArgumentException $exception) {
@@ -123,6 +130,12 @@ class ControllerListener extends AbstractListenerAggregate implements
 
         $event->setError(self::ERROR);
         $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+        $event->setParam(
+            'exception',
+            new UnAuthorizedException(
+                sprintf("You are not authorized to access %s::%s", $controllerName, $actionName)
+            )
+        );
         $event->getTarget()->getEventManager()->triggerEvent($event);
     }
 }

@@ -75,7 +75,7 @@ class GuardManager implements InitializableInterface
     /**
      * @return Acl
      */
-    protected function getAcl()
+    public function getAcl()
     {
 
         if ($this->acl instanceof Acl) {

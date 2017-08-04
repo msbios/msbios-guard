@@ -29,7 +29,7 @@ class ForbiddenListener extends AbstractListenerAggregate
      * @param EventManagerInterface $events
      * @param int $priority
      */
-    public function attach(EventManagerInterface $events, $priority = -100500)
+    public function attach(EventManagerInterface $events, $priority = -100700)
     {
         $this->listeners[] = $events->attach(MvcEvent::EVENT_DISPATCH_ERROR, [$this, 'onDispatchError'], $priority);
     }
@@ -62,7 +62,9 @@ class ForbiddenListener extends AbstractListenerAggregate
                 $viewModel->setTemplate(
                     $target->getServiceManager()->get(Module::class)->get('template')
                 );
-                $event->getViewModel()->addChild($viewModel);
+
+                $event->getViewModel()
+                    ->addChild($viewModel);
 
                 /** @var Response $response */
                 $response = $event->getResponse();

@@ -9,7 +9,7 @@ namespace MSBios\Guard;
 use Interop\Container\ContainerInterface;
 use MSBios\Guard\Listener\ForbiddenListener;
 use MSBios\Guard\Provider\GuardProviderInterface;
-use MSBios\Guard\Service\AuthenticationService;
+use MSBios\Guard\Service\GuardManager;
 use MSBios\ModuleInterface;
 use Zend\EventManager\EventInterface;
 use Zend\Loader\AutoloaderFactory;
@@ -73,7 +73,7 @@ class Module implements
             'factories' => [
                 'isAllowed' => function (ContainerInterface $container) {
                     return new View\Helper\IsAllowed(
-                        $container->get(AuthenticationService::class)
+                        $container->get(GuardManager::class)
                     );
                 }
             ],

@@ -4,9 +4,8 @@
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
 
-namespace MSBios\Guard\Service;
+namespace MSBios\Guard;
 
-use MSBios\Guard\Acl\Resource;
 use MSBios\Guard\Acl\Role;
 use MSBios\Guard\Exception\InvalidArgumentException;
 use MSBios\Guard\Provider\GuardProviderInterface;
@@ -22,10 +21,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\InitializableInterface;
 
 /**
- * Class AuthenticationService
- * @package MSBios\Guard\Service
+ * Class GuardManager
+ * @package MSBios\Guards
  */
-class AuthenticationService implements InitializableInterface
+class GuardManager implements InitializableInterface
 {
     /** @var ServiceLocatorInterface */
     protected $serviceLocator;

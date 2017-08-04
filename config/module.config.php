@@ -29,8 +29,7 @@ return [
             Provider\RoleProviderInterface::class => Factory\RoleProvidersFactory::class,
             Provider\RuleProviderInterface::class => Factory\RuleProvidersFactory::class,
 
-            // Services
-            Service\AuthenticationService::class => Factory\AuthenticationServiceFactory::class,
+            GuardManager::class => Factory\GuardManagerFactory::class,
 
             // Customs
             Module::class => Factory\ModuleFactory::class
@@ -87,7 +86,7 @@ return [
         ],
 
         // Guard listeners to be attached to the application event manager
-        'guard_listeners' => []
+        'guard_listeners' => [],
     ],
 
 

@@ -6,7 +6,7 @@
 
 namespace MSBios\Guard\View\Helper;
 
-use MSBios\Guard\Service\AuthenticationService;
+use MSBios\Guard\Service\GuardManager;
 use Zend\View\Helper\AbstractHelper;
 
 /**
@@ -20,9 +20,9 @@ class IsAllowed extends AbstractHelper
 
     /**
      * IsAllowed constructor.
-     * @param AuthenticationService $authenticationService
+     * @param GuardManager $authenticationService
      */
-    public function __construct(AuthenticationService $authenticationService)
+    public function __construct(GuardManager $authenticationService)
     {
         $this->authenticationService = $authenticationService;
     }

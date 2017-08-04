@@ -68,6 +68,5 @@ class ForbiddenListener extends AbstractListenerAggregate
                 $event->getTarget()->getEventManager()->triggerEvent($event);
                 break;
         }
-
     }
 }

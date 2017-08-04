@@ -69,16 +69,17 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
 
         if (! is_null($children)) {
             foreach ($children as $key => $value) {
-
                 if (is_string($value)) {
                     $resources = ArrayUtils::merge(
-                        $resources, $this->loadResource($value, null, $resource)
+                        $resources,
+                        $this->loadResource($value, null, $resource)
                     );
                     continue;
                 }
 
                 $resources = ArrayUtils::merge(
-                    $resources, $this->loadResource($key, $value, $resource)
+                    $resources,
+                    $this->loadResource($key, $value, $resource)
                 );
             }
         }

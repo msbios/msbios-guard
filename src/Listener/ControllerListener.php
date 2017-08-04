@@ -9,7 +9,7 @@ namespace MSBios\Guard\Listener;
 use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
 use MSBios\Guard\Resource;
-use MSBios\Guard\Service\AuthenticationService;
+use MSBios\Guard\Service\GuardManager;
 use Zend\Config\Config;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
@@ -103,8 +103,8 @@ class ControllerListener extends AbstractListenerAggregate implements
      */
     public function onRoute(EventInterface $event)
     {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->serviceManager->get(AuthenticationService::class);
+        /** @var GuardManager $authenticationService */
+        $authenticationService = $this->serviceManager->get(GuardManager::class);
 
         /** @var RouteMatch $routeMatch */
         $routeMatch = $event->getRouteMatch();

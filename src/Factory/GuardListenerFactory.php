@@ -12,7 +12,7 @@ namespace MSBios\Guard\Factory;
  * Class ListenerFactory
  * @package MSBios\Guard\Factory
  */
-class ListenerFactory extends AbstractProviderFactory
+class GuardListenerFactory extends AbstractProviderFactory
 {
     const PROVIDER_KEY = 'guard_listeners';
 }

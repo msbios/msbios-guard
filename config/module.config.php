@@ -22,13 +22,14 @@ return [
             Collector\RoleCollector::class => Factory\RoleCollectorFactory::class,
 
             // Providers
-            Provider\GuardProviderInterface::class => Factory\ListenerFactory::class,
+            Provider\GuardProviderInterface::class => Factory\GuardListenerFactory::class,
             Provider\IdentityProviderInterface::class => Factory\IdentityProviderFactory::class,
             Provider\Identity\AuthenticationProvider::class => Factory\Identity\AuthenticationProviderFactory::class,
             Provider\ResourceInterface::class => Factory\ResourceProvidersFactory::class,
             Provider\RoleProviderInterface::class => Factory\RoleProvidersFactory::class,
             Provider\RuleProviderInterface::class => Factory\RuleProvidersFactory::class,
 
+            // Managers
             GuardManager::class => Factory\GuardManagerFactory::class,
 
             // Customs
@@ -48,7 +49,7 @@ return [
         'identity_provider' => Provider\Identity\AuthenticationProvider::class,
 
         // strategy service name for the strategy listener to be used when permission-related errors are detected
-        'unauthorized_strategy' => '',
+        'unauthorized_strategy' => Listener\UnAuthorizedListener::class,
 
         // Template name for the unauthorized strategy
         'template' => 'error/403',

@@ -7,10 +7,11 @@
 namespace MSBios\Guard;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Listener\ForbiddenListener;
+use MSBios\Guard\Listener\UnAuthorizedListener;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\ModuleInterface;
 use Zend\EventManager\EventInterface;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
@@ -49,15 +50,18 @@ class Module implements
         /** @var Application $target */
         $target = $e->getTarget();
 
+        /** @var EventManagerInterface $eventManager */
+        $eventManager = $target->getEventManager();
+
         /** @var array $listeners */
         $listeners = $target->getServiceManager()
             ->get(GuardProviderInterface::class);
 
         foreach ($listeners as $listener) {
-            $listener->attach($target->getEventManager());
+            $listener->attach($eventManager);
         }
 
-        (new ForbiddenListener)->attach($target->getEventManager());
+        (new UnAuthorizedListener)->attach($eventManager);
     }
 
     /**

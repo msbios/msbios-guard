@@ -108,7 +108,8 @@ class RouteListener extends AbstractListenerAggregate implements
     public function onRoute(MvcEvent $event)
     {
         /** @var GuardManager $authenticationService */
-        $authenticationService = $this->serviceManager->get(GuardManager::class);
+        $authenticationService = $this->serviceManager
+            ->get(GuardManager::class);
 
         /** @var RouteMatch $routeMatch */
         $routeMatch = $event->getRouteMatch();

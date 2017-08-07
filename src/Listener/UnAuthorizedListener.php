@@ -25,6 +25,9 @@ class UnAuthorizedListener
     /** EVENT_UNAUTHORIZED */
     const EVENT_UNAUTHORIZED = 'unauthorized';
 
+    /** EVENT_UNAUTHORIZED_ERROR */
+    const EVENT_UNAUTHORIZED_ERROR = 'unauthorized.error';
+
     /**
      * @param EventInterface $event
      */
@@ -32,28 +35,37 @@ class UnAuthorizedListener
     {
         // Do nothing if no error in the event
         $error = $event->getError();
+
         if (empty($error)) {
             return;
         }
 
-        // Do nothing if the result is a response object
+        // var_dump($event->getResult()); die();
+
+        // Do nothing if the rsult is a response object
         $result = $event->getResult();
         $response = $event->getResponse();
-        if ($result instanceof ResponseInterface || ($response && ! $response instanceof HttpResponse)) {
-            return;
-        }
-
-        if (Application::ERROR_EXCEPTION == $error
-            && !($event->getParam('exception') instanceof UnAuthorizedException)) {
+        if ($result instanceof ResponseInterface || ($response && !$response instanceof HttpResponse)) {
             return;
         }
 
         switch ($error) {
             case RouteListener::ERROR:
             case ControllerListener::ERROR:
+                $event->setName(self::EVENT_UNAUTHORIZED);
                 break;
-            case Application::ERROR_EXCEPTION:
 
+            case Application::ERROR_ROUTER_NO_MATCH:
+                return;
+                break;
+
+            case Application::ERROR_EXCEPTION:
+                if ($event->getParam('exception') instanceof UnAuthorizedException) {
+                    $event->setName(self::EVENT_UNAUTHORIZED_ERROR);
+                    $event->getTarget()
+                        ->getEventManager()
+                        ->triggerEvent($event);
+                }
                 break;
         }
 
@@ -77,7 +89,6 @@ class UnAuthorizedListener
         $response->setStatusCode(Response::STATUS_CODE_403);
         $event->setResponse($response);
 
-        $event->setName(self::EVENT_UNAUTHORIZED);
         $target->getEventManager()->triggerEvent($event);
     }
 }

@@ -255,8 +255,8 @@ class GuardManager implements InitializableInterface
             }
 
             if ($parent = $resource->getParent()) {
-                $this->addResources([$parent]);
                 $this->acl->addResource($resource, $parent);
+                $this->addResources([$parent]);
             } else {
                 $this->acl->addResource($resource);
             }

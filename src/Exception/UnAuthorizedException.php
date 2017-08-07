@@ -11,5 +11,4 @@ namespace MSBios\Guard\Exception;
  */
 class UnAuthorizedException extends \InvalidArgumentException
 {
-
 }

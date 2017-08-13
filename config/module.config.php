@@ -66,12 +66,13 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'role_providers' => [
             Provider\RoleProvider::class => [
-                'GUEST',
-                'USER' => [
-                    'MODERATOR' => [
-                        'ADMIN' => [
-                            'SUPERADMIN' => [
-                                'DEVELOPER'
+                'GUEST' => [
+                    'USER' => [
+                        'MODERATOR' => [
+                            'ADMIN' => [
+                                'SUPERADMIN' => [
+                                    'DEVELOPER'
+                                ]
                             ]
                         ]
                     ]

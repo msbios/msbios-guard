@@ -66,11 +66,12 @@ class UnAuthorizedListener
                         ->getEventManager()
                         ->triggerEvent($event);
                 }
+                return;
                 break;
         }
 
         /** @var ApplicationInterface $target */
-        $target = $event->getTarget();
+        $target = $event->getApplication();
 
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel;

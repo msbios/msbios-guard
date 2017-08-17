@@ -4,9 +4,8 @@
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
 
-namespace MSBios\Guard\Service;
+namespace MSBios\Guard;
 
-use MSBios\Guard\Acl\Resource;
 use MSBios\Guard\Acl\Role;
 use MSBios\Guard\Exception\InvalidArgumentException;
 use MSBios\Guard\Provider\GuardProviderInterface;
@@ -22,10 +21,10 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\InitializableInterface;
 
 /**
- * Class AuthenticationService
- * @package MSBios\Guard\Service
+ * Class GuardManager
+ * @package MSBios\Guard
  */
-class AuthenticationService implements InitializableInterface
+class GuardManager implements GuardManagerInterface, InitializableInterface
 {
     /** @var ServiceLocatorInterface */
     protected $serviceLocator;
@@ -47,6 +46,8 @@ class AuthenticationService implements InitializableInterface
 
     /** @var Acl */
     protected $acl;
+
+    const EVENT_FORBIDDEN = 'guard.forbidden';
 
     /**
      * Authentication constructor.
@@ -76,7 +77,7 @@ class AuthenticationService implements InitializableInterface
     /**
      * @return Acl
      */
-    protected function getAcl()
+    public function getAcl()
     {
 
         if ($this->acl instanceof Acl) {
@@ -256,8 +257,8 @@ class AuthenticationService implements InitializableInterface
             }
 
             if ($parent = $resource->getParent()) {
-                $this->addResources([$parent]);
                 $this->acl->addResource($resource, $parent);
+                $this->addResources([$parent]);
             } else {
                 $this->acl->addResource($resource);
             }

@@ -6,23 +6,23 @@
 namespace MSBios\Guard\Factory;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Service\AuthenticationService;
+use MSBios\Guard\GuardManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class AuthenticationServiceFactory
+ * Class GuardManagerFactory
  * @package MSBios\Guard\Factory
  */
-class AuthenticationServiceFactory implements FactoryInterface
+class GuardManagerFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return AuthenticationService
+     * @return GuardManager
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new AuthenticationService($container);
+        return new GuardManager($container);
     }
 }

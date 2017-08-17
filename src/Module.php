@@ -7,17 +7,19 @@
 namespace MSBios\Guard;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Listener\ForbiddenListener;
 use MSBios\Guard\Provider\GuardProviderInterface;
-use MSBios\Guard\Service\AuthenticationService;
 use MSBios\ModuleInterface;
 use Zend\EventManager\EventInterface;
+use Zend\EventManager\EventManagerInterface;
+use Zend\EventManager\LazyEventListener;
+use Zend\EventManager\LazyListenerAggregate;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 use Zend\Mvc\ApplicationInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Module
@@ -48,18 +50,45 @@ class Module implements
      */
     public function onBootstrap(EventInterface $e)
     {
+        ///** @var ApplicationInterface $target */
+        //$target = $e->getTarget();
+        //
+        ///** @var EventManagerInterface $eventManager */
+        //$eventManager = $target->getEventManager();
+        //
+        ///** @var ServiceLocatorInterface $serviceManager */
+        //$serviceManager = $target->getServiceManager();
+        //
+        ///** @var array $listeners */
+        //$listeners = $target->getServiceManager()
+        //    ->get(GuardProviderInterface::class);
+        //
+        //foreach ($listeners as $listener) {
+        //    $listener->attach($eventManager);
+        //}
+        //
+        ///** @var LazyEventListener $listener */
+        //$listener = new LazyEventListener(
+        //    $serviceManager->get(self::class)
+        //        ->get('unauthorized_strategy')
+        //        ->toArray(),
+        //    $serviceManager
+        //);
+        //
+        ///** @var LazyListenerAggregate $aggregate */
+        //$aggregate = new LazyListenerAggregate([$listener], $serviceManager);
+        //$aggregate->attach($eventManager);
+
         /** @var ApplicationInterface $target */
         $target = $e->getTarget();
 
-        /** @var array $listeners */
-        $listeners = $target->getServiceManager()
-            ->get(GuardProviderInterface::class);
+        /** @var ServiceLocatorInterface $serviceManager */
+        $serviceManager = $target->getServiceManager();
 
-        foreach ($listeners as $listener) {
-            $listener->attach($target->getEventManager());
-        }
-
-        (new ForbiddenListener)->attach($target->getEventManager());
+        (new LazyListenerAggregate(
+            $serviceManager->get(self::class)->get('listeners')->toArray(),
+            $serviceManager
+        ))->attach($target->getEventManager());
     }
 
     /**
@@ -74,7 +103,7 @@ class Module implements
             'factories' => [
                 'isAllowed' => function (ContainerInterface $container) {
                     return new View\Helper\IsAllowed(
-                        $container->get(AuthenticationService::class)
+                        $container->get(GuardManager::class)
                     );
                 }
             ],

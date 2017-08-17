@@ -31,6 +31,10 @@ return [
         'MSBios\Navigation',
         'MSBios\Application',
         'MSBios\Guard',
+
+        'Zend\Log',
+        'ZendDeveloperTools',
+
 //        'MSBios\Authentication',
 //        'MSBios\CPanel',
 //        'MSBios\Guard\CPanel',

@@ -3,130 +3,66 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-
 namespace MSBios\Guard\Listener;
 
-use MSBios\Guard\Acl\Resource;
-use MSBios\Guard\Provider\GuardProviderInterface;
-use MSBios\Guard\Provider\ResourceProviderInterface;
-use MSBios\Guard\Provider\RuleProviderInterface;
-use MSBios\Guard\Service\AuthenticationService;
-use Zend\Config\Config;
-use Zend\EventManager\AbstractListenerAggregate;
+use MSBios\Guard\Exception\ForbiddenExceprion;
+use MSBios\Guard\GuardAwareInterface;
+use MSBios\Guard\GuardManager;
+use MSBios\Guard\GuardManagerInterface;
+use MSBios\Guard\Router\Http\RouteMatch;
 use Zend\EventManager\EventInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\Http\Response as HttpResponse;
-use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
-use Zend\Router\Http\RouteMatch;
-use Zend\ServiceManager\ServiceLocatorInterface;
+
 
 /**
  * Class RouteListener
  * @package MSBios\Guard\Listener
  */
-class RouteListener extends AbstractListenerAggregate implements
-    ResourceProviderInterface,
-    RuleProviderInterface,
-    GuardProviderInterface
+class RouteListener
 {
-
-    /** @var ServiceLocatorInterface */
-    protected $serviceManager;
-
-    /** @var Config */
-    protected $options;
-
     /** @const ERROR */
     const ERROR = 'error-unauthorized-route';
 
     /**
-     * RouteListenerAggregate constructor.
-     * @param ServiceLocatorInterface $serviceManager
-     * @param Config $options
+     * @param EventInterface $e
      */
-    public function __construct(ServiceLocatorInterface $serviceManager, Config $options)
+    public function onRoute(EventInterface $e)
     {
-        $this->serviceManager = $serviceManager;
-        $this->options = $options;
-    }
 
-    /**
-     * @return mixed
-     */
-    public function getResources()
-    {
-        /** @var array $resources */
-        $resources = [];
+        /** @var string $error */
+        $error = $e->getError();
 
-        /** @var Config $config */
-        foreach ($this->options as $config) {
-            $resources[] = new Resource(
-                "route/{$config->get('route')}"
-            );
+        if (!empty($error)) {
+            return;
         }
-
-        return $resources;
-    }
-
-    /**
-     * @return array
-     */
-    public function getRules()
-    {
-
-        /** @var array $rules */
-        $rules = [];
-
-        foreach ($this->options as $rule) {
-            $rules[] = new Config([
-                $rule->get('roles')->toArray(),
-                "route/{$rule->get('route')}",
-            ]);
-        }
-
-        return ['allow' => $rules];
-    }
-
-    /**
-     * Attach one or more listeners
-     *
-     * Implementors may add an optional $priority argument; the EventManager
-     * implementation will pass this to the aggregate.
-     *
-     * @param EventManagerInterface $events
-     * @param int $priority
-     * @return void
-     */
-    public function attach(EventManagerInterface $events, $priority = 1)
-    {
-        $this->listeners[] = $events->attach(MvcEvent::EVENT_ROUTE, [$this, 'onRender'], $priority);
-    }
-
-    /**
-     * @param EventInterface $event
-     */
-    public function onRender(MvcEvent $event)
-    {
-        /** @var AuthenticationService $authenticationService */
-        $authenticationService = $this->serviceManager->get(AuthenticationService::class);
 
         /** @var RouteMatch $routeMatch */
-        $routeMatch = $event->getRouteMatch();
+        if (!$routeMatch = $e->getRouteMatch()) {
+            return;
+        };
 
-        /** @var string $routeName */
-        $routeName = $routeMatch->getMatchedRouteName();
+        if ($routeMatch instanceof GuardAwareInterface) {
 
-        try {
-            if ($authenticationService->isAllowed("route/{$routeName}")) {
-                return;
+            /** @var string $routeName */
+            $routeName = $routeMatch->getMatchedRouteName();
+
+            /** @var GuardManagerInterface $guardManager */
+            $guardManager = $e->getTarget()
+                ->getServiceManager()
+                ->get(GuardManager::class);
+
+            try {
+                if ($guardManager->isAllowed("route/{$routeName}")) {
+                    return;
+                }
+            } catch (InvalidArgumentException $exception) {
+                // Do SomeThing
             }
-        } catch (InvalidArgumentException $exception) {
-            // Do SomeThing
-        }
 
-        $event->setError(self::ERROR);
-        $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
-        $event->getTarget()->getEventManager()->triggerEvent($event);
+            $e->setError(self::ERROR);
+            $e->setName(GuardManager::EVENT_FORBIDDEN);
+            $e->setParam('exception', new ForbiddenExceprion("You are not authorized to access {$routeName}"));
+            $e->getTarget()->getEventManager()->triggerEvent($e);
+        }
     }
 }

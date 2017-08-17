@@ -4,5 +4,12 @@
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
 namespace MSBios\Guard;
-?>
-<h1>403 Forbidden</h1>
+
+/**
+ * Interface GuardAwareInterface
+ * @package MSBios\Guard
+ */
+interface GuardAwareInterface
+{
+
+}

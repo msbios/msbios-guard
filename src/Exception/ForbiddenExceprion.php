@@ -6,10 +6,9 @@
 namespace MSBios\Guard\Exception;
 
 /**
- * Class UnAuthorizedException
+ * Class ForbiddenExceprion
  * @package MSBios\Guard\Exception
  */
-class UnAuthorizedException extends \InvalidArgumentException
+class ForbiddenExceprion extends \InvalidArgumentException
 {
-
 }

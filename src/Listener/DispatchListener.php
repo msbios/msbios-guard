@@ -18,7 +18,8 @@ class DispatchListener
      */
     public function onDispatch(EventInterface $e)
     {
-        // Do Something
 
+        r($e->getTarget());
+        // echo __METHOD__; die();
     }
 }

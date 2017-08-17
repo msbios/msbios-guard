@@ -6,7 +6,26 @@
 
 namespace MSBios\Guard;
 
+use Zend\Router\Http\Literal;
+
 return [
+
+    'router' => [
+        'router_class' => Router\Http\TreeRouteStack::class,
+        'routes' => [
+            'home' => [
+                'type' => Router\Http\Literal::class,
+                // 'type' => Literal::class,
+                'priority' => 1000000,
+                'options' => [
+                    'route' => '/'
+                ],
+            ],
+        ],
+        'default_params' => [
+            // Specify default parameters here for all routes here ...
+        ]
+    ],
 
     'view_manager' => [
         'template_map' => [
@@ -17,20 +36,28 @@ return [
     ],
 
     'service_manager' => [
+        'invokables' => [
+            // Listeners
+            Listener\DispatchErrorListener::class,
+            Listener\DispatchListener::class,
+            Listener\ForbiddenListener::class,
+            Listener\RouteListener::class,
+            Listener\UnAuthorizedListener::class
+        ],
         'factories' => [
             // Collectors
             Collector\RoleCollector::class => Factory\RoleCollectorFactory::class,
 
             // Providers
-            Provider\GuardProviderInterface::class => Factory\ListenerFactory::class,
+            Provider\GuardProviderInterface::class => Factory\GuardListenerFactory::class,
             Provider\IdentityProviderInterface::class => Factory\IdentityProviderFactory::class,
             Provider\Identity\AuthenticationProvider::class => Factory\Identity\AuthenticationProviderFactory::class,
             Provider\ResourceInterface::class => Factory\ResourceProvidersFactory::class,
             Provider\RoleProviderInterface::class => Factory\RoleProvidersFactory::class,
             Provider\RuleProviderInterface::class => Factory\RuleProvidersFactory::class,
 
-            // Services
-            Service\AuthenticationService::class => Factory\AuthenticationServiceFactory::class,
+            // Managers
+            GuardManager::class => Factory\GuardManagerFactory::class,
 
             // Customs
             Module::class => Factory\ModuleFactory::class
@@ -48,8 +75,13 @@ return [
         // identity provider service name
         'identity_provider' => Provider\Identity\AuthenticationProvider::class,
 
-        // strategy service name for the strategy listener to be used when permission-related errors are detected
-        'unauthorized_strategy' => '',
+        // // strategy service name for the strategy listener to be used when permission-related errors are detected
+        // 'unauthorized_strategy' => [
+        //     'listener' => Listener\UnAuthorizedListener::class,
+        //     'method' => 'onDispatchError',
+        //     'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
+        //     'priority' => -100500,
+        // ],
 
         // Template name for the unauthorized strategy
         'template' => 'error/403',
@@ -58,12 +90,13 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'role_providers' => [
             Provider\RoleProvider::class => [
-                'GUEST',
-                'USER' => [
-                    'MODERATOR' => [
-                        'ADMIN' => [
-                            'SUPERADMIN' => [
-                                'DEVELOPER'
+                'GUEST' => [
+                    'USER' => [
+                        'MODERATOR' => [
+                            'ADMIN' => [
+                                'SUPERADMIN' => [
+                                    'DEVELOPER'
+                                ]
                             ]
                         ]
                     ]
@@ -74,41 +107,59 @@ return [
         // Resource providers to be used to load all available resources into Zend\Permissions\Acl\Acl
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
-            Provider\ResourceProvider::class => []
+            Provider\ResourceProvider::class => [
+                'route/home'
+            ]
         ],
 
         // Rule providers to be used to load all available rules into Zend\Permissions\Acl\Acl
         // Keys are the provider service names, values are the options to be passed to the provider
         'rule_providers' => [
             Provider\RuleProvider::class => [
-                'allow' => [],
+                'allow' => [
+                    [['GUEST'], 'route/home'],
+                ],
                 'deny' => []
             ]
         ],
 
+        // TODO: Возможно можно обойтись и без этого
         // Guard listeners to be attached to the application event manager
         'guard_listeners' => [],
 
         'listeners' => [
-            [
-                'listener' => '', // RouteListener::class,
+            Listener\RouteListener::class => [
+                'listener' => Listener\RouteListener::class,
                 'method' => 'onRoute',
                 'event' => \Zend\Mvc\MvcEvent::EVENT_ROUTE,
-                'priority' => 100,
-            ], [
-                'listener' => '', // RouteListener::class,
+                'priority' => 1,
+            ],
+            Listener\DispatchListener::class => [
+                'listener' => Listener\DispatchListener::class,
                 'method' => 'onDispatch',
                 'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH,
                 'priority' => 100,
-            ], [
-                'listener' => RouteListener::class,
-                'method' => 'onRoute',
-                'event' => 'route',
+            ],
+            Listener\ForbiddenListener::class => [
+                'listener' => Listener\ForbiddenListener::class,
+                'method' => 'onForbidden',
+                'event' => GuardManager::EVENT_FORBIDDEN,
                 'priority' => 100,
             ],
+            // Listener\DispatchErrorListener::class => [
+            //     'listener' => Listener\DispatchErrorListener::class,
+            //     'method' => 'onDispatchError',
+            //     'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
+            //     'priority' => 100,
+            // ],
+            // [
+            //     'listener' => RouteListener::class,
+            //     'method' => 'onRoute',
+            //     'event' => 'route',
+            //     'priority' => 100,
+            // ],
         ]
     ],
-
 
     'zenddevelopertools' => [
         'profiler' => [

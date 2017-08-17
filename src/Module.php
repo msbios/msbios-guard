@@ -17,6 +17,7 @@ use Zend\Loader\StandardAutoloader;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\ModuleManager\Feature\BootstrapListenerInterface;
 use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
+use Zend\Mvc\ApplicationInterface;
 
 /**
  * Class Module
@@ -47,7 +48,7 @@ class Module implements
      */
     public function onBootstrap(EventInterface $e)
     {
-        /** @var Application $target */
+        /** @var ApplicationInterface $target */
         $target = $e->getTarget();
 
         /** @var array $listeners */

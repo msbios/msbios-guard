@@ -10,6 +10,7 @@ use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Http\PhpEnvironment\Response;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
@@ -38,7 +39,7 @@ class ForbiddenListener extends AbstractListenerAggregate
         if (empty($error)) {
             return;
         }
-
+AbstractActionController::
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel;
         $viewModel->setTemplate('error/403');

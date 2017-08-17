@@ -87,7 +87,26 @@ return [
         ],
 
         // Guard listeners to be attached to the application event manager
-        'guard_listeners' => []
+        'guard_listeners' => [],
+
+        'listeners' => [
+            [
+                'listener' => '', // RouteListener::class,
+                'method' => 'onRoute',
+                'event' => \Zend\Mvc\MvcEvent::EVENT_ROUTE,
+                'priority' => 100,
+            ], [
+                'listener' => '', // RouteListener::class,
+                'method' => 'onDispatch',
+                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH,
+                'priority' => 100,
+            ], [
+                'listener' => RouteListener::class,
+                'method' => 'onRoute',
+                'event' => 'route',
+                'priority' => 100,
+            ],
+        ]
     ],
 
 

@@ -39,7 +39,7 @@ class ForbiddenListener extends AbstractListenerAggregate
         if (empty($error)) {
             return;
         }
-AbstractActionController::
+
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel;
         $viewModel->setTemplate('error/403');

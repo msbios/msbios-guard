@@ -3,11 +3,13 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-
 namespace MSBios\Guard\Listener;
 
+use MSBios\Guard\Exception\ForbiddenExceprion;
 use Zend\EventManager\EventInterface;
 use Zend\Http\PhpEnvironment\Response;
+use Zend\Mvc\ApplicationInterface;
+use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -17,12 +19,15 @@ use Zend\View\Model\ViewModel;
 class ForbiddenListener
 {
     /**
-     * @param EventInterface $event
+     * @param EventInterface $e
      */
-    public function onForbidden(EventInterface $event)
+    public function onForbidden(EventInterface $e)
     {
         /** @var string $error */
-        $error = $event->getError();
+        $error = $e->getError();
+
+        r($error);
+
         if (empty($error)) {
             return;
         }
@@ -30,14 +35,15 @@ class ForbiddenListener
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel;
         $viewModel->setTemplate('error/403');
-        $event->getViewModel()->addChild($viewModel);
+
+        $e->getViewModel()->addChild($viewModel);
 
         /** @var Response $response */
-        $response = $event->getResponse();
+        $response = $e->getResponse();
 
         /** @var Response $response */
         $response = $response ?: new Response;
         $response->setStatusCode(Response::STATUS_CODE_403);
-        $event->setResponse($response);
+        $e->setResponse($response);
     }
 }

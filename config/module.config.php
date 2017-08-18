@@ -14,9 +14,8 @@ return [
         'router_class' => Router\Http\TreeRouteStack::class,
         'routes' => [
             'home' => [
-                'type' => Router\Http\Literal::class,
-                // 'type' => Literal::class,
-                'priority' => 1000000,
+                // 'type' => Router\Http\Literal::class,
+                'type' => Literal::class,
                 'options' => [
                     'route' => '/'
                 ],
@@ -41,8 +40,7 @@ return [
             Listener\DispatchErrorListener::class,
             Listener\DispatchListener::class,
             Listener\ForbiddenListener::class,
-            Listener\RouteListener::class,
-            Listener\UnAuthorizedListener::class
+            Listener\RouteListener::class
         ],
         'factories' => [
             // Collectors
@@ -108,7 +106,8 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
             Provider\ResourceProvider::class => [
-                'route/home'
+                'route/home',
+                \MSBios\Application\Controller\IndexController::class
             ]
         ],
 
@@ -117,7 +116,8 @@ return [
         'rule_providers' => [
             Provider\RuleProvider::class => [
                 'allow' => [
-                    [['GUEST'], 'route/home'],
+                    // [['GUEST'], 'route/home'],
+                    // [['GUEST'], \MSBios\Application\Controller\IndexController::class, ['index']],
                 ],
                 'deny' => []
             ]
@@ -137,27 +137,21 @@ return [
             Listener\DispatchListener::class => [
                 'listener' => Listener\DispatchListener::class,
                 'method' => 'onDispatch',
-                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH,
-                'priority' => 100,
+                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
+                'priority' => 1,
+            ],
+            Listener\DispatchErrorListener::class => [
+                'listener' => Listener\DispatchErrorListener::class,
+                'method' => 'onDispatchError',
+                'event' => \Zend\Mvc\MvcEvent::EVENT_RENDER,
+                'priority' => 1,
             ],
             Listener\ForbiddenListener::class => [
                 'listener' => Listener\ForbiddenListener::class,
                 'method' => 'onForbidden',
                 'event' => GuardManager::EVENT_FORBIDDEN,
-                'priority' => 100,
+                'priority' => 1,
             ],
-            // Listener\DispatchErrorListener::class => [
-            //     'listener' => Listener\DispatchErrorListener::class,
-            //     'method' => 'onDispatchError',
-            //     'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
-            //     'priority' => 100,
-            // ],
-            // [
-            //     'listener' => RouteListener::class,
-            //     'method' => 'onRoute',
-            //     'event' => 'route',
-            //     'priority' => 100,
-            // ],
         ]
     ],
 

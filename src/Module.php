@@ -50,35 +50,6 @@ class Module implements
      */
     public function onBootstrap(EventInterface $e)
     {
-        ///** @var ApplicationInterface $target */
-        //$target = $e->getTarget();
-        //
-        ///** @var EventManagerInterface $eventManager */
-        //$eventManager = $target->getEventManager();
-        //
-        ///** @var ServiceLocatorInterface $serviceManager */
-        //$serviceManager = $target->getServiceManager();
-        //
-        ///** @var array $listeners */
-        //$listeners = $target->getServiceManager()
-        //    ->get(GuardProviderInterface::class);
-        //
-        //foreach ($listeners as $listener) {
-        //    $listener->attach($eventManager);
-        //}
-        //
-        ///** @var LazyEventListener $listener */
-        //$listener = new LazyEventListener(
-        //    $serviceManager->get(self::class)
-        //        ->get('unauthorized_strategy')
-        //        ->toArray(),
-        //    $serviceManager
-        //);
-        //
-        ///** @var LazyListenerAggregate $aggregate */
-        //$aggregate = new LazyListenerAggregate([$listener], $serviceManager);
-        //$aggregate->attach($eventManager);
-
         /** @var ApplicationInterface $target */
         $target = $e->getTarget();
 

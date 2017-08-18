@@ -11,6 +11,7 @@ use MSBios\Guard\GuardManager;
 use MSBios\Guard\GuardManagerInterface;
 use MSBios\Guard\Router\Http\RouteMatch;
 use Zend\EventManager\EventInterface;
+use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 
 
@@ -20,49 +21,42 @@ use Zend\Permissions\Acl\Exception\InvalidArgumentException;
  */
 class RouteListener
 {
-    /** @const ERROR */
-    const ERROR = 'error-unauthorized-route';
+    /** @const ERROR_UNAUTHORIZED_ROUTE */
+    const ERROR_UNAUTHORIZED_ROUTE = 'error-unauthorized-route';
 
     /**
      * @param EventInterface $e
      */
     public function onRoute(EventInterface $e)
     {
+        /** @var null|RouteMatch $routeMatch */
+        $routeMatch = $e->getRouteMatch();
 
-        /** @var string $error */
-        $error = $e->getError();
-
-        if (!empty($error)) {
+        if (!$routeMatch instanceof GuardAwareInterface) {
             return;
         }
 
-        /** @var RouteMatch $routeMatch */
-        if (!$routeMatch = $e->getRouteMatch()) {
-            return;
-        };
+        /** @var string $routeName */
+        $routeName = $routeMatch->getMatchedRouteName();
 
-        if ($routeMatch instanceof GuardAwareInterface) {
+        /** @var GuardManagerInterface $guardManager */
+        $guardManager = $e->getTarget()
+            ->getServiceManager()
+            ->get(GuardManager::class);
 
-            /** @var string $routeName */
-            $routeName = $routeMatch->getMatchedRouteName();
+        try {
 
-            /** @var GuardManagerInterface $guardManager */
-            $guardManager = $e->getTarget()
-                ->getServiceManager()
-                ->get(GuardManager::class);
-
-            try {
-                if ($guardManager->isAllowed("route/{$routeName}")) {
-                    return;
-                }
-            } catch (InvalidArgumentException $exception) {
-                // Do SomeThing
+            if ($guardManager->isAllowed("route/{$routeName}")) {
+                return;
             }
 
-            $e->setError(self::ERROR);
+            $e->setError(self::ERROR_UNAUTHORIZED_ROUTE);
             $e->setName(GuardManager::EVENT_FORBIDDEN);
             $e->setParam('exception', new ForbiddenExceprion("You are not authorized to access {$routeName}"));
             $e->getTarget()->getEventManager()->triggerEvent($e);
+
+        } catch (InvalidArgumentException $exception) {
+            // Do SomeThing
         }
     }
 }

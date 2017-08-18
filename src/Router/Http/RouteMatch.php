@@ -26,5 +26,4 @@ class RouteMatch extends DefaultRouteMatch implements GuardAwareInterface
             $routeMatch->getLength()
         );
     }
-
 }

@@ -36,7 +36,7 @@ class DispatchListener
         /** @var DispatchableInterface $target */
         $target = $e->getTarget();
 
-        if (!$target instanceof GuardAwareInterface) {
+        if (! $target instanceof GuardAwareInterface) {
             return;
         }
 
@@ -68,10 +68,9 @@ class DispatchListener
                 ->getEventManager()
                 ->triggerEvent($e);
 
-            if (!empty($results)) {
+            if (! empty($results)) {
                 return $results->last();
             }
-
         } catch (ServiceNotCreatedException $exception) {
             $e->setName(MvcEvent::EVENT_RENDER_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);

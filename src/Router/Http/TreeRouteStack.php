@@ -43,5 +43,4 @@ class TreeRouteStack extends DefaultTreeRouteStack
 
         return $match;
     }
-
 }

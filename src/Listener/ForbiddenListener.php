@@ -30,7 +30,7 @@ class ForbiddenListener
             return;
         }
 
-        if (!$e->getParam('exception') instanceof ForbiddenExceprion) {
+        if (! $e->getParam('exception') instanceof ForbiddenExceprion) {
             return;
         }
 

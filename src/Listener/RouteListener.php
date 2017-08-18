@@ -16,7 +16,6 @@ use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 
-
 /**
  * Class RouteListener
  * @package MSBios\Guard\Listener
@@ -34,7 +33,7 @@ class RouteListener
         /** @var null|RouteMatch $routeMatch */
         $routeMatch = $e->getRouteMatch();
 
-        if (!$routeMatch instanceof GuardAwareInterface) {
+        if (! $routeMatch instanceof GuardAwareInterface) {
             return;
         }
 
@@ -56,7 +55,6 @@ class RouteListener
             $e->setError(self::ERROR_UNAUTHORIZED_ROUTE);
             $e->setParam('exception', new ForbiddenExceprion("You are not authorized to access {$routeName}"));
             $e->getTarget()->getEventManager()->triggerEvent($e);
-
         } catch (InvalidArgumentException $exception) {
             r($exception);
         } catch (ServiceNotCreatedException $exception) {

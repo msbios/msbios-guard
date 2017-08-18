@@ -11,7 +11,9 @@ use MSBios\Guard\GuardManager;
 use MSBios\Guard\GuardManagerInterface;
 use MSBios\Guard\Router\Http\RouteMatch;
 use Zend\EventManager\EventInterface;
+use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
+use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 
 
 /**
@@ -38,24 +40,26 @@ class RouteListener
         /** @var string $routeName */
         $routeName = $routeMatch->getMatchedRouteName();
 
-        /** @var GuardManagerInterface $guardManager */
-        $guardManager = $e->getTarget()
-            ->getServiceManager()
-            ->get(GuardManager::class);
-
         try {
+
+            /** @var GuardManagerInterface $guardManager */
+            $guardManager = $e->getTarget()
+                ->getServiceManager()
+                ->get(GuardManager::class);
 
             if ($guardManager->isAllowed("route/{$routeName}")) {
                 return;
             }
 
+            $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(self::ERROR_UNAUTHORIZED_ROUTE);
-            $e->setName(GuardManager::EVENT_FORBIDDEN);
             $e->setParam('exception', new ForbiddenExceprion("You are not authorized to access {$routeName}"));
             $e->getTarget()->getEventManager()->triggerEvent($e);
 
         } catch (InvalidArgumentException $exception) {
-            // Do SomeThing
+            // Do Something
+        } catch (\Exception $ex) {
+            // Do Something
         }
     }
 }

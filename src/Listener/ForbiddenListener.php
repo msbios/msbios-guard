@@ -3,14 +3,12 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
+
 namespace MSBios\Guard\Listener;
 
-use MSBios\Guard\Exception\ForbiddenExceprion;
 use MSBios\Guard\Module;
 use Zend\EventManager\EventInterface;
 use Zend\Http\PhpEnvironment\Response;
-use Zend\Mvc\ApplicationInterface;
-use Zend\Mvc\MvcEvent;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -22,7 +20,7 @@ class ForbiddenListener
     /**
      * @param EventInterface $e
      */
-    public function onForbidden(EventInterface $e)
+    public function onDispatchError(EventInterface $e)
     {
         /** @var string $error */
         $error = $e->getError();

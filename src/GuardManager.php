@@ -91,7 +91,6 @@ class GuardManager implements GuardManagerInterface, InitializableInterface
             ResourceInterface::class => 'addResourceProvider',
             RoleProviderInterface::class => 'addRoleProvider',
             RuleProviderInterface::class => 'addRuleProvider',
-            GuardProviderInterface::class => 'addGuardProvider',
         ];
 
         /**

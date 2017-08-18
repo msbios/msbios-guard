@@ -14,8 +14,8 @@ return [
         'router_class' => Router\Http\TreeRouteStack::class,
         'routes' => [
             'home' => [
-                // 'type' => Router\Http\Literal::class,
-                'type' => Literal::class,
+                'type' => Router\Http\Literal::class,
+                // 'type' => Literal::class,
                 'options' => [
                     'route' => '/'
                 ],
@@ -47,7 +47,6 @@ return [
             Collector\RoleCollector::class => Factory\RoleCollectorFactory::class,
 
             // Providers
-            Provider\GuardProviderInterface::class => Factory\GuardListenerFactory::class,
             Provider\IdentityProviderInterface::class => Factory\IdentityProviderFactory::class,
             Provider\Identity\AuthenticationProvider::class => Factory\Identity\AuthenticationProviderFactory::class,
             Provider\ResourceInterface::class => Factory\ResourceProvidersFactory::class,
@@ -106,8 +105,8 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
             Provider\ResourceProvider::class => [
-                'route/home',
-                \MSBios\Application\Controller\IndexController::class
+                // 'route/home',
+                // \MSBios\Application\Controller\IndexController::class
             ]
         ],
 
@@ -116,16 +115,12 @@ return [
         'rule_providers' => [
             Provider\RuleProvider::class => [
                 'allow' => [
-                    // [['GUEST'], 'route/home'],
-                    // [['GUEST'], \MSBios\Application\Controller\IndexController::class, ['index']],
+                     [['GUEST'], 'route/home'],
+                     // [['GUEST'], \MSBios\Application\Controller\IndexController::class],
                 ],
                 'deny' => []
             ]
         ],
-
-        // TODO: Возможно можно обойтись и без этого
-        // Guard listeners to be attached to the application event manager
-        'guard_listeners' => [],
 
         'listeners' => [
             Listener\RouteListener::class => [
@@ -140,17 +135,11 @@ return [
                 'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH,
                 'priority' => 1,
             ],
-            Listener\RenderListener::class => [
-                'listener' => Listener\RenderListener::class,
-                'method' => 'onRender',
-                'event' => \Zend\Mvc\MvcEvent::EVENT_RENDER,
-                'priority' => 1,
-            ],
             Listener\ForbiddenListener::class => [
                 'listener' => Listener\ForbiddenListener::class,
-                'method' => 'onForbidden',
-                'event' => GuardManager::EVENT_FORBIDDEN,
-                'priority' => 1,
+                'method' => 'onDispatchError',
+                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
+                'priority' => -100,
             ],
         ]
     ],

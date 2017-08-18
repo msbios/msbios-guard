@@ -37,7 +37,7 @@ return [
     'service_manager' => [
         'invokables' => [
             // Listeners
-            Listener\DispatchErrorListener::class,
+            Listener\RenderListener::class,
             Listener\DispatchListener::class,
             Listener\ForbiddenListener::class,
             Listener\RouteListener::class
@@ -137,11 +137,11 @@ return [
             Listener\DispatchListener::class => [
                 'listener' => Listener\DispatchListener::class,
                 'method' => 'onDispatch',
-                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
+                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH,
                 'priority' => 1,
             ],
-            Listener\DispatchErrorListener::class => [
-                'listener' => Listener\DispatchErrorListener::class,
+            Listener\RenderListener::class => [
+                'listener' => Listener\RenderListener::class,
                 'method' => 'onDispatchError',
                 'event' => \Zend\Mvc\MvcEvent::EVENT_RENDER,
                 'priority' => 1,

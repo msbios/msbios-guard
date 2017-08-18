@@ -26,8 +26,6 @@ class ForbiddenListener
         /** @var string $error */
         $error = $e->getError();
 
-        r($error);
-
         if (empty($error)) {
             return;
         }

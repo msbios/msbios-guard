@@ -9,10 +9,10 @@ use MSBios\Guard\GuardManager;
 use Zend\EventManager\EventInterface;
 
 /**
- * Class DispatchErrorListener
+ * Class RenderListener
  * @package MSBios\Guard\Listener
  */
-class DispatchErrorListener
+class RenderListener
 {
     /**
      * @param EventInterface $e
@@ -30,9 +30,7 @@ class DispatchErrorListener
             return;
         }
 
-        r($error);
-
-        $e->setError('asdasd');
+        $e->setError($error);
         $e->setName(GuardManager::EVENT_FORBIDDEN);
         $e->getTarget()->getEventManager()->triggerEvent($e);
     }

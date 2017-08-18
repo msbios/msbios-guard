@@ -12,6 +12,7 @@ use MSBios\Guard\GuardManager;
 use MSBios\Guard\GuardManagerInterface;
 use MSBios\Guard\Router\Http\RouteMatch;
 use Zend\EventManager\EventInterface;
+use Zend\EventManager\EventManager;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 use Zend\Stdlib\DispatchableInterface;
@@ -49,8 +50,6 @@ class DispatchListener
         $controllerName = $routeMatch->getParam('controller');
         $actionName = $routeMatch->getParam('action');
 
-        r($guardManager->isAllowed($controllerName, $actionName));
-
         try {
 
             if ($guardManager->isAllowed($controllerName, $actionName)) {
@@ -58,11 +57,11 @@ class DispatchListener
             }
 
             $e->setError(self::ERROR_UNAUTHORIZED_CONTROLLER);
-            $e->setName(GuardManager::EVENT_FORBIDDEN);
+            $e->setName(MvcEvent::EVENT_RENDER);
             $e->setParam('exception', new ForbiddenExceprion(
                 sprintf("You are not authorized to access %s::%s", $controllerName, $actionName)
             ));
-            $e->getTarget()->getEventManager()->triggerEvent($e);
+            $target->getEventManager()->triggerEvent($e);
 
 
         } catch (InvalidArgumentException $exception) {

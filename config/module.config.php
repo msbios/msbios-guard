@@ -105,7 +105,7 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
             Provider\ResourceProvider::class => [
-                // 'route/home',
+                'route/home',
                 // \MSBios\Application\Controller\IndexController::class
             ]
         ],

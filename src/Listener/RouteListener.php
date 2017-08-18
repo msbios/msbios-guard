@@ -11,6 +11,7 @@ use MSBios\Guard\GuardManager;
 use MSBios\Guard\GuardManagerInterface;
 use MSBios\Guard\Router\Http\RouteMatch;
 use Zend\EventManager\EventInterface;
+use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
@@ -57,9 +58,12 @@ class RouteListener
             $e->getTarget()->getEventManager()->triggerEvent($e);
 
         } catch (InvalidArgumentException $exception) {
-            // Do Something
-        } catch (\Exception $ex) {
-            // Do Something
+            r($exception);
+        } catch (ServiceNotCreatedException $exception) {
+            $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+            $e->setError(Application::ERROR_EXCEPTION);
+            $e->setParam('exception', $exception);
+            $e->getTarget()->getEventManager()->triggerEvent($e);
         }
     }
 }

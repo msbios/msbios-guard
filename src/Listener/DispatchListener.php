@@ -12,7 +12,6 @@ use MSBios\Guard\GuardManager;
 use MSBios\Guard\GuardManagerInterface;
 use MSBios\Guard\Router\Http\RouteMatch;
 use Zend\EventManager\EventInterface;
-use Zend\EventManager\EventManager;
 use Zend\EventManager\ResponseCollection;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
@@ -74,10 +73,10 @@ class DispatchListener
             }
 
         } catch (ServiceNotCreatedException $exception) {
-             $e->setError(Application::ERROR_EXCEPTION);
-             $e->setName(MvcEvent::EVENT_RENDER_ERROR);
-             $e->setParam('exception', $exception);
-             $target->getEventManager()->triggerEvent($e);
+            $e->setName(MvcEvent::EVENT_RENDER_ERROR);
+            $e->setError(Application::ERROR_EXCEPTION);
+            $e->setParam('exception', $exception);
+            $target->getEventManager()->triggerEvent($e);
         } catch (InvalidArgumentException $exception) {
             // Do SomeThing
         }

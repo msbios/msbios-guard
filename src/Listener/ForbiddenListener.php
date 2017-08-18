@@ -6,6 +6,7 @@
 
 namespace MSBios\Guard\Listener;
 
+use MSBios\Guard\Exception\ForbiddenExceprion;
 use MSBios\Guard\Module;
 use Zend\EventManager\EventInterface;
 use Zend\Http\PhpEnvironment\Response;
@@ -26,6 +27,10 @@ class ForbiddenListener
         $error = $e->getError();
 
         if (empty($error)) {
+            return;
+        }
+
+        if (!$e->getParam('exception') instanceof ForbiddenExceprion) {
             return;
         }
 

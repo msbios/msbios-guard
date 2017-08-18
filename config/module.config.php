@@ -142,7 +142,7 @@ return [
             ],
             Listener\RenderListener::class => [
                 'listener' => Listener\RenderListener::class,
-                'method' => 'onDispatchError',
+                'method' => 'onRender',
                 'event' => \Zend\Mvc\MvcEvent::EVENT_RENDER,
                 'priority' => 1,
             ],

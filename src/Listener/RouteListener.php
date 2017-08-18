@@ -11,7 +11,6 @@ use MSBios\Guard\GuardManager;
 use MSBios\Guard\GuardManagerInterface;
 use MSBios\Guard\Router\Http\RouteMatch;
 use Zend\EventManager\EventInterface;
-use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
 
 

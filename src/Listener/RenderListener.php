@@ -19,7 +19,7 @@ class RenderListener
     /**
      * @param EventInterface $e
      */
-    public function onDispatchError(MvcEvent $e)
+    public function onRender(MvcEvent $e)
     {
         /** @var string $error */
         $error = $e->getError();

@@ -6,6 +6,7 @@
 namespace MSBios\Guard\Listener;
 
 use MSBios\Guard\Exception\ForbiddenExceprion;
+use MSBios\Guard\Module;
 use Zend\EventManager\EventInterface;
 use Zend\Http\PhpEnvironment\Response;
 use Zend\Mvc\ApplicationInterface;
@@ -32,9 +33,15 @@ class ForbiddenListener
 
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel;
-        $viewModel->setTemplate('error/403');
+        $viewModel->setTemplate(
+            $e->getApplication()
+                ->getServiceManager()
+                ->get(Module::class)
+                ->get('template')
+        );
 
-        $e->getViewModel()->addChild($viewModel);
+        $e->getViewModel()
+            ->addChild($viewModel);
 
         /** @var Response $response */
         $response = $e->getResponse();

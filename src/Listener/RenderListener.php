@@ -3,10 +3,12 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
+
 namespace MSBios\Guard\Listener;
 
 use MSBios\Guard\GuardManager;
 use Zend\EventManager\EventInterface;
+use Zend\Mvc\MvcEvent;
 
 /**
  * Class RenderListener
@@ -17,7 +19,7 @@ class RenderListener
     /**
      * @param EventInterface $e
      */
-    public function onDispatchError(EventInterface $e)
+    public function onDispatchError(MvcEvent $e)
     {
         /** @var string $error */
         $error = $e->getError();
@@ -26,12 +28,12 @@ class RenderListener
             return;
         }
 
-        if ($error != DispatchListener::ERROR_UNAUTHORIZED_CONTROLLER) {
-            return;
+        switch ($error) {
+            case DispatchListener::ERROR_UNAUTHORIZED_CONTROLLER:
+                $e->setError($error);
+                $e->setName(GuardManager::EVENT_FORBIDDEN);
+                $e->getTarget()->getEventManager()->triggerEvent($e);
+                break;
         }
-
-        $e->setError($error);
-        $e->setName(GuardManager::EVENT_FORBIDDEN);
-        $e->getTarget()->getEventManager()->triggerEvent($e);
     }
 }

@@ -75,7 +75,15 @@ class DispatchListener
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);
             $e->setParam('exception', $exception);
-            $e->getTarget()->getEventManager()->triggerEvent($e);
+
+            /** @var ResponseCollection $results */
+            $results = $e->getApplication()
+                ->getEventManager()
+                ->triggerEvent($e);
+
+            if (! empty($results)) {
+                return $results->last();
+            }
         } catch (ServiceNotCreatedException $exception) {
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);

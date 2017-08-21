@@ -2,9 +2,7 @@
 
 namespace MSBios\Guard;
 
-
 use Zend\Router\Http\Literal;
-
 
 return [
     'router' => [

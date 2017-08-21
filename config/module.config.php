@@ -113,7 +113,7 @@ return [
                 'listener' => Listener\ForbiddenListener::class,
                 'method' => 'onDispatchError',
                 'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
-                'priority' => -100,
+                'priority' => -100900,
             ],
         ]
     ],

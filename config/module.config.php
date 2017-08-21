@@ -104,20 +104,14 @@ return [
         // Resource providers to be used to load all available resources into Zend\Permissions\Acl\Acl
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
-            Provider\ResourceProvider::class => [
-                // 'route/home',
-                // \MSBios\Application\Controller\IndexController::class
-            ]
+            Provider\ResourceProvider::class => []
         ],
 
         // Rule providers to be used to load all available rules into Zend\Permissions\Acl\Acl
         // Keys are the provider service names, values are the options to be passed to the provider
         'rule_providers' => [
             Provider\RuleProvider::class => [
-                'allow' => [
-                     // [['GUEST'], 'route/home'],
-                     // [['GUEST'], \MSBios\Application\Controller\IndexController::class],
-                ],
+                'allow' => [],
                 'deny' => []
             ]
         ],

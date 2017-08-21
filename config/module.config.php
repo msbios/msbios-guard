@@ -6,21 +6,10 @@
 
 namespace MSBios\Guard;
 
-use Zend\Router\Http\Literal;
-
 return [
 
     'router' => [
         'router_class' => Router\Http\TreeRouteStack::class,
-        'routes' => [
-            'home' => [
-                'type' => Router\Http\Literal::class,
-                // 'type' => Literal::class,
-                'options' => [
-                    'route' => '/'
-                ],
-            ],
-        ],
         'default_params' => [
             // Specify default parameters here for all routes here ...
         ]
@@ -37,7 +26,6 @@ return [
     'service_manager' => [
         'invokables' => [
             // Listeners
-            Listener\RenderListener::class,
             Listener\DispatchListener::class,
             Listener\ForbiddenListener::class,
             Listener\RouteListener::class
@@ -71,14 +59,6 @@ return [
 
         // identity provider service name
         'identity_provider' => Provider\Identity\AuthenticationProvider::class,
-
-        // // strategy service name for the strategy listener to be used when permission-related errors are detected
-        // 'unauthorized_strategy' => [
-        //     'listener' => Listener\UnAuthorizedListener::class,
-        //     'method' => 'onDispatchError',
-        //     'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
-        //     'priority' => -100500,
-        // ],
 
         // Template name for the unauthorized strategy
         'template' => 'error/403',

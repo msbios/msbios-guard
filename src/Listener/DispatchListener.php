@@ -72,12 +72,17 @@ class DispatchListener
                 return $results->last();
             }
         } catch (ServiceNotCreatedException $exception) {
+            // Service not found
             $e->setName(MvcEvent::EVENT_RENDER_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);
             $e->setParam('exception', $exception);
             $target->getEventManager()->triggerEvent($e);
         } catch (InvalidArgumentException $exception) {
-            // Do SomeThing
+            // Resource not found
+            $e->setName(MvcEvent::EVENT_RENDER_ERROR);
+            $e->setError(Application::ERROR_EXCEPTION);
+            $e->setParam('exception', $exception);
+            $target->getEventManager()->triggerEvent($e);
         }
     }
 }

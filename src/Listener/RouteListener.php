@@ -56,7 +56,10 @@ class RouteListener
             $e->setParam('exception', new ForbiddenExceprion("You are not authorized to access {$routeName}"));
             $e->getTarget()->getEventManager()->triggerEvent($e);
         } catch (InvalidArgumentException $exception) {
-            r($exception);
+            $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+            $e->setError(Application::ERROR_EXCEPTION);
+            $e->setParam('exception', $exception);
+            $e->getTarget()->getEventManager()->triggerEvent($e);
         } catch (ServiceNotCreatedException $exception) {
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);

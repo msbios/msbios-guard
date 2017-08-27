@@ -16,6 +16,7 @@ use Zend\EventManager\ResponseCollection;
 use Zend\Mvc\Application;
 use Zend\Mvc\MvcEvent;
 use Zend\Permissions\Acl\Exception\InvalidArgumentException;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\Stdlib\DispatchableInterface;
 
@@ -50,7 +51,8 @@ class DispatchListener
             $routeMatch = $e->getRouteMatch();
 
             /** @var string $controllerName */
-            $controllerName = $routeMatch->getParam('controller');
+            $controllerName = ($target instanceof ResourceInterface)
+                ? $target->getResourceId() : $routeMatch->getParam('controller');
             $actionName = $routeMatch->getParam('action');
 
             if ($guardManager->isAllowed($controllerName, $actionName)) {

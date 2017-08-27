@@ -21,10 +21,8 @@ return [
         'Zend\Navigation',
         'Zend\Router',
 //        'Zend\Validator',
-//
 //        'DoctrineModule',
 //        'DoctrineORMModule',
-//
         'MSBios\Assetic',
         'MSBios\Theme',
         'MSBios\Widget',

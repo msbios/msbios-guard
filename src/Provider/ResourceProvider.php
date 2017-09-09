@@ -5,7 +5,7 @@
  */
 namespace MSBios\Guard\Provider;
 
-use MSBios\Guard\Acl\Resource;
+use MSBios\Guard\Permission\Resource;
 use Zend\Config\Config;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;

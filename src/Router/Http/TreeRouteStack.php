@@ -6,7 +6,7 @@
 
 namespace MSBios\Guard\Router\Http;
 
-use MSBios\Guard\GuardAwareInterface;
+use MSBios\Guard\GuardInterface;
 use Zend\Router\Http\TreeRouteStack as DefaultTreeRouteStack;
 use Zend\Router\RouteInterface;
 use Zend\Router\RouteMatch as DefaultRouteMatch;
@@ -36,7 +36,7 @@ class TreeRouteStack extends DefaultTreeRouteStack
                 $match->getMatchedRouteName()
             );
 
-            if ($route instanceof GuardAwareInterface) {
+            if ($route instanceof GuardInterface) {
                 return new RouteMatch($match);
             }
         }

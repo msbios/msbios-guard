@@ -5,14 +5,14 @@
  */
 namespace MSBios\Guard\Router\Http;
 
-use MSBios\Guard\GuardAwareInterface;
+use MSBios\Guard\GuardInterface;
 use Zend\Router\Http\RouteMatch as DefaultRouteMatch;
 
 /**
  * Class RouteMatch
  * @package MSBios\Guard\Router
  */
-class RouteMatch extends DefaultRouteMatch implements GuardAwareInterface
+class RouteMatch extends DefaultRouteMatch implements GuardInterface
 {
     /**
      * RouteMatch constructor.

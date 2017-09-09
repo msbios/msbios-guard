@@ -6,7 +6,7 @@
 namespace MSBios\Guard\Listener;
 
 use MSBios\Guard\Exception\ForbiddenExceprion;
-use MSBios\Guard\GuardAwareInterface;
+use MSBios\Guard\GuardInterface;
 use MSBios\Guard\GuardManager;
 use MSBios\Guard\GuardManagerInterface;
 use MSBios\Guard\Router\Http\RouteMatch;
@@ -33,7 +33,7 @@ class RouteListener
         /** @var null|RouteMatch $routeMatch */
         $routeMatch = $e->getRouteMatch();
 
-        if (! $routeMatch instanceof GuardAwareInterface) {
+        if (! $routeMatch instanceof GuardInterface) {
             return;
         }
 

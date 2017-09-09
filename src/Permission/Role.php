@@ -3,32 +3,32 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Guard\Acl;
+namespace MSBios\Guard\Permission;
 
-use MSBios\Guard\Exception\InvalidResourceException;
-use Zend\Permissions\Acl\Resource\ResourceInterface;
+use MSBios\Guard\Exception\InvalidRoleException;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 /**
- * Class Resource
- * @package MSBios\Guard\Acl
+ * Class Role
+ * @package MSBios\Guard\Permission
  */
-class Resource implements HierarchicalResourceInterface
+class Role implements RoleInterface, HierarchicalRoleInterface
 {
-    /** @var ResourceInterface */
+    /** @var RoleInterface */
     protected $parent;
 
     /** @var string */
     protected $identifier;
 
     /**
-     * Resource constructor.
+     * Role constructor.
      * @param $identifier
      * @param null $parent
      */
     public function __construct($identifier, $parent = null)
     {
         $this->identifier = $identifier;
+
         if (! is_null($parent)) {
             $this->setParent($parent);
         }
@@ -49,22 +49,22 @@ class Resource implements HierarchicalResourceInterface
     public function setParent($parent)
     {
         if (is_string($parent)) {
-            $this->parent = new Resource($parent);
-        } elseif ($parent instanceof ResourceInterface) {
+            $this->parent = new Role($parent);
+        } elseif ($parent instanceof RoleInterface) {
             $this->parent = $parent;
         } else {
-            throw new InvalidResourceException($parent);
+            throw new InvalidRoleException($parent);
         }
 
         return $this;
     }
 
     /**
-     * Returns the string identifier of the Resource
+     * Returns the string identifier of the Role
      *
      * @return string
      */
-    public function getResourceId()
+    public function getRoleId()
     {
         return $this->identifier;
     }

@@ -6,6 +6,8 @@
 
 namespace MSBios\Guard;
 
+use Zend\ServiceManager\Factory\InvokableFactory;
+
 return [
 
     'router' => [
@@ -25,19 +27,21 @@ return [
 
     'service_manager' => [
         'invokables' => [
-            // Listeners
-            Listener\DispatchListener::class,
-            Listener\ForbiddenListener::class,
-            Listener\RouteListener::class
+
         ],
         'factories' => [
+            // Listeners
+            Listener\DispatchListener::class => InvokableFactory::class,
+            Listener\ForbiddenListener::class => InvokableFactory::class,
+            Listener\RouteListener::class => InvokableFactory::class,
+
             // Collectors
             Collector\RoleCollector::class => Factory\RoleCollectorFactory::class,
 
             // Providers
             Provider\IdentityProviderInterface::class => Factory\IdentityProviderFactory::class,
             Provider\Identity\AuthenticationProvider::class => Factory\Identity\AuthenticationProviderFactory::class,
-            Provider\ResourceInterface::class => Factory\ResourceProvidersFactory::class,
+            Provider\ResourceProviderInterface::class => Factory\ResourceProvidersFactory::class,
             Provider\RoleProviderInterface::class => Factory\RoleProvidersFactory::class,
             Provider\RuleProviderInterface::class => Factory\RuleProvidersFactory::class,
 

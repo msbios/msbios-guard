@@ -6,10 +6,10 @@
 namespace MSBios\Guard;
 
 /**
- * Interface GuardAwareInterface
+ * Interface GuardInterface
  * @package MSBios\Guard
  */
-interface GuardAwareInterface
+interface GuardInterface
 {
 
 }

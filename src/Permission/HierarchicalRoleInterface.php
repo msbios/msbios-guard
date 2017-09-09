@@ -3,13 +3,13 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-namespace MSBios\Guard\Acl;
+namespace MSBios\Guard\Permission;
 
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 /**
  * Interface HierarchicalRoleInterface
- * @package MSBios\Guard\Acl
+ * @package MSBios\Guard\Permission
  */
 interface HierarchicalRoleInterface extends RoleInterface
 {

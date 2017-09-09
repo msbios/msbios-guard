@@ -6,7 +6,7 @@
 
 namespace MSBios\Guard;
 
-use MSBios\Guard\Acl\Role;
+use MSBios\Guard\Permission\Role;
 use MSBios\Guard\Exception\InvalidArgumentException;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Provider\IdentityProviderInterface;
@@ -18,13 +18,12 @@ use MSBios\Guard\Provider\RuleProviderInterface;
 use Zend\Config\Config;
 use Zend\Permissions\Acl\Acl;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zend\Stdlib\InitializableInterface;
 
 /**
  * Class GuardManager
  * @package MSBios\Guard
  */
-class GuardManager implements GuardManagerInterface, InitializableInterface
+class GuardManager implements GuardManagerInterface
 {
     /** @var ServiceLocatorInterface */
     protected $serviceLocator;
@@ -79,29 +78,25 @@ class GuardManager implements GuardManagerInterface, InitializableInterface
      */
     public function getAcl()
     {
-
         if ($this->acl instanceof Acl) {
             return $this->acl;
         }
 
         $this->acl = new Acl;
 
-        /** @var array $providers */
-        $providers = [
-            ResourceInterface::class => 'addResourceProvider',
-            RoleProviderInterface::class => 'addRoleProvider',
-            RuleProviderInterface::class => 'addRuleProvider',
-        ];
+        /** @var ResourceProviderInterface $provider */
+        foreach ($this->serviceLocator->get(ResourceProviderInterface::class) as $provider) {
+            $this->addResourceProvider($provider);
+        }
 
-        /**
-         * @var string $id
-         * @var string $method
-         */
-        foreach ($providers as $id => $method) {
-            /** @var ProviderInterface $provider */
-            foreach ($this->serviceLocator->get($id) as $provider) {
-                $this->$method($provider);
-            }
+        /** @var RoleProviderInterface $provider */
+        foreach ($this->serviceLocator->get(RoleProviderInterface::class) as $provider) {
+            $this->addRoleProvider($provider);
+        }
+
+        /** @var RuleProviderInterface $provider */
+        foreach ($this->serviceLocator->get(RuleProviderInterface::class) as $provider) {
+            $this->addRuleProvider($provider);
         }
 
         /** @var RoleProviderInterface $provider */
@@ -216,7 +211,7 @@ class GuardManager implements GuardManagerInterface, InitializableInterface
      * @param $roles
      * @return $this
      */
-    protected function addRoles($roles)
+    public function addRoles($roles)
     {
         if (! is_array($roles) && ! ($roles instanceof \Traversable)) {
             $roles = [$roles];
@@ -243,7 +238,7 @@ class GuardManager implements GuardManagerInterface, InitializableInterface
      * @param $resources
      * @return $this
      */
-    protected function addResources($resources)
+    public function addResources($resources)
     {
         if (! is_array($resources) && ! ($resources instanceof \Traversable)) {
             $resources = [$resources];
@@ -271,7 +266,7 @@ class GuardManager implements GuardManagerInterface, InitializableInterface
      * @param $type
      * @return $this
      */
-    protected function addRule(Config $rule, $type)
+    public function addRule(Config $rule, $type)
     {
 
         /** @var null $privileges */
@@ -299,7 +294,7 @@ class GuardManager implements GuardManagerInterface, InitializableInterface
     /**
      * @return string
      */
-    protected function getIdentity()
+    public function getIdentity()
     {
         return self::class;
     }

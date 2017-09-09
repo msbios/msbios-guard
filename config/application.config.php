@@ -8,21 +8,10 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
-
-//        'Zend\Mvc\Plugin\FlashMessenger',
-//        'Zend\Cache',
-//        'Zend\Form',
-//        'Zend\InputFilter',
-//        'Zend\Filter',
-//        'Zend\Paginator',
-//        'Zend\Hydrator',
         'Zend\I18n',
-//        'Zend\Session',
         'Zend\Navigation',
         'Zend\Router',
-//        'Zend\Validator',
-//        'DoctrineModule',
-//        'DoctrineORMModule',
+
         'MSBios\Assetic',
         'MSBios\Theme',
         'MSBios\Widget',
@@ -32,12 +21,6 @@ return [
 
         'Zend\Log',
         'ZendDeveloperTools',
-
-//        'MSBios\Authentication',
-//        'MSBios\CPanel',
-//        'MSBios\Guard\CPanel',
-//        'MSBios\Guard\Resource',
-//        'MSBios\Resource'
     ],
 
     'module_listener_options' => [

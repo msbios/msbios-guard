@@ -34,7 +34,7 @@ class StaticProvider implements RoleProviderInterface
         /** @var array $data */
         $data = $this->config->toArray();
 
-        foreach ($data as ) {
+        foreach ($data as $item) {
 
         }
 

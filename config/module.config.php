@@ -31,25 +31,36 @@ return [
         ],
         'factories' => [
             // Listeners
-            Listener\DispatchListener::class => InvokableFactory::class,
-            Listener\ForbiddenListener::class => InvokableFactory::class,
-            Listener\RouteListener::class => InvokableFactory::class,
+            Listener\DispatchListener::class =>
+                InvokableFactory::class,
+            Listener\ForbiddenListener::class =>
+                InvokableFactory::class,
+            Listener\RouteListener::class =>
+                InvokableFactory::class,
 
             // Collectors
-            Collector\RoleCollector::class => Factory\RoleCollectorFactory::class,
+            Collector\RoleCollector::class =>
+                Factory\RoleCollectorFactory::class,
 
             // Providers
-            Provider\IdentityProviderInterface::class => Factory\IdentityProviderFactory::class,
-            Provider\Identity\AuthenticationProvider::class => Factory\Identity\AuthenticationProviderFactory::class,
-            Provider\ResourceProviderInterface::class => Factory\ResourceProvidersFactory::class,
-            Provider\RoleProviderInterface::class => Factory\RoleProvidersFactory::class,
-            Provider\RuleProviderInterface::class => Factory\RuleProvidersFactory::class,
+            Provider\IdentityProviderInterface::class =>
+                Factory\IdentityProviderFactory::class,
+            Provider\Identity\AuthenticationProvider::class =>
+                Factory\Identity\AuthenticationProviderFactory::class,
+            Provider\ResourceProviderInterface::class =>
+                Factory\ResourceProvidersFactory::class,
+            Provider\RoleProviderInterface::class =>
+                Factory\RoleProvidersFactory::class,
+            Provider\RuleProviderInterface::class =>
+                Factory\RuleProvidersFactory::class,
 
             // Managers
-            GuardManager::class => Factory\GuardManagerFactory::class,
+            GuardManager::class =>
+                Factory\GuardManagerFactory::class,
 
             // Customs
-            Module::class => Factory\ModuleFactory::class
+            Module::class =>
+                Factory\ModuleFactory::class
         ]
     ],
 
@@ -66,6 +77,16 @@ return [
 
         // Template name for the unauthorized strategy
         'template' => 'error/403',
+
+        // Define roles
+        'roles' => [
+            'GUEST',
+            'GUEST' => ['USER'],
+            'USER' => ['MODERATOR'],
+            'MODERATOR' => ['ADMIN'],
+            'ADMIN' => ['SUPERADMIN'],
+            'SUPERADMIN' => 'DEVELOPER'
+        ],
 
         // Role providers to be used to load all available roles into Zend\Permissions\Acl\Acl
         // Keys are the provider service names, values are the options to be passed to the provider

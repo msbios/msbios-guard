@@ -7,11 +7,8 @@
 namespace MSBios\Guard;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\ModuleInterface;
 use Zend\EventManager\EventInterface;
-use Zend\EventManager\EventManagerInterface;
-use Zend\EventManager\LazyEventListener;
 use Zend\EventManager\LazyListenerAggregate;
 use Zend\Loader\AutoloaderFactory;
 use Zend\Loader\StandardAutoloader;

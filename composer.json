@@ -28,9 +28,10 @@
     "zendframework/zend-http": "^2.6"
   },
   "require-dev": {
-    "msbios/application": "~1.0",
-    "msbios/debug": "~1.0",
-    "msbios/cpanel": "^1.0"
+    "msbios/application": "^1.0",
+    "msbios/cpanel": "^1.0",
+    "msbios/guard-cpanel": "^1.0",
+    "msbios/debug": "^1.0"
   },
   "scripts": {
     "cs-check": "phpcs",

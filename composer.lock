@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "5d54f33195624c087c9f2edda84e7474",
+    "content-hash": "76b4754e2e09993f3dda9c1c1a279bf8",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -815,6 +815,58 @@
                 "php"
             ],
             "time": "2017-09-09T19:27:54+00:00"
+        },
+        {
+            "name": "msbios/guard-cpanel",
+            "version": "v1.0.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/msbios/msbios-guard-cpanel.git",
+                "reference": "1a4734c0bb551ac18a51ccf55a08b00c8c05d6ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/msbios/msbios-guard-cpanel/zipball/1a4734c0bb551ac18a51ccf55a08b00c8c05d6ef",
+                "reference": "1a4734c0bb551ac18a51ccf55a08b00c8c05d6ef",
+                "shasum": ""
+            },
+            "require-dev": {
+                "msbios/application": "^1.0",
+                "msbios/authentication": "^1.0",
+                "msbios/cpanel": "^1.0",
+                "msbios/debug": "^1.0",
+                "msbios/guard": "^1.0",
+                "msbios/guard-resource": "^1.0",
+                "msbios/resource": "^1.0",
+                "msbios/test": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "zf": {
+                    "component": "MSBios\\Guard\\CPanel"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MSBios\\Guard\\CPanel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "Judzhin Miles",
+                    "email": "info@msbios.com"
+                }
+            ],
+            "description": "MSBios Guard CPanel",
+            "homepage": "https://github.com/msbios/msbios-guard-cpanel",
+            "keywords": [
+                "php"
+            ],
+            "time": "2017-11-24T16:46:46+00:00"
         },
         {
             "name": "msbios/i18n",

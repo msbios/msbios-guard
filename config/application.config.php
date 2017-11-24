@@ -8,6 +8,7 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\Guard\CPanel',
         'MSBios\CPanel',
         'Zend\Mvc\Plugin\FilePrg',
         'Zend\Form',

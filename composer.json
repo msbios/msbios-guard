@@ -31,7 +31,8 @@
     "msbios/application": "^1.0",
     "msbios/cpanel": "^1.0",
     "msbios/guard-cpanel": "^1.0",
-    "msbios/debug": "^1.0"
+    "msbios/debug": "^1.0",
+    "msbios/test": "^1.0"
   },
   "scripts": {
     "cs-check": "phpcs",

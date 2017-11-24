@@ -10,8 +10,6 @@ use MSBios\Guard\Permission\Role;
 use MSBios\Guard\Exception\InvalidArgumentException;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Provider\IdentityProviderInterface;
-use MSBios\Guard\Provider\ProviderInterface;
-use MSBios\Guard\Provider\ResourceInterface;
 use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
@@ -134,9 +132,7 @@ class GuardManager implements GuardManagerInterface
     public function isAllowed($resource, $privilege = null)
     {
         return $this->acl->isAllowed(
-            $this->getIdentity(),
-            $resource,
-            $privilege
+            $this->getIdentity(), $resource, $privilege
         );
     }
 

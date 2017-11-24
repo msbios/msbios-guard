@@ -24,28 +24,24 @@
     }
   },
   "require": {
-    "zendframework/zend-loader": "^2.5",
-    "zendframework/zend-servicemanager": "^3.3",
     "zendframework/zend-permissions-acl": "^2.6",
-    "zendframework/zend-http": "^2.6",
-    "msbios/msbios": "~1.0"
+    "zendframework/zend-http": "^2.6"
   },
   "require-dev": {
-    "phpunit/phpunit": "^5.7",
-    "zendframework/zend-test": "^3.1",
-    "squizlabs/php_codesniffer": "^3.0",
     "msbios/application": "~1.0",
-    "msbios/debug": "~1.0"
+    "msbios/debug": "~1.0",
+    "msbios/cpanel": "^1.0"
   },
   "scripts": {
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
     "test": [
       "@cs-check",
-      "phpunit"
+      "phpunit --colors=always"
     ],
-    "assets": "cd bin && ln -s ../vendor/msbios/application/themes/default/public/ default",
-    "serve": "php -S 0.0.0.0:3107 -t bin bin/msbios-guard-module.php",
+    "test-coverage": "phpunit --colors=always --coverage-clover clover.xml",
+    "upload-coverage": "coveralls -v",
+    "serve": "php -S 0.0.0.0:3107 -t public public/index.php",
     "commit": "git add . && git commit -a -m \"Lazy Composer Commiter\" && git push"
   }
 }

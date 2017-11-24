@@ -8,6 +8,15 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\CPanel',
+        'Zend\Mvc\Plugin\FilePrg',
+        'Zend\Form',
+        'Zend\Hydrator',
+        'Zend\InputFilter',
+        'Zend\Filter',
+        'Zend\Mvc\Plugin\FlashMessenger',
+        'Zend\Mvc\Plugin\Identity',
+        'Zend\Mvc\Plugin\Prg',
         'Zend\I18n',
         'Zend\Navigation',
         'Zend\Router',

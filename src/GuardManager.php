@@ -132,7 +132,9 @@ class GuardManager implements GuardManagerInterface
     public function isAllowed($resource, $privilege = null)
     {
         return $this->acl->isAllowed(
-            $this->getIdentity(), $resource, $privilege
+            $this->getIdentity(),
+            $resource,
+            $privilege
         );
     }
 

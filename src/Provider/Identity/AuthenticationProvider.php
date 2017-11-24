@@ -38,11 +38,11 @@ class AuthenticationProvider implements IdentityProviderInterface
     }
 
     /**
-     * @return string
+     * @return array
      */
     public function getAuthenticatedRole()
     {
-        return $this->authenticatedRole;
+        return [$this->authenticatedRole];
     }
 
     /**

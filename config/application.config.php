@@ -21,6 +21,7 @@ return [
 
         'MSBios\Test',
         'MSBios\I18n',
+        'MSBios\Db',
         'MSBios\Assetic',
         'MSBios\Form',
         'MSBios\Widget',

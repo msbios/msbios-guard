@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2b290d5ae4760280925d182d22329da8",
+    "content-hash": "74ab567fdf495ebfba7c32e064547753",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -983,6 +983,55 @@
             "time": "2017-11-24T17:25:23+00:00"
         },
         {
+            "name": "msbios/db",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/msbios/msbios-db.git",
+                "reference": "15274425c6c467f0ae9a92f344410b3a4c787bb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/msbios/msbios-db/zipball/15274425c6c467f0ae9a92f344410b3a4c787bb9",
+                "reference": "15274425c6c467f0ae9a92f344410b3a4c787bb9",
+                "shasum": ""
+            },
+            "require": {
+                "msbios/msbios": "^1.0",
+                "zendframework/zend-db": "^2.8"
+            },
+            "require-dev": {
+                "msbios/test": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "zf": {
+                    "component": "MSBios\\Db"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MSBios\\Db\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "Judzhin Miles",
+                    "email": "info@msbios.com"
+                }
+            ],
+            "description": "MSBios Db",
+            "homepage": "https://github.com/msbios/msbios-db",
+            "keywords": [
+                "php"
+            ],
+            "time": "2017-11-25T14:30:11+00:00"
+        },
+        {
             "name": "msbios/debug",
             "version": "v1.0.0",
             "source": {
@@ -1139,20 +1188,22 @@
         },
         {
             "name": "msbios/guard-resource",
-            "version": "v1.0.15",
+            "version": "v1.0.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-guard-resource.git",
-                "reference": "87b8dc5e4ebcfd7c7418a563fd12adfc876d4089"
+                "reference": "d147826969c098ea1f83ddfc27837ecccb5514db"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-guard-resource/zipball/87b8dc5e4ebcfd7c7418a563fd12adfc876d4089",
-                "reference": "87b8dc5e4ebcfd7c7418a563fd12adfc876d4089",
+                "url": "https://api.github.com/repos/msbios/msbios-guard-resource/zipball/d147826969c098ea1f83ddfc27837ecccb5514db",
+                "reference": "d147826969c098ea1f83ddfc27837ecccb5514db",
                 "shasum": ""
             },
             "require-dev": {
-                "msbios/resource": "^1.0"
+                "msbios/authentication": "^1.0",
+                "msbios/resource": "^1.0",
+                "msbios/test": "^1.0"
             },
             "type": "library",
             "extra": {
@@ -1180,7 +1231,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-11-24T20:07:41+00:00"
+            "time": "2017-11-25T14:20:43+00:00"
         },
         {
             "name": "msbios/i18n",
@@ -1393,22 +1444,22 @@
         },
         {
             "name": "msbios/resource",
-            "version": "v1.0.4",
+            "version": "v1.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-resource.git",
-                "reference": "1ae7977a9e54652a0f8056206860c7fa5c4093a8"
+                "reference": "359447a5a4baff8430feaca74a5fe04a069204dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-resource/zipball/1ae7977a9e54652a0f8056206860c7fa5c4093a8",
-                "reference": "1ae7977a9e54652a0f8056206860c7fa5c4093a8",
+                "url": "https://api.github.com/repos/msbios/msbios-resource/zipball/359447a5a4baff8430feaca74a5fe04a069204dd",
+                "reference": "359447a5a4baff8430feaca74a5fe04a069204dd",
                 "shasum": ""
             },
             "require": {
+                "msbios/db": "^1.0",
                 "msbios/form": "^1.0",
-                "msbios/stdlib": "^1.0",
-                "zendframework/zend-db": "^2.8"
+                "msbios/stdlib": "^1.0"
             },
             "require-dev": {
                 "msbios/debug": "^1.0",
@@ -1435,7 +1486,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-11-24T15:01:06+00:00"
+            "time": "2017-11-25T14:04:07+00:00"
         },
         {
             "name": "msbios/stdlib",
@@ -2111,16 +2162,16 @@
         },
         {
             "name": "phpunit/php-file-iterator",
-            "version": "1.4.2",
+            "version": "1.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
-                "reference": "3cc8f69b3028d0f96a9078e6295d86e9bf019be5"
+                "reference": "8ebba84e5bd74fc5fdeb916b38749016c7232f93"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/3cc8f69b3028d0f96a9078e6295d86e9bf019be5",
-                "reference": "3cc8f69b3028d0f96a9078e6295d86e9bf019be5",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-file-iterator/zipball/8ebba84e5bd74fc5fdeb916b38749016c7232f93",
+                "reference": "8ebba84e5bd74fc5fdeb916b38749016c7232f93",
                 "shasum": ""
             },
             "require": {
@@ -2154,7 +2205,7 @@
                 "filesystem",
                 "iterator"
             ],
-            "time": "2016-10-03T07:40:28+00:00"
+            "time": "2017-11-24T15:00:59+00:00"
         },
         {
             "name": "phpunit/php-text-template",

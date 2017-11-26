@@ -5,7 +5,10 @@
  */
 namespace MSBios\Guard\Provider\Identity;
 
+use MSBios\Authentication\IdentityInterface;
 use MSBios\Guard\Provider\IdentityProviderInterface;
+use MSBios\Guard\Provider\RoleProviderInterface;
+use Zend\Authentication\AuthenticationServiceInterface;
 
 /**
  * Class AuthenticationProvider
@@ -18,6 +21,18 @@ class AuthenticationProvider implements IdentityProviderInterface
 
     /** @var string */
     protected $authenticatedRole = 'USER';
+
+    /** @var AuthenticationServiceInterface */
+    protected $authenticationService;
+
+    /**
+     * AuthenticationProvider constructor.
+     * @param AuthenticationServiceInterface $authenticationService
+     */
+    public function __construct(AuthenticationServiceInterface $authenticationService)
+    {
+        $this->authenticationService = $authenticationService;
+    }
 
     /**
      * @return string
@@ -38,7 +53,7 @@ class AuthenticationProvider implements IdentityProviderInterface
     }
 
     /**
-     * @return array
+     * @return string
      */
     public function getAuthenticatedRole()
     {
@@ -60,6 +75,26 @@ class AuthenticationProvider implements IdentityProviderInterface
      */
     public function getIdentityRoles()
     {
+
+        if ($this->authenticationService->hasIdentity()) {
+
+            /** @var array $roles */
+            $roles = [];
+
+            /** @var IdentityInterface $identity */
+            $identity = $this->authenticationService->getIdentity();
+
+            if ($identity instanceof RoleProviderInterface) {
+
+            }
+
+            if (empty($roles)) {
+                $roles[] = $this->authenticatedRole;
+            }
+
+            return $roles;
+        }
+
         return [$this->defaultRole];
     }
 }

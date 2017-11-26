@@ -17,19 +17,16 @@ return [
         ]
     ],
 
-    'view_manager' => [
-        'template_map' => [
-            'error/403' => __DIR__ . '/../view/error/403.phtml',
-            'zend-developer-tools/toolbar/msbios-guard-authorize-role' =>
-                __DIR__ . '/../view/zend-developer-tools/toolbar/msbios-guard-authorize-role.phtml',
-        ],
-    ],
-
     'service_manager' => [
-        'invokables' => [
-
-        ],
         'factories' => [
+            // Authentication Service
+            \Zend\Authentication\AuthenticationService::class =>
+                Factory\AuthenticationServiceFactory::class,
+            Authentication\Storage\ResourceStorage::class =>
+                InvokableFactory::class,
+            Authentication\Adapter\ResourceAdapter::class =>
+                Factory\AuthenticationResourceAdapterFactory::class,
+
             // Listeners
             Listener\DispatchListener::class =>
                 InvokableFactory::class,
@@ -61,6 +58,28 @@ return [
             // Customs
             Module::class =>
                 Factory\ModuleFactory::class
+        ],
+    ],
+
+    'table_manager' => [
+        'aliases' => [
+            Authentication\Storage\ResourceStorage::class =>
+                \MSBios\Guard\Resource\Table\UserTableGateway::class
+        ]
+    ],
+
+    'view_manager' => [
+        'template_map' => [
+            'error/403' => __DIR__ . '/../view/error/403.phtml',
+            'zend-developer-tools/toolbar/msbios-guard-authorize-role' =>
+                __DIR__ . '/../view/zend-developer-tools/toolbar/msbios-guard-authorize-role.phtml',
+        ],
+    ],
+
+    'form_elements' => [
+        'factories' => [
+            Form\LoginForm::class =>
+                InvokableFactory::class,
         ]
     ],
 

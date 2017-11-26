@@ -35,7 +35,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
-                InvokableFactory::class,
+                Factory\IndexControllerFactory::class,
         ]
     ],
 
@@ -137,7 +137,9 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'rule_providers' => [
             Provider\RuleProvider::class => [
-                'allow' => [],
+                'allow' => [
+                    [['USER'], Controller\IndexController::class],
+                ],
                 'deny' => []
             ]
         ],

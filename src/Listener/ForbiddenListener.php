@@ -7,9 +7,14 @@
 namespace MSBios\Guard\Listener;
 
 use MSBios\Guard\Exception\ForbiddenExceprion;
+use MSBios\Guard\Form\LoginForm;
 use MSBios\Guard\Module;
 use Zend\EventManager\EventInterface;
+use Zend\Form\FormInterface;
 use Zend\Http\PhpEnvironment\Response;
+use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Stdlib\RequestInterface;
+use Zend\View\Model\ModelInterface;
 use Zend\View\Model\ViewModel;
 
 /**
@@ -34,14 +39,39 @@ class ForbiddenListener
             return;
         }
 
+        /** @var ServiceLocatorInterface $serviceManager */
+        $serviceManager = $e->getApplication()
+            ->getServiceManager();
+
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel;
         $viewModel->setTemplate(
-            $e->getApplication()
-                ->getServiceManager()
-                ->get(Module::class)
-                ->get('template')
+            $serviceManager->get(Module::class)->get('template')
         );
+
+        // r($this); die();
+
+        //
+
+        /** @var FormInterface $form */
+        $form = $serviceManager->get('FormElementManager')->get(LoginForm::class);
+        $viewModel->setVariable('form', $form);
+
+        // /** @var RequestInterface $request */
+        // $request = $e->getRequest();
+
+        // TODO: Need doing redirect to lock page
+        //$form->setData([
+        //    'redirect' => (!$request->isPost()) ?
+        //        base64_encode($request->getRequestUri()) : $request->fromPost('redirect')
+        //]);
+
+        // /** @var ModelInterface $child */
+        // foreach ($viewModel->getChildren() as $child) {
+        //     $child->setVariable('form', $form);
+        // }
+
+        //
 
         $e->getViewModel()
             ->addChild($viewModel);

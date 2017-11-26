@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "74ab567fdf495ebfba7c32e064547753",
+    "content-hash": "a77613e3e80e1d69b4219603852b608c",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -877,16 +877,16 @@
         },
         {
             "name": "msbios/authentication",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-authentication.git",
-                "reference": "4ede6192966678aeae87f28334be17cfe447130b"
+                "reference": "bd129e4d042dacc8bc5f7e68f87eaf6b6dc75170"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-authentication/zipball/4ede6192966678aeae87f28334be17cfe447130b",
-                "reference": "4ede6192966678aeae87f28334be17cfe447130b",
+                "url": "https://api.github.com/repos/msbios/msbios-authentication/zipball/bd129e4d042dacc8bc5f7e68f87eaf6b6dc75170",
+                "reference": "bd129e4d042dacc8bc5f7e68f87eaf6b6dc75170",
                 "shasum": ""
             },
             "require": {
@@ -923,64 +923,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-11-24T16:26:07+00:00"
-        },
-        {
-            "name": "msbios/cpanel",
-            "version": "v1.0.13",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/msbios/msbios-cpanel.git",
-                "reference": "6ea63485157c507b0d2704ec59158c0455e6f44c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-cpanel/zipball/6ea63485157c507b0d2704ec59158c0455e6f44c",
-                "reference": "6ea63485157c507b0d2704ec59158c0455e6f44c",
-                "shasum": ""
-            },
-            "require": {
-                "msbios/view": "^1.0",
-                "zendframework/zend-mvc-plugin-flashmessenger": "^1.0",
-                "zendframework/zend-mvc-plugins": "^1.0"
-            },
-            "require-dev": {
-                "msbios/application": "^1.0",
-                "msbios/authentication": "^1.0",
-                "msbios/debug": "^1.0",
-                "msbios/guard": "^1.0",
-                "msbios/guard-cpanel": "^1.0",
-                "msbios/guard-resource": "^1.0",
-                "msbios/resource": "^1.0",
-                "msbios/test": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "zf": {
-                    "component": "MSBios\\CPanel"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MSBios\\CPanel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL"
-            ],
-            "authors": [
-                {
-                    "name": "Judzhin Miles",
-                    "email": "info@msbios.com"
-                }
-            ],
-            "description": "MSBios CPanel",
-            "homepage": "https://github.com/msbios/msbios-cpanel",
-            "keywords": [
-                "php"
-            ],
-            "time": "2017-11-24T17:25:23+00:00"
+            "time": "2017-11-26T14:37:08+00:00"
         },
         {
             "name": "msbios/db",
@@ -1133,58 +1076,6 @@
                 "php"
             ],
             "time": "2017-10-24T11:25:22+00:00"
-        },
-        {
-            "name": "msbios/guard-cpanel",
-            "version": "v1.0.15",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/msbios/msbios-guard-cpanel.git",
-                "reference": "1a4734c0bb551ac18a51ccf55a08b00c8c05d6ef"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-guard-cpanel/zipball/1a4734c0bb551ac18a51ccf55a08b00c8c05d6ef",
-                "reference": "1a4734c0bb551ac18a51ccf55a08b00c8c05d6ef",
-                "shasum": ""
-            },
-            "require-dev": {
-                "msbios/application": "^1.0",
-                "msbios/authentication": "^1.0",
-                "msbios/cpanel": "^1.0",
-                "msbios/debug": "^1.0",
-                "msbios/guard": "^1.0",
-                "msbios/guard-resource": "^1.0",
-                "msbios/resource": "^1.0",
-                "msbios/test": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "zf": {
-                    "component": "MSBios\\Guard\\CPanel"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MSBios\\Guard\\CPanel\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL"
-            ],
-            "authors": [
-                {
-                    "name": "Judzhin Miles",
-                    "email": "info@msbios.com"
-                }
-            ],
-            "description": "MSBios Guard CPanel",
-            "homepage": "https://github.com/msbios/msbios-guard-cpanel",
-            "keywords": [
-                "php"
-            ],
-            "time": "2017-11-24T16:46:46+00:00"
         },
         {
             "name": "msbios/guard-resource",

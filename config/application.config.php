@@ -8,7 +8,6 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
-
         'Zend\Db',
         'Zend\Mvc\Plugin\Prg',
         'Zend\Mvc\Plugin\Identity',
@@ -18,7 +17,6 @@ return [
         'Zend\Router',
         'Zend\Form',
         'Zend\I18n',
-
         'MSBios\Test',
         'MSBios\I18n',
         'MSBios\Db',
@@ -30,15 +28,11 @@ return [
         'MSBios\Application',
         'MSBios\Authentication',
         'MSBios\Guard',
-        'MSBios\CPanel',
-        'MSBios\Guard\CPanel',
         'MSBios\Resource',
         'MSBios\Guard\Resource',
-
         'Zend\Log',
         'ZendDeveloperTools',
     ],
-
     'module_listener_options' => [
         'module_paths' => [
             './module',

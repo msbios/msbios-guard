@@ -7,11 +7,10 @@
 namespace MSBios\Guard\Provider\Identity;
 
 use MSBios\Authentication\IdentityInterface;
-use MSBios\Db\TableManagerAwareInterface;
-use MSBios\Db\TableManagerAwareTrait;
 use MSBios\Guard\Provider\IdentityProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
 use MSBios\Guard\Resource\Table\RoleTableGateway;
+use MSBios\Stdlib\Object;
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Db\ResultSet\ResultSetInterface;
 
@@ -19,10 +18,8 @@ use Zend\Db\ResultSet\ResultSetInterface;
  * Class AuthenticationProvider
  * @package MSBios\Guard\Provider\Identity
  */
-class AuthenticationProvider implements IdentityProviderInterface, TableManagerAwareInterface
+class AuthenticationProvider implements IdentityProviderInterface
 {
-    use TableManagerAwareTrait;
-
     /** @var string */
     protected $defaultRole = 'GUEST';
 
@@ -92,14 +89,15 @@ class AuthenticationProvider implements IdentityProviderInterface, TableManagerA
 
             if ($identity instanceof RoleProviderInterface) {
 
-                /** @var RoleTableGateway $table */
-                $table = $this->getTableManager()->get(get_class($this));
-
-                /** @var ResultSetInterface $resultSet */
-                $resultSet = $table->fetchByUser($identity);
-
-                foreach ($resultSet as $role) {
-                    $roles[] = $role->getCode();
+                /** @var Object $role */
+                foreach ($identity->getRoles() as $role) {
+                    if ($role instanceof Object) {
+                        $roles[] = $role->getCode();
+                    } elseif (is_string($role)) {
+                        $roles[] = $role;
+                    } else {
+                        // And Someone else
+                    }
                 }
             }
 

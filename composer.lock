@@ -1079,20 +1079,21 @@
         },
         {
             "name": "msbios/guard-resource",
-            "version": "v1.0.17",
+            "version": "v1.0.19",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-guard-resource.git",
-                "reference": "c15c4ccc5d84e5381a5fd0b8d553b2d95908c349"
+                "reference": "580e14c21c7605a3a42c2a294206361c3650205b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-guard-resource/zipball/c15c4ccc5d84e5381a5fd0b8d553b2d95908c349",
-                "reference": "c15c4ccc5d84e5381a5fd0b8d553b2d95908c349",
+                "url": "https://api.github.com/repos/msbios/msbios-guard-resource/zipball/580e14c21c7605a3a42c2a294206361c3650205b",
+                "reference": "580e14c21c7605a3a42c2a294206361c3650205b",
                 "shasum": ""
             },
             "require-dev": {
                 "msbios/authentication": "^1.0",
+                "msbios/guard": "^1.0",
                 "msbios/resource": "^1.0",
                 "msbios/test": "^1.0"
             },
@@ -1122,7 +1123,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2017-11-25T19:59:29+00:00"
+            "time": "2017-11-26T16:10:33+00:00"
         },
         {
             "name": "msbios/i18n",

@@ -44,7 +44,7 @@ class IndexController extends AbstractActionController implements GuardInterface
         }
 
         // Login logic
-        if (!$this->authenticationService->hasIdentity() && $this->getRequest()->isPost()) {
+        if (! $this->authenticationService->hasIdentity() && $this->getRequest()->isPost()) {
 
             /** @var array $data */
             $data = $this->params()->fromPost();
@@ -65,5 +65,4 @@ class IndexController extends AbstractActionController implements GuardInterface
 
         return parent::indexAction();
     }
-
 }

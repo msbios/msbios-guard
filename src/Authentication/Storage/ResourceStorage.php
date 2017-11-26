@@ -26,14 +26,11 @@ class ResourceStorage extends DefaultResourceStorage implements TableManagerAwar
         /** @var string $identity */
         $identity = parent::read();
 
-        if (!empty($identity) && is_string($identity)) {
+        if (! empty($identity) && is_string($identity)) {
             $table = $this->getTableManager()->get(get_class($this));
             return $table->fetchOneByUsername($identity);
         }
 
         return $identity;
-
     }
-
-
 }

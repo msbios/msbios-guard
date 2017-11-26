@@ -64,7 +64,9 @@ return [
     'table_manager' => [
         'aliases' => [
             Authentication\Storage\ResourceStorage::class =>
-                \MSBios\Guard\Resource\Table\UserTableGateway::class
+                \MSBios\Guard\Resource\Table\UserTableGateway::class,
+            Provider\Identity\AuthenticationProvider::class =>
+                \MSBios\Guard\Resource\Table\RoleTableGateway::class
         ]
     ],
 

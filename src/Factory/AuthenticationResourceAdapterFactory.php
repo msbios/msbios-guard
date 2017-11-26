@@ -26,7 +26,10 @@ class AuthenticationResourceAdapterFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new ResourceAdapter(
-            $container->get(AdapterInterface::class), 'acl_t_users', 'username', 'password'
+            $container->get(AdapterInterface::class),
+            'acl_t_users',
+            'username',
+            'password'
         );
     }
 }

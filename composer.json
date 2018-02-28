@@ -1,7 +1,7 @@
 {
   "name": "msbios/guard",
   "description": "MSBios Guard",
-  "license": "GPL",
+  "license": "MIT",
   "keywords": [
     "php"
   ],

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a77613e3e80e1d69b4219603852b608c",
+    "content-hash": "005d7c39d50ff26623c90999cd337375",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -36,6 +36,54 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "msbios/guard-resource",
+            "version": "v1.0.20",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/msbios/msbios-guard-resource.git",
+                "reference": "03c9f109558bb2666511e80e6c4d5bf6a6022c33"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/msbios/msbios-guard-resource/zipball/03c9f109558bb2666511e80e6c4d5bf6a6022c33",
+                "reference": "03c9f109558bb2666511e80e6c4d5bf6a6022c33",
+                "shasum": ""
+            },
+            "require-dev": {
+                "msbios/authentication": "^1.0",
+                "msbios/guard": "^1.0",
+                "msbios/resource": "^1.0",
+                "msbios/test": "^1.0"
+            },
+            "type": "library",
+            "extra": {
+                "zf": {
+                    "component": "MSBios\\Guard\\Resource"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MSBios\\Guard\\Resource\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL"
+            ],
+            "authors": [
+                {
+                    "name": "Judzhin Miles",
+                    "email": "info@msbios.com"
+                }
+            ],
+            "description": "MSBios Guard Resource",
+            "homepage": "https://github.com/msbios/msbios-guard-resource",
+            "keywords": [
+                "php"
+            ],
+            "time": "2017-11-26T19:38:20+00:00"
         },
         {
             "name": "psr/container",
@@ -1232,54 +1280,6 @@
                 "php"
             ],
             "time": "2018-02-20T08:12:45+00:00"
-        },
-        {
-            "name": "msbios/guard-resource",
-            "version": "v1.0.20",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/msbios/msbios-guard-resource.git",
-                "reference": "03c9f109558bb2666511e80e6c4d5bf6a6022c33"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-guard-resource/zipball/03c9f109558bb2666511e80e6c4d5bf6a6022c33",
-                "reference": "03c9f109558bb2666511e80e6c4d5bf6a6022c33",
-                "shasum": ""
-            },
-            "require-dev": {
-                "msbios/authentication": "^1.0",
-                "msbios/guard": "^1.0",
-                "msbios/resource": "^1.0",
-                "msbios/test": "^1.0"
-            },
-            "type": "library",
-            "extra": {
-                "zf": {
-                    "component": "MSBios\\Guard\\Resource"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "MSBios\\Guard\\Resource\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL"
-            ],
-            "authors": [
-                {
-                    "name": "Judzhin Miles",
-                    "email": "info@msbios.com"
-                }
-            ],
-            "description": "MSBios Guard Resource",
-            "homepage": "https://github.com/msbios/msbios-guard-resource",
-            "keywords": [
-                "php"
-            ],
-            "time": "2017-11-26T19:38:20+00:00"
         },
         {
             "name": "msbios/i18n",

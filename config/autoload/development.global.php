@@ -6,7 +6,6 @@
 
 namespace MSBios\Guard;
 
-use Zend\Router\Http\Literal;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -17,51 +16,18 @@ return [
         'password' => 'root',
     ],
 
-    'router' => [
-        'routes' => [
-            'home' => [
-                'type' => Literal::class,
-                'options' => [
-                    'route' => '/',
-                    'defaults' => [
-                        'controller' => Controller\IndexController::class,
-                        'action' => 'index',
-                    ],
-                ],
-            ],
-        ],
-    ],
-
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
-                Factory\IndexControllerFactory::class,
+                InvokableFactory::class,
+        ],
+        'aliases' => [
+            \MSBios\Application\Controller\IndexController::class =>
+                Controller\IndexController::class
         ]
     ],
 
-    'view_manager' => [
-        //'display_not_found_reason' => true,
-        //'display_exceptions' => true,
-        //'doctype' => 'HTML5',
-        //'not_found_template' => 'error/404',
-        //'exception_template' => 'error/index',
-        //'template_map' => [
-        //    // 'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-        //    // 'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-        //    // 'error/404'               => __DIR__ . '/../view/error/404.phtml',
-        //    // 'error/index'             => __DIR__ . '/../view/error/index.phtml',
-        //],
-        'template_path_stack' => [
-            __DIR__ . '/../../view',
-        ],
-    ],
-
     \MSBios\Assetic\Module::class => [
-
-        'paths' => [
-            __DIR__ . '/../../vendor/msbios/cpanel/themes/limitless/public',
-        ],
-
         'maps' => [
             // css
             'default/css/bootstrap.min.css' =>
@@ -80,41 +46,6 @@ return [
             // imgs
             'default/img/zf-logo-mark.svg' =>
                 __DIR__ . '/../../vendor/msbios/application/themes/default/public/img/zf-logo-mark.svg',
-
-
-//            // css
-//            'limitless/assets/css/icons/fontawesome/styles.min.css' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/icons/fontawesome/styles.min.css',
-//            'limitless/assets/css/bootstrap.css' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/bootstrap.css',
-//            'limitless/assets/css/colors.css' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/colors.css',
-//            'limitless/assets/css/components.css' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/components.css',
-//            'limitless/assets/css/core.css' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/core.css',
-//            'limitless/assets/css/icons/icomoon/styles.css' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/icons/icomoon/styles.css',
-//            'limitless/assets/css/icons/icomoon/fonts/icomoon.woff' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/icons/icomoon/fonts/icomoon.woff',
-//            'limitless/assets/css/icons/icomoon/fonts/icomoon.ttf' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/css/icons/icomoon/fonts/icomoon.ttf',
-//            // js
-//            'limitless/assets/js/plugins/loaders/pace.min.js' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/js/plugins/loaders/pace.min.js',
-//            'limitless/assets/js/core/libraries/jquery.min.js' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/js/core/libraries/jquery.min.js',
-//            'limitless/assets/js/core/libraries/bootstrap.min.js' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/js/core/libraries/bootstrap.min.js',
-//            'limitless/assets/js/plugins/loaders/blockui.min.js' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/js/plugins/loaders/blockui.min.js',
-//            'limitless/assets/js/core/app.js' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/js/core/app.js',
-//            // images
-//            'limitless/assets/images/logo_light.png' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/images/logo_light.png',
-//            'limitless/assets/images/logo_light_msbios.png' =>
-//                __DIR__ . '/../../themes/limitless/public/assets/images/logo_light_msbios.png',
         ],
     ],
 

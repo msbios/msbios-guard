@@ -974,16 +974,16 @@
         },
         {
             "name": "msbios/application",
-            "version": "v1.0.8",
+            "version": "v1.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-application.git",
-                "reference": "41937d817d12b8f7511d958e857c6064fdfb5374"
+                "reference": "a254963d6b5e2067c1568c2a2172625d165a3cdd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-application/zipball/41937d817d12b8f7511d958e857c6064fdfb5374",
-                "reference": "41937d817d12b8f7511d958e857c6064fdfb5374",
+                "url": "https://api.github.com/repos/msbios/msbios-application/zipball/a254963d6b5e2067c1568c2a2172625d165a3cdd",
+                "reference": "a254963d6b5e2067c1568c2a2172625d165a3cdd",
                 "shasum": ""
             },
             "require": {
@@ -1025,7 +1025,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2018-02-21T10:07:15+00:00"
+            "time": "2018-02-28T13:26:09+00:00"
         },
         {
             "name": "msbios/assetic",

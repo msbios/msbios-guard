@@ -1,7 +1,7 @@
 {
   "name": "msbios/guard",
   "description": "MSBios Guard",
-  "license": "GPL",
+  "license": "MIT",
   "keywords": [
     "php"
   ],
@@ -25,13 +25,13 @@
   },
   "require": {
     "zendframework/zend-permissions-acl": "^2.6",
-    "zendframework/zend-http": "^2.6"
+    "zendframework/zend-http": "^2.6",
+    "msbios/guard-resource": "^1.0"
   },
   "require-dev": {
     "msbios/application": "^1.0",
     "msbios/resource": "^1.0",
     "msbios/authentication": "^1.0",
-    "msbios/guard-resource": "^1.0",
     "msbios/debug": "^1.0",
     "msbios/test": "^1.0"
   },

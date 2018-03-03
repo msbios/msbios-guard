@@ -6,56 +6,47 @@
 
 namespace MSBios\Guard\Controller;
 
+use MSBios\Application\Controller\IndexController as DefaultIndexController;
+use MSBios\Authentication\AuthenticationServiceAwareInterface;
+use MSBios\Authentication\AuthenticationServiceAwareTrait;
 use MSBios\Guard\GuardInterface;
 use Zend\Authentication\Adapter\AdapterInterface;
-use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Authentication\Result;
-use Zend\Mvc\Controller\AbstractActionController;
 
 /**
  * Class IndexController
  * @package MSBios\Guard\Controller
  */
-class IndexController extends AbstractActionController implements GuardInterface
+class IndexController extends DefaultIndexController implements
+    GuardInterface,
+    AuthenticationServiceAwareInterface
 {
-
-    /** @var  AuthenticationServiceInterface */
-    protected $authenticationService;
-
-    /**
-     * IndexController constructor.
-     * @param AuthenticationServiceInterface $authenticationService
-     */
-    public function __construct(AuthenticationServiceInterface $authenticationService)
-    {
-        $this->authenticationService = $authenticationService;
-    }
+    use AuthenticationServiceAwareTrait;
 
     /**
      * @return \Zend\Http\Response|\Zend\View\Model\ViewModel
      */
     public function indexAction()
     {
-
         // Logout logic
-        if ($this->params()->fromQuery('logout', false) && $this->authenticationService->hasIdentity()) {
-            $this->authenticationService->clearIdentity();
+        if ($this->params()->fromQuery('logout', false) && $this->getAuthenticationService()->hasIdentity()) {
+            $this->getAuthenticationService()->clearIdentity();
             return $this->redirect()->toRoute('home');
         }
 
         // Login logic
-        if (! $this->authenticationService->hasIdentity() && $this->getRequest()->isPost()) {
+        if (! $this->getAuthenticationService()->hasIdentity() && $this->getRequest()->isPost()) {
 
             /** @var array $data */
             $data = $this->params()->fromPost();
 
             /** @var AdapterInterface $authenticationAdapter */
-            $authenticationAdapter = $this->authenticationService->getAdapter();
+            $authenticationAdapter = $this->getAuthenticationService()->getAdapter();
             $authenticationAdapter->setIdentity($data['username']);
             $authenticationAdapter->setCredential($data['password']);
 
             /** @var Result $authenticationResult */
-            $authenticationResult = $this->authenticationService->authenticate();
+            $authenticationResult = $this->getAuthenticationService()->authenticate();
 
             if ($authenticationResult->isValid()) {
                 // TODO: flash message

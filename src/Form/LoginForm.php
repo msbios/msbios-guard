@@ -23,6 +23,7 @@ class LoginForm extends Form
     public function init()
     {
         parent::init();
+
         $this->add([
             'type' => Text::class,
             'name' => 'username'

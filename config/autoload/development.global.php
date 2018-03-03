@@ -6,9 +6,11 @@
 
 namespace MSBios\Guard;
 
-use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Router\Http\Segment;
 
 return [
+
+
 
     'db' => [
         'dsn' => 'mysql:dbname=portal.dev;host=127.0.0.1',
@@ -16,10 +18,47 @@ return [
         'password' => 'root',
     ],
 
+    'router' => [
+        'routes' => [
+            'home' => [
+                'may_terminate' => true,
+                'child_routes' => [
+                    'login' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'login[/]',
+                            'defaults' => [
+                                'action' => 'login'
+                            ],
+                        ],
+                    ],
+                    'join' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'join[/]',
+                            'defaults' => [
+                                'action' => 'join'
+                            ],
+                        ],
+                    ],
+                    'reset' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'password_reset[/]',
+                            'defaults' => [
+                                'action' => 'reset'
+                            ],
+                        ],
+                    ],
+                ]
+            ],
+        ],
+    ],
+
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
-                InvokableFactory::class,
+                Factory\IndexControllerFactory::class,
         ],
         'aliases' => [
             \MSBios\Application\Controller\IndexController::class =>
@@ -60,7 +99,7 @@ return [
         'resource_providers' => [
             Provider\ResourceProvider::class => [
                 'route/home',
-                Controller\IndexController::class
+                \MSBios\Application\Controller\IndexController::class
             ]
         ],
 
@@ -69,7 +108,8 @@ return [
         'rule_providers' => [
             Provider\RuleProvider::class => [
                 'allow' => [
-                    [['USER'], Controller\IndexController::class],
+                    [['GUEST'], \MSBios\Application\Controller\IndexController::class],
+                    // [['GUEST'], \MSBios\Application\Controller\IndexController::class, 'reset'],
                 ],
                 'deny' => []
             ]

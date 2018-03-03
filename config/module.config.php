@@ -85,6 +85,13 @@ return [
         ]
     ],
 
+    'input_filters' => [
+        'factories' => [
+            InputFilter\LoginInputFilter::class =>
+                InvokableFactory::class
+        ]
+    ],
+
     Module::class => [
 
         // default role for unauthenticated users

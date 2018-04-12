@@ -36,8 +36,7 @@ class IndexController extends DefaultIndexController implements GuardInterface
     public function __construct(
         AuthenticationServiceInterface $authenticationService,
         FormElementManagerV3Polyfill $formElementManager
-    )
-    {
+    ) {
         $this->setAuthenticationService($authenticationService);
         $this->setFormElementManager($formElementManager);
     }
@@ -54,7 +53,7 @@ class IndexController extends DefaultIndexController implements GuardInterface
         }
 
         // Login logic
-        if (!$this->getAuthenticationService()->hasIdentity() && $this->getRequest()->isPost()) {
+        if (! $this->getAuthenticationService()->hasIdentity() && $this->getRequest()->isPost()) {
 
             /** @var array $data */
             $data = $this->params()->fromPost();
@@ -99,10 +98,10 @@ class IndexController extends DefaultIndexController implements GuardInterface
             $data = $this->params()->fromPost();
 
             if ($form->setData($data)->isValid()) {
-
                 $values = $form->getValue();
 
-                var_dump($values); die();
+                var_dump($values);
+                die();
 
                 /** @var AdapterInterface $authenticationAdapter */
                 $authenticationAdapter = $authenticationService->getAdapter();
@@ -146,5 +145,4 @@ class IndexController extends DefaultIndexController implements GuardInterface
     {
         die(__METHOD__);
     }
-
 }

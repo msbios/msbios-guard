@@ -6,11 +6,11 @@
 
 namespace MSBios\Guard;
 
+use MSBios\Db\Initializer\TableManagerInitializer;
+use Zend\Router\Http\Method;
 use Zend\Router\Http\Segment;
 
 return [
-
-
 
     'db' => [
         'dsn' => 'mysql:dbname=portal.dev;host=127.0.0.1',
@@ -31,6 +31,24 @@ return [
                                 'action' => 'login'
                             ],
                         ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            [
+                                'type' => Method::class,
+                                'options' => [
+                                    'verb' => 'post'
+                                ]
+                            ]
+                        ]
+                    ],
+                    'logout' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'logout[/]',
+                            'defaults' => [
+                                'action' => 'logout'
+                            ]
+                        ]
                     ],
                     'join' => [
                         'type' => Segment::class,
@@ -55,6 +73,12 @@ return [
         ],
     ],
 
+    'service_manager' => [
+        'initializers' => [
+            new TableManagerInitializer
+        ],
+    ],
+
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
@@ -64,6 +88,12 @@ return [
             \MSBios\Application\Controller\IndexController::class =>
                 Controller\IndexController::class
         ]
+    ],
+
+    'view_manager' => [
+        'template_map' => [
+            'ms-bios/guard/index/index' => __DIR__ . '/../../view/ms-bios/guard/index/index.phtml',
+        ],
     ],
 
     \MSBios\Assetic\Module::class => [
@@ -108,8 +138,8 @@ return [
         'rule_providers' => [
             Provider\RuleProvider::class => [
                 'allow' => [
-                    [['GUEST'], \MSBios\Application\Controller\IndexController::class],
-                    // [['GUEST'], \MSBios\Application\Controller\IndexController::class, 'reset'],
+                    [['USER'], \MSBios\Application\Controller\IndexController::class, ['index']],
+                    [['GUEST'], \MSBios\Application\Controller\IndexController::class, ['login']],
                 ],
                 'deny' => []
             ]

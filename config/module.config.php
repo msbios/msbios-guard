@@ -35,10 +35,6 @@ return [
             Listener\RouteListener::class =>
                 InvokableFactory::class,
 
-//            // Collectors
-//            Collector\RoleCollector::class =>
-//                Factory\RoleCollectorFactory::class,
-
             // Providers
             Provider\IdentityProviderInterface::class =>
                 Factory\IdentityProviderFactory::class,
@@ -73,15 +69,13 @@ return [
     'view_manager' => [
         'template_map' => [
             'error/403' => __DIR__ . '/../view/error/403.phtml',
-//            'zend-developer-tools/toolbar/msbios-guard-authorize-role' =>
-//                __DIR__ . '/../view/zend-developer-tools/toolbar/msbios-guard-authorize-role.phtml',
         ],
     ],
 
     'form_elements' => [
         'factories' => [
             Form\LoginForm::class =>
-                InvokableFactory::class,
+                Factory\LoginFormFactory::class,
         ]
     ],
 
@@ -89,6 +83,10 @@ return [
         'factories' => [
             InputFilter\LoginInputFilter::class =>
                 InvokableFactory::class
+        ],
+        'aliases' => [
+            Form\LoginForm::class =>
+                InputFilter\LoginInputFilter::class
         ]
     ],
 
@@ -170,17 +168,4 @@ return [
             ],
         ]
     ],
-
-//    'zenddevelopertools' => [
-//        'profiler' => [
-//            'collectors' => [
-//                'msbios_guard_authorize_role_collector' => Collector\RoleCollector::class,
-//            ],
-//        ],
-//        'toolbar' => [
-//            'entries' => [
-//                'msbios_guard_authorize_role_collector' => 'zend-developer-tools/toolbar/msbios-guard-authorize-role',
-//            ],
-//        ],
-//    ],
 ];

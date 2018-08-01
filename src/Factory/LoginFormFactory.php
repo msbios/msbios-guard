@@ -41,7 +41,7 @@ class LoginFormFactory implements FactoryInterface
             $form->setInputFilter(
                 $inputFilterManager->get($requestedName)
             );
-        } else if ($inputFilterManager->has(LoginInputFilter::class)) {
+        } elseif ($inputFilterManager->has(LoginInputFilter::class)) {
             $form->setInputFilter(
                 $inputFilterManager->get($requestedName)
             );

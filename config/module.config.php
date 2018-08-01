@@ -35,9 +35,9 @@ return [
             Listener\RouteListener::class =>
                 InvokableFactory::class,
 
-            // Collectors
-            Collector\RoleCollector::class =>
-                Factory\RoleCollectorFactory::class,
+//            // Collectors
+//            Collector\RoleCollector::class =>
+//                Factory\RoleCollectorFactory::class,
 
             // Providers
             Provider\IdentityProviderInterface::class =>
@@ -64,17 +64,17 @@ return [
     'table_manager' => [
         'aliases' => [
             Authentication\Storage\ResourceStorage::class =>
-                \MSBios\Guard\Resource\Table\UserTableGateway::class,
+                Resource\Table\UserTableGateway::class,
             Provider\Identity\AuthenticationProvider::class =>
-                \MSBios\Guard\Resource\Table\RoleTableGateway::class
+                Resource\Table\RoleTableGateway::class
         ]
     ],
 
     'view_manager' => [
         'template_map' => [
             'error/403' => __DIR__ . '/../view/error/403.phtml',
-            'zend-developer-tools/toolbar/msbios-guard-authorize-role' =>
-                __DIR__ . '/../view/zend-developer-tools/toolbar/msbios-guard-authorize-role.phtml',
+//            'zend-developer-tools/toolbar/msbios-guard-authorize-role' =>
+//                __DIR__ . '/../view/zend-developer-tools/toolbar/msbios-guard-authorize-role.phtml',
         ],
     ],
 
@@ -171,16 +171,16 @@ return [
         ]
     ],
 
-    'zenddevelopertools' => [
-        'profiler' => [
-            'collectors' => [
-                'msbios_guard_authorize_role_collector' => Collector\RoleCollector::class,
-            ],
-        ],
-        'toolbar' => [
-            'entries' => [
-                'msbios_guard_authorize_role_collector' => 'zend-developer-tools/toolbar/msbios-guard-authorize-role',
-            ],
-        ],
-    ],
+//    'zenddevelopertools' => [
+//        'profiler' => [
+//            'collectors' => [
+//                'msbios_guard_authorize_role_collector' => Collector\RoleCollector::class,
+//            ],
+//        ],
+//        'toolbar' => [
+//            'entries' => [
+//                'msbios_guard_authorize_role_collector' => 'zend-developer-tools/toolbar/msbios-guard-authorize-role',
+//            ],
+//        ],
+//    ],
 ];

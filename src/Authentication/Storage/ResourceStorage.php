@@ -11,6 +11,7 @@ use MSBios\Db\TableManagerAwareInterface;
 use MSBios\Db\TableManagerAwareTrait;
 use MSBios\Db\TablePluginManager;
 use MSBios\Guard\Resource\Table\UserTableGateway;
+use Zend\Session\ManagerInterface as SessionManager;
 
 /**
  * Class ResourceStorage
@@ -23,10 +24,14 @@ class ResourceStorage extends DefaultResourceStorage implements TableManagerAwar
     /**
      * ResourceStorage constructor.
      * @param TablePluginManager $tablePluginManager
+     * @param null $namespace
+     * @param null $member
+     * @param SessionManager|null $manager
      */
-    public function __construct(TablePluginManager $tablePluginManager)
+    public function __construct(TablePluginManager $tablePluginManager, $namespace = null, $member = null, SessionManager $manager = null)
     {
-        $this->setTableManager($tablePluginManager);
+        parent::__construct($namespace, $member, $manager);
+            $this->setTableManager($tablePluginManager);
     }
 
     /**

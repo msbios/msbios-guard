@@ -83,10 +83,6 @@ return [
         'factories' => [
             InputFilter\LoginInputFilter::class =>
                 InvokableFactory::class
-        ],
-        'aliases' => [
-            Form\LoginForm::class =>
-                InputFilter\LoginInputFilter::class
         ]
     ],
 

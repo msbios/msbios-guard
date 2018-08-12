@@ -9,11 +9,8 @@ namespace MSBios\Guard\Provider\Identity;
 use MSBios\Authentication\IdentityInterface;
 use MSBios\Guard\Provider\IdentityProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
-use MSBios\Guard\Resource\Table\RoleTableGateway;
-use MSBios\Stdlib\Object;
 use MSBios\Stdlib\ObjectInterface;
 use Zend\Authentication\AuthenticationServiceInterface;
-use Zend\Db\ResultSet\ResultSetInterface;
 
 /**
  * Class AuthenticationProvider
@@ -90,7 +87,7 @@ class AuthenticationProvider implements IdentityProviderInterface
 
             if ($identity instanceof RoleProviderInterface) {
 
-                /** @var Object $role */
+                /** @var ObjectInterface $role */
                 foreach ($identity->getRoles() as $role) {
                     if ($role instanceof ObjectInterface) {
                         $roles[] = $role->getCode();

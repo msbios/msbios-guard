@@ -24,6 +24,7 @@ class ModuleFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
+        // TODO: Remove new Confirg
         return new Config($container->get('config')[Module::class]);
     }
 }

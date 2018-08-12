@@ -23,7 +23,7 @@ return [
             \Zend\Authentication\AuthenticationService::class =>
                 Factory\AuthenticationServiceFactory::class,
             Authentication\Storage\ResourceStorage::class =>
-                InvokableFactory::class,
+                Factory\ResourceStorageFactory::class,
             Authentication\Adapter\ResourceAdapter::class =>
                 Factory\AuthenticationResourceAdapterFactory::class,
 

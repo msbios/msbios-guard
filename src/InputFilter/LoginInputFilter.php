@@ -7,6 +7,8 @@
 namespace MSBios\Guard\InputFilter;
 
 use Zend\InputFilter\InputFilter;
+use Zend\Validator\NotEmpty;
+use Zend\Validator\StringLength;
 
 /**
  * Class LoginInputFilter
@@ -20,22 +22,29 @@ class LoginInputFilter extends InputFilter
     public function init()
     {
         parent::init();
+
         $this->add([
             'name' => 'username',
             'required' => true,
             'validators' => [
-                // [
-                //     'name' => 'not_empty',
-                // ], [
-                //     'name' => 'string_length',
-                //     'options' => [
-                //         'min' => 8
-                //     ],
-                // ],
+                 [
+                     'name' => NotEmpty::class,
+                 ], [
+                     'name' => StringLength::class,
+                     'options' => [
+                         'min' => 8
+                     ],
+                 ],
             ],
         ])->add([
             'name' => 'password',
             'required' => true,
+            'validators' => [
+                // ...
+            ],
+        ])->add([
+            'name' => 'redirect',
+            'required' => false,
             'validators' => [
                 // ...
             ],

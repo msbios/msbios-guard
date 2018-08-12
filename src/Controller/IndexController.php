@@ -13,6 +13,7 @@ use MSBios\Guard\Form\LoginForm;
 use MSBios\Guard\GuardInterface;
 use MSBios\View\Model\ViewModelInterface;
 use Zend\Authentication\Adapter\AdapterInterface;
+use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Authentication\Result;
 use Zend\Form\FormElementManager\FormElementManagerV3Polyfill;
@@ -46,32 +47,6 @@ class IndexController extends DefaultIndexController implements GuardInterface
      */
     public function indexAction()
     {
-        // Logout logic
-        if ($this->params()->fromQuery('logout', false) && $this->getAuthenticationService()->hasIdentity()) {
-            $this->getAuthenticationService()->clearIdentity();
-            return $this->redirect()->toRoute('home');
-        }
-
-        // Login logic
-        if (! $this->getAuthenticationService()->hasIdentity() && $this->getRequest()->isPost()) {
-
-            /** @var array $data */
-            $data = $this->params()->fromPost();
-
-            /** @var AdapterInterface $authenticationAdapter */
-            $authenticationAdapter = $this->getAuthenticationService()->getAdapter();
-            $authenticationAdapter->setIdentity($data['username']);
-            $authenticationAdapter->setCredential($data['password']);
-
-            /** @var Result $authenticationResult */
-            $authenticationResult = $this->getAuthenticationService()->authenticate();
-
-            if ($authenticationResult->isValid()) {
-                // TODO: flash message
-                return $this->redirect()->toRoute('home');
-            }
-        }
-
         return parent::indexAction();
     }
 
@@ -80,52 +55,38 @@ class IndexController extends DefaultIndexController implements GuardInterface
      */
     public function loginAction()
     {
-
         /** @var AuthenticationServiceInterface $authenticationService */
         $authenticationService = $this->getAuthenticationService();
 
-        if ($authenticationService->hasIdentity()) {
-            return $this->redirect()->toRoute('home');
-        }
+        /** @var array $data */
+        $data = $this->params()->fromPost();
 
         /** @var FormInterface $form */
         $form = $this->getFormElementManager()
             ->get(LoginForm::class);
 
-        if ($this->getRequest()->isPost()) {
+        if ($form->setData($data)->isValid()) {
 
-            /** @var array $data */
-            $data = $this->params()->fromPost();
+            /** @var array $values */
+            $values = $form->getData();
 
-            if ($form->setData($data)->isValid()) {
-                $values = $form->getValue();
+            /** @var AdapterInterface $authenticationAdapter */
+            $authenticationAdapter = $authenticationService->getAdapter();
+            $authenticationAdapter->setIdentity($values['username']);
+            $authenticationAdapter->setCredential($values['password']);
 
-                var_dump($values);
-                die();
+            /** @var Result $authenticationResult */
+            $authenticationResult = $authenticationService->authenticate();
 
-                /** @var AdapterInterface $authenticationAdapter */
-                $authenticationAdapter = $authenticationService->getAdapter();
-                $authenticationAdapter->setIdentity($values['username']);
-                $authenticationAdapter->setCredential($values['password']);
-
-                /** @var Result $authenticationResult */
-                $authenticationResult = $authenticationService->authenticate();
-
-                if ($authenticationResult->isValid()) {
-                    // TODO: flash message
-                    return $this->redirect()->toRoute('home');
-                }
+            if ($authenticationResult->isValid()) {
+                // TODO: flash message
+                return $this->redirect()->toRoute('home');
             }
         }
 
-
-
-        /** @var ViewModelInterface $viewModel */
-        $viewModel = new ViewModel([
+        return (new ViewModel([
             'form' => $form
-        ]);
-
-        return $viewModel->setTemplate('error/403');
+        ]))->setTemplate('error/403');
     }
 
     public function joinAction()
@@ -141,8 +102,12 @@ class IndexController extends DefaultIndexController implements GuardInterface
         return new ViewModel;
     }
 
+    /**
+     * @return \Zend\Http\Response
+     */
     public function logoutAction()
     {
-        die(__METHOD__);
+            $this->authenticationService->clearIdentity();
+            return $this->redirect()->toRoute('home');
     }
 }

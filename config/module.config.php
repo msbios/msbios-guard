@@ -59,8 +59,6 @@ return [
 
     'table_manager' => [
         'aliases' => [
-            Authentication\Storage\ResourceStorage::class =>
-                Resource\Table\UserTableGateway::class,
             Provider\Identity\AuthenticationProvider::class =>
                 Resource\Table\RoleTableGateway::class
         ]

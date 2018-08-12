@@ -9,6 +9,8 @@ namespace MSBios\Guard\Authentication\Storage;
 use MSBios\Authentication\Storage\ResourceStorage as DefaultResourceStorage;
 use MSBios\Db\TableManagerAwareInterface;
 use MSBios\Db\TableManagerAwareTrait;
+use MSBios\Db\TablePluginManager;
+use MSBios\Guard\Resource\Table\UserTableGateway;
 
 /**
  * Class ResourceStorage
@@ -19,6 +21,15 @@ class ResourceStorage extends DefaultResourceStorage implements TableManagerAwar
     use TableManagerAwareTrait;
 
     /**
+     * ResourceStorage constructor.
+     * @param TablePluginManager $tablePluginManager
+     */
+    public function __construct(TablePluginManager $tablePluginManager)
+    {
+        $this->setTableManager($tablePluginManager);
+    }
+
+    /**
      * @return string
      */
     public function read()
@@ -27,7 +38,10 @@ class ResourceStorage extends DefaultResourceStorage implements TableManagerAwar
         $identity = parent::read();
 
         if (! empty($identity) && is_string($identity)) {
-            $table = $this->getTableManager()->get(get_class($this));
+            $table = $this
+                ->getTableManager()
+                ->get(UserTableGateway::class);
+
             return $table->fetchOneByUsername($identity);
         }
 

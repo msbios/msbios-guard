@@ -7,13 +7,12 @@
 namespace MSBios\Guard\Controller;
 
 use MSBios\Application\Controller\IndexController as DefaultIndexController;
+use MSBios\Authentication\AuthenticationService;
 use MSBios\Authentication\AuthenticationServiceAwareTrait;
 use MSBios\Form\FormElementManagerAwareTrait;
 use MSBios\Guard\Form\LoginForm;
 use MSBios\Guard\GuardInterface;
-use MSBios\View\Model\ViewModelInterface;
 use Zend\Authentication\Adapter\AdapterInterface;
-use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Authentication\Result;
 use Zend\Form\FormElementManager\FormElementManagerV3Polyfill;
@@ -43,45 +42,46 @@ class IndexController extends DefaultIndexController implements GuardInterface
     }
 
     /**
-     * @return \Zend\Http\Response|\Zend\View\Model\ViewModel
-     */
-    public function indexAction()
-    {
-        return parent::indexAction();
-    }
-
-    /**
      * @return \Zend\Http\Response|ViewModel
      */
     public function loginAction()
     {
-        /** @var AuthenticationServiceInterface $authenticationService */
+        /** @var AuthenticationServiceInterface|AuthenticationService $authenticationService */
         $authenticationService = $this->getAuthenticationService();
-
-        /** @var array $data */
-        $data = $this->params()->fromPost();
 
         /** @var FormInterface $form */
         $form = $this->getFormElementManager()
             ->get(LoginForm::class);
 
-        if ($form->setData($data)->isValid()) {
+        if ($this->getRequest()->isPost()) {
 
-            /** @var array $values */
-            $values = $form->getData();
+            /** @var array $data */
+            $data = $this->params()
+                ->fromPost();
 
-            /** @var AdapterInterface $authenticationAdapter */
-            $authenticationAdapter = $authenticationService->getAdapter();
-            $authenticationAdapter->setIdentity($values['username']);
-            $authenticationAdapter->setCredential($values['password']);
+            if ($form->setData($data)->isValid()) {
 
-            /** @var Result $authenticationResult */
-            $authenticationResult = $authenticationService->authenticate();
+                /** @var array $values */
+                $values = $form->getData();
 
-            if ($authenticationResult->isValid()) {
-                // TODO: flash message
-                return $this->redirect()->toRoute('home');
+                /** @var AdapterInterface $authenticationAdapter */
+                $authenticationAdapter = $authenticationService->getAdapter();
+                $authenticationAdapter->setIdentity($values['username']);
+                $authenticationAdapter->setCredential($values['password']);
+
+                /** @var Result $authenticationResult */
+                $authenticationResult = $authenticationService->authenticate();
+
+                if ($authenticationResult->isValid()) {
+                    // TODO: flash message
+                    return $this->redirect()->toRoute('home');
+                } else {
+                    var_dump($authenticationResult->getMessages()); die();
+                }
+            } else {
+                var_dump($form->getMessages()); die();
             }
+
         }
 
         return (new ViewModel([

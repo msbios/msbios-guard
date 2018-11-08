@@ -7,20 +7,20 @@
 namespace MSBios\Guard\Authentication\Storage;
 
 use MSBios\Authentication\IdentityInterface;
-use MSBios\Authentication\Storage\ResourceStorage as DefaultResourceStorage;
 use MSBios\Db\TableManagerAwareInterface;
 use MSBios\Db\TableManagerAwareTrait;
 use MSBios\Db\TablePluginManager;
 use MSBios\Guard\Resource\Table\RoleTableGateway;
 use MSBios\Guard\Resource\Table\UserTableGateway;
 use MSBios\Guard\Resource\UserInterface;
+use Zend\Authentication\Storage\Session;
 use Zend\Session\ManagerInterface as SessionManager;
 
 /**
- * Class ResourceStorage
+ * Class SessionStorage
  * @package MSBios\Guard\Authentication\Storage
  */
-class ResourceStorage extends DefaultResourceStorage implements TableManagerAwareInterface
+class SessionStorage extends Session implements TableManagerAwareInterface
 {
     use TableManagerAwareTrait;
 

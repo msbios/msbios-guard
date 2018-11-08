@@ -6,8 +6,8 @@
 namespace MSBios\Guard\Factory;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Authentication\Adapter\ResourceAdapter;
-use MSBios\Guard\Authentication\Storage\ResourceStorage;
+use MSBios\Guard\Authentication\Adapter\CallbackCheckAdapter;
+use MSBios\Guard\Authentication\Storage\SessionStorage;
 use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -26,8 +26,8 @@ class AuthenticationServiceFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         return new AuthenticationService(
-            $container->get(ResourceStorage::class),
-            $container->get(ResourceAdapter::class)
+            $container->get(SessionStorage::class),
+            $container->get(CallbackCheckAdapter::class)
         );
     }
 }

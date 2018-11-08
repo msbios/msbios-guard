@@ -20,12 +20,8 @@ return [
     'service_manager' => [
         'factories' => [
             // Authentication Service
-            \Zend\Authentication\AuthenticationService::class =>
-                Factory\AuthenticationServiceFactory::class,
-            Authentication\Storage\ResourceStorage::class =>
+            Authentication\Storage\SessionStorage::class =>
                 Factory\ResourceStorageFactory::class,
-            Authentication\Adapter\ResourceAdapter::class =>
-                Factory\AuthenticationResourceAdapterFactory::class,
 
             // Listeners
             Listener\DispatchListener::class =>
@@ -82,6 +78,12 @@ return [
             InputFilter\LoginInputFilter::class =>
                 InvokableFactory::class
         ]
+    ],
+
+    \MSBios\Authentication\Module::class => [
+
+        'default_authentication_storage' =>
+            Authentication\Storage\SessionStorage::class,
     ],
 
     Module::class => [

@@ -8,6 +8,8 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
+        'MSBios\Validator',
+        'Zend\Paginator',
         'MSBios\Guard\DeveloperTools',
         'MSBios\Cache',
         'Zend\Cache',
@@ -38,7 +40,6 @@ return [
         'MSBios\Guard',
         'MSBios\Resource',
         'MSBios\Guard\Resource',
-        'Zend\Log',
         'ZendDeveloperTools',
     ],
     'module_listener_options' => [

@@ -25,9 +25,9 @@ class RoleProvider implements RoleProviderInterface, ProviderInterface
     /**
      * RoleProvider constructor.
      * @param ServiceLocatorInterface $serviceLocator
-     * @param Config|null $config
+     * @param array|null $options
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator, Config $config = null)
+    public function __construct(ServiceLocatorInterface $serviceLocator, array $options = null)
     {
         $this->serviceLocator = $serviceLocator;
 
@@ -38,7 +38,7 @@ class RoleProvider implements RoleProviderInterface, ProviderInterface
          * @var mixed $key
          * @var mixed $value
          */
-        foreach ($config as $key => $value) {
+        foreach ($options as $key => $value) {
             if (is_string($value)) {
                 $roles = ArrayUtils::merge($roles, $this->loadRole($value));
             }
@@ -53,16 +53,18 @@ class RoleProvider implements RoleProviderInterface, ProviderInterface
 
     /**
      * @param $identifier
-     * @param Config|null $children
+     * @param array|null $children
      * @param null $parent
      * @return array
      */
-    protected function loadRole($identifier, Config $children = null, $parent = null)
+    protected function loadRole($identifier, array $children = null, $parent = null)
     {
         /** @var array $roles */
         $roles = [];
+
         /** @var string $role */
         $role = new Role($identifier, $parent);
+
         $roles[] = $role;
 
         if (! is_null($children)) {

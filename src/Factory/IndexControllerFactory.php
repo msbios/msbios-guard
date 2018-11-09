@@ -6,7 +6,6 @@
 namespace MSBios\Guard\Factory;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Controller\IndexController;
 use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -20,11 +19,11 @@ class IndexControllerFactory implements FactoryInterface
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return IndexController
+     * @return mixed|object
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        return new IndexController(
+        return new $requestedName(
             $container->get(AuthenticationService::class),
             $container->get('FormElementManager')
         );

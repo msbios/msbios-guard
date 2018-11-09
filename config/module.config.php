@@ -6,6 +6,7 @@
 
 namespace MSBios\Guard;
 
+use MSBios\Factory\ModuleFactory;
 use Zend\Router\Http\Method;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -102,7 +103,7 @@ return [
 
             // Customs
             Module::class =>
-                Factory\ModuleFactory::class
+                ModuleFactory::class
         ],
     ],
 

@@ -88,11 +88,11 @@ interface GuardManagerInterface extends InitializableInterface
     public function addResources($resources);
 
     /**
-     * @param Config $rule
+     * @param array $rule
      * @param $type
-     * @return $this
+     * @return mixed
      */
-    public function addRule(Config $rule, $type);
+    public function addRule(array $rule, $type);
 
     /**
      * @return string

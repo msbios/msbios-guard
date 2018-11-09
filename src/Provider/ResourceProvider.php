@@ -25,12 +25,12 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
     /**
      * ResourceProvider constructor.
      * @param ServiceLocatorInterface $serviceLocator
-     * @param Config|null $config
+     * @param array|null $options
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator, Config $config = null)
+    public function __construct(ServiceLocatorInterface $serviceLocator, array $options = null)
     {
         $this->serviceLocator = $serviceLocator;
-        $this->resources = $config;
+        $this->resources = $options;
 
         /** @var array $resources */
         $resources = [];
@@ -39,7 +39,7 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
          * @var mixed $key
          * @var mixed $value
          */
-        foreach ($config as $key => $value) {
+        foreach ($options as $key => $value) {
             if (is_string($value)) {
                 $resources = ArrayUtils::merge($resources, $this->loadResource($value));
             }
@@ -54,11 +54,11 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
 
     /**
      * @param $identifier
-     * @param Config|null $children
+     * @param array|null $children
      * @param Resource|null $parent
      * @return array
      */
-    protected function loadResource($identifier, Config $children = null, Resource $parent = null)
+    protected function loadResource($identifier, array $children = null, Resource $parent = null)
     {
         /** @var array $resources */
         $resources = [];

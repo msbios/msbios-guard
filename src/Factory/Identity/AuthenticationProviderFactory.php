@@ -12,6 +12,7 @@ use MSBios\Guard\Provider\IdentityProviderInterface;
 use Zend\Authentication\AuthenticationService;
 use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
+use Zend\Stdlib\ArrayUtils;
 
 /**
  * Class AuthenticationProviderFactory
@@ -27,8 +28,12 @@ class AuthenticationProviderFactory implements FactoryInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var Config $config */
-        $config = $container->get(Module::class);
+        /** @var array $defaultOptions */
+        $defaultOptions = $container->get(Module::class);
+
+        /** @var array $options */
+        $options = is_null($options)
+            ? $defaultOptions : ArrayUtils::merge($defaultOptions, $options);
 
         /** @var IdentityProviderInterface $identityProvider */
         $identityProvider = new AuthenticationProvider(
@@ -36,8 +41,8 @@ class AuthenticationProviderFactory implements FactoryInterface
         );
 
         $identityProvider
-            ->setDefaultRole($config->get('default_role'))
-            ->setAuthenticatedRole($config->get('authenticated_role'));
+            ->setDefaultRole($options['default_role'])
+            ->setAuthenticatedRole($options['authenticated_role']);
 
         return $identityProvider;
     }

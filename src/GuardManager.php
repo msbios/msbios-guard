@@ -260,25 +260,25 @@ class GuardManager implements GuardManagerInterface
     }
 
     /**
-     * @param Config $rule
+     * @param array $rule
      * @param $type
-     * @return $this
+     * @return $this|GuardManagerInterface
      */
-    public function addRule(Config $rule, $type)
+    public function addRule(array $rule, $type)
     {
 
         /** @var null $privileges */
         $privileges = $assertion = null;
 
-        switch ($rule->count()) {
+        switch (count($rule)) {
             case 4:
-                list($roles, $resources, $privileges, $assertion) = $rule->toArray();
+                list($roles, $resources, $privileges, $assertion) = $rule;
                 break;
             case 3:
-                list($roles, $resources, $privileges) = $rule->toArray();
+                list($roles, $resources, $privileges) = $rule;
                 break;
             case 2:
-                list($roles, $resources) = $rule->toArray();
+                list($roles, $resources) = $rule;
                 break;
             default:
                 throw new InvalidArgumentException("Invalid rule definition: " . print_r($rule, true));

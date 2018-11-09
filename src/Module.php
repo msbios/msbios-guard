@@ -55,8 +55,7 @@ class Module implements
         $serviceManager = $target->getServiceManager();
 
         (new LazyListenerAggregate(
-            // TODO: Remove ->toArray() must be array
-            $serviceManager->get(self::class)->get('listeners')->toArray(),
+            $serviceManager->get(self::class)['listeners'],
             $serviceManager
         ))->attach($target->getEventManager());
     }

@@ -20,7 +20,7 @@ class ResourceStorageFactory implements FactoryInterface
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return SessionStorage
+     * @return SessionStorage|object
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {

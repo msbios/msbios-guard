@@ -23,12 +23,12 @@ class RuleProvider implements RuleProviderInterface, ProviderInterface
     /**
      * RuleProvider constructor.
      * @param ServiceLocatorInterface $serviceLocator
-     * @param Config|null $config
+     * @param array|null $rules
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator, Config $config = null)
+    public function __construct(ServiceLocatorInterface $serviceLocator, array $rules = null)
     {
         $this->serviceLocator = $serviceLocator;
-        $this->rules = $config;
+        $this->rules = $rules;
     }
 
     /**

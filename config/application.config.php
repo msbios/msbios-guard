@@ -39,6 +39,7 @@ return [
         'MSBios\Application',
         'MSBios\Authentication',
         'MSBios\Resource',
+
         'MSBios\Guard',
         'MSBios\Guard\Resource',
         'MSBios\Guard\DeveloperTools',

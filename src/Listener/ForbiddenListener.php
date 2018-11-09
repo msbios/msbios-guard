@@ -46,7 +46,7 @@ class ForbiddenListener
         /** @var ViewModel $viewModel */
         $viewModel = new ViewModel;
         $viewModel->setTemplate(
-            $serviceManager->get(Module::class)->get('template')
+            $serviceManager->get(Module::class)['template']
         );
 
         // r($this); die();

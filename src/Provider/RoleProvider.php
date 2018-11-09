@@ -43,7 +43,7 @@ class RoleProvider implements RoleProviderInterface, ProviderInterface
                 $roles = ArrayUtils::merge($roles, $this->loadRole($value));
             }
 
-            if ($value instanceof Config && is_string($key)) {
+            if (is_array($value)) {
                 $roles = ArrayUtils::merge($roles, $this->loadRole($key, $value));
             }
         }
@@ -73,7 +73,6 @@ class RoleProvider implements RoleProviderInterface, ProviderInterface
                     $roles = ArrayUtils::merge($roles, $this->loadRole($value, null, $role));
                     continue;
                 }
-
                 $roles = ArrayUtils::merge($roles, $this->loadRole($key, $value, $role));
             }
         }

@@ -7,6 +7,7 @@
 namespace MSBios\Guard;
 
 use MSBios\Db\Initializer\TableManagerInitializer;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
 
@@ -25,7 +26,7 @@ return [
     'controllers' => [
         'factories' => [
             Controller\IndexController::class =>
-                Factory\IndexControllerFactory::class,
+                InvokableFactory::class,
         ],
         'aliases' => [
             \MSBios\Application\Controller\IndexController::class =>
@@ -72,7 +73,6 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
             Provider\ResourceProvider::class => [
-                'route/home',
                 \MSBios\Application\Controller\IndexController::class
             ]
         ],
@@ -82,10 +82,7 @@ return [
         'rule_providers' => [
             Provider\RuleProvider::class => [
                 'allow' => [
-                    [['USER'], \MSBios\Application\Controller\IndexController::class, ['index']],
-                    [['GUEST'], \MSBios\Application\Controller\IndexController::class, [
-                        'login', 'join', 'reset'
-                    ]],
+                    [['USER'], \MSBios\Application\Controller\IndexController::class],
                 ],
                 'deny' => []
             ]

@@ -10,10 +10,10 @@ use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class IndexControllerFactory
+ * Class GuardControllerFactory
  * @package MSBios\Guard\Factory
  */
-class IndexControllerFactory implements FactoryInterface
+class GuardControllerFactory implements FactoryInterface
 {
     /**
      * @param ContainerInterface $container

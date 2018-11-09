@@ -21,6 +21,7 @@ class RouteMatch extends DefaultRouteMatch implements GuardInterface
     public function __construct(DefaultRouteMatch $routeMatch)
     {
         $this->setMatchedRouteName($routeMatch->getMatchedRouteName());
+
         parent::__construct(
             $routeMatch->getParams(),
             $routeMatch->getLength()

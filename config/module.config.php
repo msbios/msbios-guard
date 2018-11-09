@@ -26,6 +26,7 @@ return [
                         'options' => [
                             'route' => 'login[/]',
                             'defaults' => [
+                                'controller' => Controller\GuardController::class,
                                 'action' => 'login'
                             ],
                         ],
@@ -44,6 +45,7 @@ return [
                         'options' => [
                             'route' => 'logout[/]',
                             'defaults' => [
+                                'controller' => Controller\GuardController::class,
                                 'action' => 'logout'
                             ]
                         ]
@@ -53,6 +55,7 @@ return [
                         'options' => [
                             'route' => 'join[/]',
                             'defaults' => [
+                                'controller' => Controller\GuardController::class,
                                 'action' => 'join'
                             ],
                         ],
@@ -62,6 +65,7 @@ return [
                         'options' => [
                             'route' => 'password_reset[/]',
                             'defaults' => [
+                                'controller' => Controller\GuardController::class,
                                 'action' => 'reset'
                             ],
                         ],
@@ -69,6 +73,13 @@ return [
                 ],
             ],
         ],
+    ],
+
+    'controllers' => [
+        'factories' => [
+            Controller\GuardController::class =>
+                Factory\GuardControllerFactory::class,
+        ]
     ],
 
     'service_manager' => [
@@ -118,10 +129,10 @@ return [
         'template_map' => [
             'error/403' =>
                 __DIR__ . '/../view/error/403.phtml',
-            'ms-bios/guard/index/join' =>
-                __DIR__ . '/../view/ms-bios/guard/index/join.phtml',
-            'ms-bios/guard/index/reset' =>
-                __DIR__ . '/../view/ms-bios/guard/index/reset.phtml',
+            'ms-bios/guard/guard/join' =>
+                __DIR__ . '/../view/ms-bios/guard/guard/join.phtml',
+            'ms-bios/guard/guard/reset' =>
+                __DIR__ . '/../view/ms-bios/guard/guard/reset.phtml',
         ],
     ],
 
@@ -140,7 +151,6 @@ return [
     ],
 
     \MSBios\Authentication\Module::class => [
-
         'default_authentication_storage' =>
             Authentication\Storage\SessionStorage::class,
     ],
@@ -179,12 +189,12 @@ return [
                             'ADMIN' => [
                                 'SUPERADMIN' => [
                                     'DEVELOPER'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ],
 
         // Resource providers to be used to load all available resources into Zend\Permissions\Acl\Acl

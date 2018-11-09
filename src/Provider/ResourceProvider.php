@@ -44,7 +44,7 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
                 $resources = ArrayUtils::merge($resources, $this->loadResource($value));
             }
 
-            if ($value instanceof Config && is_string($key)) {
+            if (is_array($value)) {
                 $resources = ArrayUtils::merge($resources, $this->loadResource($key, $value));
             }
         }

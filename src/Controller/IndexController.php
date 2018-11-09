@@ -8,7 +8,9 @@ namespace MSBios\Guard\Controller;
 
 use MSBios\Application\Controller\IndexController as DefaultIndexController;
 use MSBios\Authentication\AuthenticationService;
+use MSBios\Authentication\AuthenticationServiceAwareInterface;
 use MSBios\Authentication\AuthenticationServiceAwareTrait;
+use MSBios\Form\FormElementManagerAwareInterface;
 use MSBios\Form\FormElementManagerAwareTrait;
 use MSBios\Guard\Form\LoginForm;
 use MSBios\Guard\GuardInterface;
@@ -23,7 +25,10 @@ use Zend\View\Model\ViewModel;
  * Class IndexController
  * @package MSBios\Guard\Controller
  */
-class IndexController extends DefaultIndexController implements GuardInterface
+class IndexController extends DefaultIndexController implements
+    AuthenticationServiceAwareInterface,
+    FormElementManagerAwareInterface,
+    GuardInterface
 {
     use AuthenticationServiceAwareTrait;
     use FormElementManagerAwareTrait;
@@ -73,15 +78,15 @@ class IndexController extends DefaultIndexController implements GuardInterface
                 $authenticationResult = $authenticationService->authenticate();
 
                 if ($authenticationResult->isValid()) {
-                    // TODO: flash message
                     return $this->redirect()->toRoute('home');
                 } else {
-                    var_dump($authenticationResult->getMessages()); die();
+                    var_dump($authenticationResult->getMessages());
+                    die();
                 }
             } else {
-                var_dump($form->getMessages()); die();
+                var_dump($form->getMessages());
+                die();
             }
-
         }
 
         return (new ViewModel([
@@ -89,9 +94,12 @@ class IndexController extends DefaultIndexController implements GuardInterface
         ]))->setTemplate('error/403');
     }
 
+    /**
+     * @return ViewModel
+     */
     public function joinAction()
     {
-        die(__METHOD__);
+        return new ViewModel;
     }
 
     /**
@@ -107,7 +115,9 @@ class IndexController extends DefaultIndexController implements GuardInterface
      */
     public function logoutAction()
     {
-            $this->authenticationService->clearIdentity();
-            return $this->redirect()->toRoute('home');
+        $this->getAuthenticationService()
+            ->clearIdentity();
+        return $this->redirect()
+            ->toRoute('home');
     }
 }

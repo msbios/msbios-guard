@@ -990,16 +990,16 @@
         },
         {
             "name": "msbios/authentication",
-            "version": "v1.0.13",
+            "version": "v1.0.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/msbios/msbios-authentication.git",
-                "reference": "16cecc6871f19aa1cc42e0638043297e3be0cc01"
+                "reference": "9bf9b29e70e0a01d51e7f7b3947417a11c737e7e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/msbios/msbios-authentication/zipball/16cecc6871f19aa1cc42e0638043297e3be0cc01",
-                "reference": "16cecc6871f19aa1cc42e0638043297e3be0cc01",
+                "url": "https://api.github.com/repos/msbios/msbios-authentication/zipball/9bf9b29e70e0a01d51e7f7b3947417a11c737e7e",
+                "reference": "9bf9b29e70e0a01d51e7f7b3947417a11c737e7e",
                 "shasum": ""
             },
             "require": {
@@ -1036,7 +1036,7 @@
             "keywords": [
                 "php"
             ],
-            "time": "2018-11-08T21:52:19+00:00"
+            "time": "2018-11-09T11:44:18+00:00"
         },
         {
             "name": "msbios/cache",

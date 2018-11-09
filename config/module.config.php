@@ -6,15 +6,68 @@
 
 namespace MSBios\Guard;
 
+use Zend\Router\Http\Method;
+use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
-
     'router' => [
         'router_class' => Router\Http\TreeRouteStack::class,
         'default_params' => [
             // Specify default parameters here for all routes here ...
-        ]
+        ],
+        'routes' => [
+            'home' => [
+                'may_terminate' => true,
+                'child_routes' => [
+                    'login' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'login[/]',
+                            'defaults' => [
+                                'action' => 'login'
+                            ],
+                        ],
+                        'may_terminate' => true,
+                        'child_routes' => [
+                            [
+                                'type' => Method::class,
+                                'options' => [
+                                    'verb' => 'post'
+                                ]
+                            ]
+                        ]
+                    ],
+                    'logout' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'logout[/]',
+                            'defaults' => [
+                                'action' => 'logout'
+                            ]
+                        ]
+                    ],
+                    'join' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'join[/]',
+                            'defaults' => [
+                                'action' => 'join'
+                            ],
+                        ],
+                    ],
+                    'reset' => [
+                        'type' => Segment::class,
+                        'options' => [
+                            'route' => 'password_reset[/]',
+                            'defaults' => [
+                                'action' => 'reset'
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ],
     ],
 
     'service_manager' => [
@@ -62,7 +115,12 @@ return [
 
     'view_manager' => [
         'template_map' => [
-            'error/403' => __DIR__ . '/../view/error/403.phtml',
+            'error/403' =>
+                __DIR__ . '/../view/error/403.phtml',
+            'ms-bios/guard/index/join' =>
+                __DIR__ . '/../view/ms-bios/guard/index/join.phtml',
+            'ms-bios/guard/index/reset' =>
+                __DIR__ . '/../view/ms-bios/guard/index/reset.phtml',
         ],
     ],
 

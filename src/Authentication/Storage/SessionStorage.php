@@ -25,7 +25,7 @@ class SessionStorage extends Session implements TableManagerAwareInterface
     use TableManagerAwareTrait;
 
     /**
-     * ResourceStorage constructor.
+     * SessionStorage constructor.
      * @param TablePluginManager $tablePluginManager
      * @param null $namespace
      * @param null $member

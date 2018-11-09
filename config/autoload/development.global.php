@@ -7,8 +7,6 @@
 namespace MSBios\Guard;
 
 use MSBios\Db\Initializer\TableManagerInitializer;
-use Zend\Router\Http\Method;
-use Zend\Router\Http\Segment;
 
 return [
 
@@ -16,61 +14,6 @@ return [
         'dsn' => 'mysql:dbname=portal.dev;host=127.0.0.1',
         'username' => 'root',
         'password' => 'root',
-    ],
-
-    'router' => [
-        'routes' => [
-            'home' => [
-                'may_terminate' => true,
-                'child_routes' => [
-                    'login' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'login[/]',
-                            'defaults' => [
-                                'action' => 'login'
-                            ],
-                        ],
-                        'may_terminate' => true,
-                        'child_routes' => [
-                            [
-                                'type' => Method::class,
-                                'options' => [
-                                    'verb' => 'post'
-                                ]
-                            ]
-                        ]
-                    ],
-                    'logout' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'logout[/]',
-                            'defaults' => [
-                                'action' => 'logout'
-                            ]
-                        ]
-                    ],
-                    'join' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'join[/]',
-                            'defaults' => [
-                                'action' => 'join'
-                            ],
-                        ],
-                    ],
-                    'reset' => [
-                        'type' => Segment::class,
-                        'options' => [
-                            'route' => 'password_reset[/]',
-                            'defaults' => [
-                                'action' => 'reset'
-                            ],
-                        ],
-                    ],
-                ]
-            ],
-        ],
     ],
 
     'service_manager' => [
@@ -92,7 +35,8 @@ return [
 
     'view_manager' => [
         'template_map' => [
-            'ms-bios/guard/index/index' => __DIR__ . '/../../view/ms-bios/guard/index/index.phtml',
+            'ms-bios/guard/index/index' =>
+                __DIR__ . '/../../view/ms-bios/guard/index/index.phtml',
         ],
     ],
 
@@ -139,7 +83,9 @@ return [
             Provider\RuleProvider::class => [
                 'allow' => [
                     [['USER'], \MSBios\Application\Controller\IndexController::class, ['index']],
-                    [['GUEST'], \MSBios\Application\Controller\IndexController::class, ['login']],
+                    [['GUEST'], \MSBios\Application\Controller\IndexController::class, [
+                        'login', 'join', 'reset'
+                    ]],
                 ],
                 'deny' => []
             ]

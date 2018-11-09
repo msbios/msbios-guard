@@ -8,16 +8,13 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
-        'MSBios\Validator',
+
         'Zend\Paginator',
-        'MSBios\Guard\DeveloperTools',
-        'MSBios\Cache',
         'Zend\Cache',
         'Zend\Serializer',
         'Zend\Hydrator',
         'Zend\InputFilter',
         'Zend\Filter',
-        'MSBios\View',
         'Zend\Db',
         'Zend\Mvc\Plugin\Prg',
         'Zend\Mvc\Plugin\Identity',
@@ -27,6 +24,10 @@ return [
         'Zend\Router',
         'Zend\Form',
         'Zend\I18n',
+
+        'MSBios\Validator',
+        'MSBios\Cache',
+        'MSBios\View',
         'MSBios\Test',
         'MSBios\I18n',
         'MSBios\Db',
@@ -37,9 +38,11 @@ return [
         'MSBios\Navigation',
         'MSBios\Application',
         'MSBios\Authentication',
-        'MSBios\Guard',
         'MSBios\Resource',
+        'MSBios\Guard',
         'MSBios\Guard\Resource',
+        'MSBios\Guard\DeveloperTools',
+
         'ZendDeveloperTools',
     ],
     'module_listener_options' => [

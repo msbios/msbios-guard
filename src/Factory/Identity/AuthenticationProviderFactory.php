@@ -10,7 +10,6 @@ use MSBios\Guard\Module;
 use MSBios\Guard\Provider\Identity\AuthenticationProvider;
 use MSBios\Guard\Provider\IdentityProviderInterface;
 use Zend\Authentication\AuthenticationService;
-use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\Stdlib\ArrayUtils;
 

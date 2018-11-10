@@ -11,7 +11,6 @@ use MSBios\Guard\Provider\IdentityProviderInterface;
 use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
-use Zend\Config\Config;
 use Zend\Permissions\Acl\Acl;
 use Zend\Stdlib\InitializableInterface;
 

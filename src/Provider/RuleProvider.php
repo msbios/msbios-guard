@@ -5,7 +5,6 @@
  */
 namespace MSBios\Guard\Provider;
 
-use Zend\Config\Config;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**

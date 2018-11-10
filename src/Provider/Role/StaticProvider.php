@@ -14,29 +14,28 @@ use Zend\Config\Config;
  */
 class StaticProvider implements RoleProviderInterface
 {
-    /** @var Config */
-    protected $config;
+    /** @var array */
+    protected $roles;
 
     /**
      * StaticProvider constructor.
-     * @param Config $config
+     * @param array $roles
      */
-    public function __construct(Config $config)
+    public function __construct(array $roles)
     {
-        $this->config = $config;
+        $this->roles = $roles;
     }
 
     /**
-     * @return mixed
+     * @return array|mixed
      */
     public function getRoles()
     {
-        /** @var array $data */
-        $data = $this->config->toArray();
-
-        foreach ($data as $item) {
+        /** @var mixed $role */
+        foreach ($this->roles as $role) {
+            // ...
         }
 
-        // TODO: Implement getRoles() method.
+        return $this->roles;
     }
 }

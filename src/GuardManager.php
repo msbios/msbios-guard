@@ -13,7 +13,6 @@ use MSBios\Guard\Provider\IdentityProviderInterface;
 use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
-use Zend\Config\Config;
 use Zend\Permissions\Acl\Acl;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
@@ -110,11 +109,11 @@ class GuardManager implements GuardManagerInterface
         /** @var RuleProviderInterface $provider */
         foreach ($this->ruleProviders as $provider) {
             /**
-             * @var string $type
-             * @var Config $rules
+             * @var srting $type
+             * @var array $rules
              */
             foreach ($provider->getRules() as $type => $rules) {
-                /** @var Config $rule */
+                /** @var array $rule */
                 foreach ($rules as $rule) {
                     $this->addRule($rule, $type);
                 }

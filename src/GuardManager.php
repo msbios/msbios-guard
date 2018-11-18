@@ -57,7 +57,7 @@ class GuardManager implements GuardManagerInterface
     public function __construct(ServiceLocatorInterface $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-        $this->init();
+        $this->initialize();
     }
 
     /**
@@ -81,22 +81,6 @@ class GuardManager implements GuardManagerInterface
 
         $this->isInitialized = true;
     }
-
-    // /**
-    //  * Init an object
-    //  *
-    //  * @return void
-    //  * @deprecated
-    //  */
-    // public function init()
-    // {
-    //     $this->setIdentityProvider($this->serviceLocator->get(IdentityProviderInterface::class));
-    //
-    //     $this->getAcl()->addRole(
-    //         $this->getIdentity(),
-    //         $this->getIdentityProvider()->getIdentityRoles()
-    //     );
-    // }
 
     /**
      * @return Acl
@@ -158,6 +142,8 @@ class GuardManager implements GuardManagerInterface
      */
     public function isAllowed($resource, $privilege = null)
     {
+        $this->initialize();
+
         return $this->getAcl()->isAllowed(
             $this->getIdentity(),
             $resource,

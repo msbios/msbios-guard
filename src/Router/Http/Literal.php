@@ -14,5 +14,5 @@ use Zend\Router\Http\Literal as DefaultLiteral;
  */
 class Literal extends DefaultLiteral implements GuardInterface
 {
-
+    // ...
 }

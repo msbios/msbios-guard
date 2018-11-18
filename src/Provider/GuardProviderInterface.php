@@ -11,4 +11,5 @@ namespace MSBios\Guard\Provider;
  */
 interface GuardProviderInterface
 {
+    // ...
 }

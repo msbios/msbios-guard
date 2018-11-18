@@ -3,12 +3,9 @@
  * @access protected
  * @author Judzhin Miles <info[woof-woof]msbios.com>
  */
-
 namespace MSBios\Guard\Form;
 
-use Zend\Form\Element\Hidden;
-use Zend\Form\Element\Password;
-use Zend\Form\Element\Text;
+use Zend\Form\Element;
 use Zend\Form\Form;
 
 /**
@@ -23,19 +20,14 @@ class LoginForm extends Form
     public function init()
     {
         parent::init();
-
         $this->add([
-            'type' => Text::class,
+            'type' => Element\Text::class,
             'name' => 'username'
-        ]);
-
-        $this->add([
-            'type' => Password::class,
+        ])->add([
+            'type' => Element\Password::class,
             'name' => 'password'
-        ]);
-
-        $this->add([
-            'type' => Hidden::class,
+        ])->add([
+            'type' => Element\Hidden::class,
             'name' => 'redirect'
         ]);
     }

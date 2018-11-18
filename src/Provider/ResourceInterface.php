@@ -12,5 +12,5 @@ namespace MSBios\Guard\Provider;
  */
 interface ResourceInterface
 {
-
+    // ...
 }

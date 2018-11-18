@@ -6,17 +6,19 @@
 
 namespace MSBios\Guard\Provider\Identity;
 
+use MSBios\Authentication\AuthenticationServiceAwareInterface;
+use MSBios\Authentication\AuthenticationServiceAwareTrait;
+use MSBios\Authentication\AuthenticationServiceInterface;
 use MSBios\Authentication\IdentityInterface;
 use MSBios\Guard\Provider\IdentityProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
-use MSBios\Stdlib\ObjectInterface;
-use Zend\Authentication\AuthenticationServiceInterface;
+use MSBios\Resource\RecordInterface;
 
 /**
  * Class AuthenticationProvider
  * @package MSBios\Guard\Provider\Identity
  */
-class AuthenticationProvider implements IdentityProviderInterface
+class AuthenticationProvider implements IdentityProviderInterface, AuthenticationServiceAwareInterface
 {
     /** @var string */
     protected $defaultRole = 'GUEST';
@@ -24,8 +26,7 @@ class AuthenticationProvider implements IdentityProviderInterface
     /** @var string */
     protected $authenticatedRole = 'USER';
 
-    /** @var AuthenticationServiceInterface */
-    protected $authenticationService;
+    use AuthenticationServiceAwareTrait;
 
     /**
      * AuthenticationProvider constructor.
@@ -33,7 +34,7 @@ class AuthenticationProvider implements IdentityProviderInterface
      */
     public function __construct(AuthenticationServiceInterface $authenticationService)
     {
-        $this->authenticationService = $authenticationService;
+        $this->setAuthenticationService($authenticationService);
     }
 
     /**
@@ -77,30 +78,32 @@ class AuthenticationProvider implements IdentityProviderInterface
      */
     public function getIdentityRoles()
     {
-        if ($this->authenticationService->hasIdentity()) {
+        /** @var AuthenticationServiceInterface $authenticationService */
+        $authenticationService = $this->getAuthenticationService();
+
+        if ($authenticationService->hasIdentity()) {
 
             /** @var array $roles */
             $roles = [];
 
             /** @var IdentityInterface $identity */
-            $identity = $this->authenticationService->getIdentity();
+            $identity = $authenticationService->getIdentity();
 
             if ($identity instanceof RoleProviderInterface) {
 
-                /** @var ObjectInterface $role */
+                /** @var mixed $role */
                 foreach ($identity->getRoles() as $role) {
-                    if ($role instanceof ObjectInterface) {
+                    if ($role instanceof RecordInterface) {
                         $roles[] = $role->getCode();
-                    } elseif (is_string($role)) {
-                        $roles[] = $role;
-                    } else {
-                        // And Someone else
+                        continue;
                     }
+
+                    $roles[] = $role;
                 }
             }
 
             if (empty($roles)) {
-                $roles[] = $this->authenticatedRole;
+                return [$this->authenticatedRole];
             }
 
             return $roles;

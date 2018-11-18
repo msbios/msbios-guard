@@ -14,6 +14,7 @@ use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
 use Zend\Permissions\Acl\Acl;
+use Zend\Permissions\Acl\AclInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
@@ -43,7 +44,11 @@ class GuardManager implements GuardManagerInterface
     /** @var Acl */
     protected $acl;
 
+    /** @const EVENT_FORBIDDEN */
     const EVENT_FORBIDDEN = 'guard.forbidden';
+
+    /** @var bool */
+    protected $isInitialized = false;
 
     /**
      * Authentication constructor.
@@ -60,15 +65,38 @@ class GuardManager implements GuardManagerInterface
      *
      * @return void
      */
-    public function init()
+    public function initialize()
     {
-        $this->setIdentityProvider($this->serviceLocator->get(IdentityProviderInterface::class));
+        if ($this->isInitialized) {
+            return;
+        }
+
+        $this->setIdentityProvider($this->serviceLocator
+            ->get(IdentityProviderInterface::class));
 
         $this->getAcl()->addRole(
             $this->getIdentity(),
             $this->getIdentityProvider()->getIdentityRoles()
         );
+
+        $this->isInitialized = true;
     }
+
+    // /**
+    //  * Init an object
+    //  *
+    //  * @return void
+    //  * @deprecated
+    //  */
+    // public function init()
+    // {
+    //     $this->setIdentityProvider($this->serviceLocator->get(IdentityProviderInterface::class));
+    //
+    //     $this->getAcl()->addRole(
+    //         $this->getIdentity(),
+    //         $this->getIdentityProvider()->getIdentityRoles()
+    //     );
+    // }
 
     /**
      * @return Acl
@@ -130,7 +158,7 @@ class GuardManager implements GuardManagerInterface
      */
     public function isAllowed($resource, $privilege = null)
     {
-        return $this->acl->isAllowed(
+        return $this->getAcl()->isAllowed(
             $this->getIdentity(),
             $resource,
             $privilege
@@ -214,18 +242,22 @@ class GuardManager implements GuardManagerInterface
             $roles = [$roles];
         }
 
+        /** @var AclInterface $acl */
+        $acl = $this->getAcl();
+
         /** @var Role $role */
         foreach ($roles as $role) {
-            if ($this->acl->hasRole($role)) {
+            if ($acl->hasRole($role)) {
                 continue;
             }
 
             if ($parent = $role->getParent()) {
                 $this->addRoles([$parent]);
-                $this->acl->addRole($role, $parent);
-            } else {
-                $this->acl->addRole($role);
+                $acl->addRole($role, $parent);
+                continue;
             }
+
+            $acl->addRole($role);
         }
 
         return $this;
@@ -241,18 +273,22 @@ class GuardManager implements GuardManagerInterface
             $resources = [$resources];
         }
 
+        /** @var AclInterface $acl */
+        $acl = $this->getAcl();
+
         /** @var Resource $resource */
         foreach ($resources as $resource) {
-            if ($this->acl->hasResource($resource)) {
+            if ($acl->hasResource($resource)) {
                 continue;
             }
 
             if ($parent = $resource->getParent()) {
-                $this->acl->addResource($resource, $parent);
                 $this->addResources([$parent]);
-            } else {
-                $this->acl->addResource($resource);
+                $acl->addResource($resource, $parent);
+                continue;
             }
+
+            $acl->addResource($resource);
         }
 
         return $this;
@@ -284,7 +320,7 @@ class GuardManager implements GuardManagerInterface
                 break;
         }
 
-        $this->acl->$type($roles, $resources, $privileges, $assertion);
+        $this->getAcl()->$type($roles, $resources, $privileges, $assertion);
         return $this;
     }
 

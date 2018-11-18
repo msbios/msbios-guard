@@ -28,7 +28,6 @@ class Role implements RoleInterface, HierarchicalRoleInterface
     public function __construct($identifier, $parent = null)
     {
         $this->identifier = $identifier;
-
         if (! is_null($parent)) {
             $this->setParent($parent);
         }

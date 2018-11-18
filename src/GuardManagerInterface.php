@@ -12,21 +12,13 @@ use MSBios\Guard\Provider\ResourceProviderInterface;
 use MSBios\Guard\Provider\RoleProviderInterface;
 use MSBios\Guard\Provider\RuleProviderInterface;
 use Zend\Permissions\Acl\Acl;
-use Zend\Stdlib\InitializableInterface;
 
 /**
  * Interface GuardManagerInterface
  * @package MSBios\Guard
  */
-interface GuardManagerInterface extends InitializableInterface
+interface GuardManagerInterface
 {
-    /**
-     * Init an object
-     *
-     * @return void
-     */
-    public function init();
-
     /**
      * @return Acl
      */

@@ -6,8 +6,8 @@
 
 namespace MSBios\Guard;
 
-use MSBios\Guard\Permission\Role;
 use MSBios\Guard\Exception\InvalidArgumentException;
+use MSBios\Guard\Permission\Role;
 use MSBios\Guard\Provider\GuardProviderInterface;
 use MSBios\Guard\Provider\IdentityProviderInterface;
 use MSBios\Guard\Provider\ResourceProviderInterface;
@@ -51,12 +51,26 @@ class GuardManager implements GuardManagerInterface
     protected $isInitialized = false;
 
     /**
-     * Authentication constructor.
-     * @param ServiceLocatorInterface $serviceLocator
+     * GuardManager constructor.
+     *
+     * @param IdentityProviderInterface $identityProvider
+     * @param $resourceProviders
+     * @param $roleProviders
+     * @param $ruleProviders
      */
-    public function __construct(ServiceLocatorInterface $serviceLocator)
+    public function __construct(
+        IdentityProviderInterface $identityProvider,
+        $resourceProviders,
+        $roleProviders,
+        $ruleProviders
+    )
     {
-        $this->serviceLocator = $serviceLocator;
+        $this
+            ->setIdentityProvider($identityProvider)
+            ->addResourceProviders($resourceProviders)
+            ->addRoleProviders($roleProviders)
+            ->addRuleProviders($ruleProviders);
+
         $this->initialize();
     }
 
@@ -71,15 +85,53 @@ class GuardManager implements GuardManagerInterface
             return;
         }
 
-        $this->setIdentityProvider($this->serviceLocator
-            ->get(IdentityProviderInterface::class));
-
         $this->getAcl()->addRole(
             $this->getIdentity(),
             $this->getIdentityProvider()->getIdentityRoles()
         );
 
         $this->isInitialized = true;
+    }
+
+    /**
+     * @param array $resourceProviders
+     * @return $this
+     */
+    public function addResourceProviders(array $resourceProviders)
+    {
+        /** @var ResourceProviderInterface $resourceProvider */
+        foreach ($resourceProviders as $resourceProvider) {
+            $this->addResourceProvider($resourceProvider);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $roleProviders
+     * @return $this
+     */
+    public function addRoleProviders(array $roleProviders)
+    {
+        /** @var RoleProviderInterface $provider */
+        foreach ($roleProviders as $provider) {
+            $this->addRoleProvider($provider);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array $ruleProviders
+     * @return $this
+     */
+    public function addRuleProviders(array $ruleProviders)
+    {
+        foreach ($ruleProviders as $provider) {
+            $this->addRuleProvider($provider);
+        }
+
+        return $this;
     }
 
     /**
@@ -92,21 +144,6 @@ class GuardManager implements GuardManagerInterface
         }
 
         $this->acl = new Acl;
-
-        /** @var ResourceProviderInterface $provider */
-        foreach ($this->serviceLocator->get(ResourceProviderInterface::class) as $provider) {
-            $this->addResourceProvider($provider);
-        }
-
-        /** @var RoleProviderInterface $provider */
-        foreach ($this->serviceLocator->get(RoleProviderInterface::class) as $provider) {
-            $this->addRoleProvider($provider);
-        }
-
-        /** @var RuleProviderInterface $provider */
-        foreach ($this->serviceLocator->get(RuleProviderInterface::class) as $provider) {
-            $this->addRuleProvider($provider);
-        }
 
         /** @var RoleProviderInterface $provider */
         foreach ($this->roleProviders as $provider) {
@@ -224,7 +261,7 @@ class GuardManager implements GuardManagerInterface
      */
     public function addRoles($roles)
     {
-        if (! is_array($roles) && ! ($roles instanceof \Traversable)) {
+        if (!is_array($roles) && !($roles instanceof \Traversable)) {
             $roles = [$roles];
         }
 
@@ -255,7 +292,7 @@ class GuardManager implements GuardManagerInterface
      */
     public function addResources($resources)
     {
-        if (! is_array($resources) && ! ($resources instanceof \Traversable)) {
+        if (!is_array($resources) && !($resources instanceof \Traversable)) {
             $resources = [$resources];
         }
 

@@ -24,7 +24,7 @@
     }
   },
   "require": {
-    "zendframework/zend-permissions-acl": "^2.6",
+    "zendframework/zend-permissions-acl": "^2.7",
     "zendframework/zend-http": "^2.6",
     "msbios/guard-resource": "^1.0"
   },

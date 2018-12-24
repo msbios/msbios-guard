@@ -6,6 +6,8 @@
 
 namespace MSBios\Guard\View\Helper;
 
+use MSBios\Guard\GuardManagerAwareInterface;
+use MSBios\Guard\GuardManagerAwareTrait;
 use MSBios\Guard\GuardManagerInterface;
 use Zend\View\Helper\AbstractHelper;
 
@@ -13,27 +15,29 @@ use Zend\View\Helper\AbstractHelper;
  * Class IsAllowed
  * @package MSBios\Guard\View\Helper
  */
-class IsAllowed extends AbstractHelper
+class IsAllowed extends AbstractHelper implements GuardManagerAwareInterface
 {
-    /** @var GuardManagerInterface */
-    protected $guardManager;
+    use GuardManagerAwareTrait;
 
     /**
      * IsAllowed constructor.
+     *
      * @param GuardManagerInterface $guardManager
      */
     public function __construct(GuardManagerInterface $guardManager)
     {
-        $this->guardManager = $guardManager;
+        $this->setGuardManager($guardManager);
     }
 
     /**
      * @param $resource
      * @param null $privilege
-     * @return bool
+     * @return mixed
      */
     public function __invoke($resource, $privilege = null)
     {
-        return $this->guardManager->isAllowed($resource, $privilege);
+        return $this
+            ->getGuardManager()
+            ->isAllowed($resource, $privilege);
     }
 }

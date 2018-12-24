@@ -11,5 +11,5 @@ namespace MSBios\Guard\Exception;
  */
 class InvalidArgumentException extends \InvalidArgumentException
 {
-
+    // ...
 }

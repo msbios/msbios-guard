@@ -12,5 +12,5 @@ namespace MSBios\Guard\Exception;
  */
 class InvalidRoleException extends \InvalidArgumentException
 {
-
+    // ...
 }

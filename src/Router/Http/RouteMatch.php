@@ -10,12 +10,13 @@ use Zend\Router\Http\RouteMatch as DefaultRouteMatch;
 
 /**
  * Class RouteMatch
- * @package MSBios\Guard\Router
+ * @package MSBios\Guard\Router\Http
  */
 class RouteMatch extends DefaultRouteMatch implements GuardInterface
 {
     /**
      * RouteMatch constructor.
+     *
      * @param DefaultRouteMatch $routeMatch
      */
     public function __construct(DefaultRouteMatch $routeMatch)

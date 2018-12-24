@@ -12,5 +12,5 @@ namespace MSBios\Guard\Exception;
  */
 class InvalidResourceException extends \InvalidArgumentException
 {
-
+    // ...
 }

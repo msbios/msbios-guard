@@ -19,10 +19,12 @@ use Zend\Stdlib\RequestInterface as Request;
 class TreeRouteStack extends DefaultTreeRouteStack
 {
     /**
+     * @inheritdoc
+     *
      * @param Request $request
      * @param null $pathOffset
      * @param array $options
-     * @return RouteMatch|DefaultRouteMatch
+     * @return RouteMatch|null|\Zend\Router\Http\RouteMatch|DefaultRouteMatch
      */
     public function match(Request $request, $pathOffset = null, array $options = [])
     {

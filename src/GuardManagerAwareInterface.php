@@ -18,8 +18,8 @@ interface GuardManagerAwareInterface
     public function getGuardManager();
 
     /**
-     * @param GuardInterface $guardManager
-     * @return $this
+     * @param GuardManagerInterface $guardManager
+     * @return mixed
      */
-    public function setGuardManager(GuardInterface $guardManager);
+    public function setGuardManager(GuardManagerInterface $guardManager);
 }

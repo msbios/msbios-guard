@@ -24,10 +24,10 @@ trait GuardManagerAwareTrait
     }
 
     /**
-     * @param GuardInterface $guardManager
+     * @param GuardManagerInterface $guardManager
      * @return $this
      */
-    public function setGuardManager(GuardInterface $guardManager)
+    public function setGuardManager(GuardManagerInterface $guardManager)
     {
         $this->guardManager = $guardManager;
         return $this;

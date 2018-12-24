@@ -11,4 +11,5 @@ namespace MSBios\Guard\Exception;
  */
 class ForbiddenExceprion extends \InvalidArgumentException
 {
+    // ...
 }

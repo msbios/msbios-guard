@@ -89,12 +89,15 @@ return [
                 Factory\ResourceStorageFactory::class,
 
             // Listeners
-            Listener\DispatchListener::class =>
-                InvokableFactory::class,
-            Listener\ForbiddenListener::class =>
-                InvokableFactory::class,
-            Listener\RouteListener::class =>
-                InvokableFactory::class,
+            ListenerAggregate::class =>
+                Factory\ListenerAggregateFactory::class,
+
+            // Listener\DispatchListener::class =>
+            //     InvokableFactory::class,
+            // Listener\ForbiddenListener::class =>
+            //     InvokableFactory::class,
+            // Listener\RouteListener::class =>
+            //     InvokableFactory::class,
 
             // Providers
             Provider\IdentityProviderInterface::class =>
@@ -213,24 +216,28 @@ return [
         ],
 
         'listeners' => [
-            Listener\RouteListener::class => [
-                'listener' => Listener\RouteListener::class,
-                'method' => 'onRoute',
-                'event' => \Zend\Mvc\MvcEvent::EVENT_ROUTE,
-                'priority' => 1,
-            ],
-            Listener\DispatchListener::class => [
-                'listener' => Listener\DispatchListener::class,
-                'method' => 'onDispatch',
-                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH,
-                'priority' => 1,
-            ],
-            Listener\ForbiddenListener::class => [
-                'listener' => Listener\ForbiddenListener::class,
-                'method' => 'onDispatchError',
-                'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
-                'priority' => -100900,
-            ],
+            // Listener\RouteListener::class => [
+            //     'listener' => Listener\RouteListener::class,
+            //     'method' => 'onRoute',
+            //     'event' => \Zend\Mvc\MvcEvent::EVENT_ROUTE,
+            //     'priority' => 1,
+            // ],
+            // Listener\DispatchListener::class => [
+            //     'listener' => Listener\DispatchListener::class,
+            //     'method' => 'onDispatch',
+            //     'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH,
+            //     'priority' => 1,
+            // ],
+            // Listener\ForbiddenListener::class => [
+            //     'listener' => Listener\ForbiddenListener::class,
+            //     'method' => 'onDispatchError',
+            //     'event' => \Zend\Mvc\MvcEvent::EVENT_DISPATCH_ERROR,
+            //     'priority' => -100900,
+            // ],
         ]
     ],
+
+    'listeners' => [
+        ListenerAggregate::class
+    ]
 ];

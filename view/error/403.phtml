@@ -36,8 +36,6 @@ $form->setAttribute('action', $this->url('home/login'))
         </div>
 
         <div class="form-group">
-            <?= $this->formElement($form->get('redirect')); ?>
-
             <button type="submit" class="btn btn-primary">
                 <?= $this->translate('Sign in'); ?> <i class="icon-circle-right2 position-right"></i>
             </button>
@@ -46,6 +44,7 @@ $form->setAttribute('action', $this->url('home/login'))
         </div>
 
     </div>
+    <?= $this->formElement($form->get('redirect')); ?>
     <?= $this->form()->closeTag($form); ?>
     <!-- /simple login form -->
 </div>

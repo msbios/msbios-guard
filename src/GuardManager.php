@@ -63,8 +63,7 @@ class GuardManager implements GuardManagerInterface
         $resourceProviders,
         $roleProviders,
         $ruleProviders
-    )
-    {
+    ) {
         $this
             ->setIdentityProvider($identityProvider)
             ->addResourceProviders($resourceProviders)
@@ -261,7 +260,7 @@ class GuardManager implements GuardManagerInterface
      */
     public function addRoles($roles)
     {
-        if (!is_array($roles) && !($roles instanceof \Traversable)) {
+        if (! is_array($roles) && ! ($roles instanceof \Traversable)) {
             $roles = [$roles];
         }
 
@@ -292,7 +291,7 @@ class GuardManager implements GuardManagerInterface
      */
     public function addResources($resources)
     {
-        if (!is_array($resources) && !($resources instanceof \Traversable)) {
+        if (! is_array($resources) && ! ($resources instanceof \Traversable)) {
             $resources = [$resources];
         }
 

@@ -44,7 +44,10 @@ class GuardManagerFactory implements FactoryInterface
         $ruleProvider = $container->get(RuleProviderInterface::class);
 
         return new GuardManager(
-            $identityProvider, $resourceProvider, $roleProvider, $ruleProvider
+            $identityProvider,
+            $resourceProvider,
+            $roleProvider,
+            $ruleProvider
         );
     }
 }

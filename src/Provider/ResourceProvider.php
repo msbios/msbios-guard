@@ -5,7 +5,7 @@
  */
 namespace MSBios\Guard\Provider;
 
-use MSBios\Guard\Permission\Resource;
+use MSBios\Permissions\Acl\Resource\Resource;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 
@@ -47,23 +47,22 @@ class ResourceProvider implements ResourceProviderInterface, ProviderInterface
                 $resources = ArrayUtils::merge($resources, $this->loadResource($key, $value));
             }
         }
-
         $this->resources = $resources;
     }
 
     /**
-     * @param $identifier
+     * @param $resourceId
      * @param array|null $children
      * @param Resource|null $parent
      * @return array
      */
-    protected function loadResource($identifier, array $children = null, Resource $parent = null)
+    protected function loadResource($resourceId, array $children = null, Resource $parent = null)
     {
         /** @var array $resources */
         $resources = [];
 
         /** @var string $resource */
-        $resource = new Resource($identifier, $parent);
+        $resource = new Resource($resourceId, $parent);
         $resources[] = $resource;
 
         if (! is_null($children)) {

@@ -5,7 +5,7 @@
  */
 namespace MSBios\Guard\Provider;
 
-use MSBios\Guard\Permission\Role;
+use MSBios\Permissions\Acl\Role\Role;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\Stdlib\ArrayUtils;
 
@@ -51,18 +51,18 @@ class RoleProvider implements RoleProviderInterface, ProviderInterface
     }
 
     /**
-     * @param $identifier
+     * @param $roleId
      * @param array|null $children
      * @param null $parent
      * @return array
      */
-    protected function loadRole($identifier, array $children = null, $parent = null)
+    protected function loadRole($roleId, array $children = null, $parent = null)
     {
         /** @var array $roles */
         $roles = [];
 
         /** @var string $role */
-        $role = new Role($identifier, $parent);
+        $role = new Role($roleId, $parent);
 
         $roles[] = $role;
 

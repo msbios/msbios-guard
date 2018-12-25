@@ -15,7 +15,7 @@ use Zend\ModuleManager\Feature\ViewHelperProviderInterface;
 class Module extends \MSBios\Module implements ViewHelperProviderInterface
 {
     /** @const VERSION */
-    const VERSION = '1.0.31';
+    const VERSION = '1.0.32';
 
     /**
      * @inheritdoc

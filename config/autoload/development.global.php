@@ -7,6 +7,7 @@
 namespace MSBios\Guard;
 
 use MSBios\Db\Initializer\TableManagerInitializer;
+use Zend\Mvc\Controller\AbstractActionController;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
@@ -73,7 +74,9 @@ return [
         // Keys are the provider service names, values are the options to be passed to the provider
         'resource_providers' => [
             Provider\ResourceProvider::class => [
-                \MSBios\Application\Controller\IndexController::class
+                AbstractActionController::class => [
+                    \MSBios\Application\Controller\IndexController::class
+                ]
             ]
         ],
 

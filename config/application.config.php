@@ -8,7 +8,6 @@
 return [
     // Retrieve list of modules used in this application.
     'modules' => [
-
         'Zend\Paginator',
         'Zend\Cache',
         'Zend\Serializer',
@@ -39,6 +38,8 @@ return [
         'MSBios\Application',
         'MSBios\Authentication',
         'MSBios\Resource',
+        'MSBios\Permissions\Acl',
+        'MSBios\Session',
 
         'MSBios\Guard',
         'MSBios\Guard\Resource',

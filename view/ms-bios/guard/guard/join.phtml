@@ -1,4 +1,79 @@
+<?php
+namespace MSBios\Guard;
+
+/** @var \Zend\Form\FormInterface $form */
+$form = $this->form;
+$form->setAttribute('action', $this->url('home/join'))
+?>
+
 <h1>MSBios Guard Module Join Page</h1>
 <p>
-    <a href="<?= $this->url('home/login'); ?>">Sign in</a> or <a href="<?= $this->url('home/reset'); ?>">Reset password</a>
+    <a href="<?= $this->url('home/login'); ?>">Sign in</a> or <a href="<?= $this->url('home/reset'); ?>">Reset
+        password</a>
 </p>
+
+<div class="row">
+    <!-- Simple join form -->
+    <?= $this->form()->openTag($form); ?>
+    <div class="panel panel-body col-md-3">
+
+        <div class="form-group">
+            <label><?= $this->translate('Username'); ?>:</label>
+            <?= $this->formElement($form->get('username')->setAttributes([
+                'class' => 'form-control',
+                'placeholder' => $this->translate('Username'),
+            ])); ?>
+
+            <?php if ($messages = $form->get('username')->getMessages()): ?>
+                <span class="help-block">
+                    <?php foreach ($messages as $message): ?>
+                        <small><?= $message; ?></small>
+                    <?php endforeach; ?>
+                </span>
+            <?php endif; ?>
+
+        </div>
+
+        <div class="form-group">
+            <label><?= $this->translate('Password'); ?>:</label>
+            <?= $this->formElement($form->get('password')->setAttributes([
+                'class' => 'form-control',
+                'placeholder' => $this->translate('Password'),
+            ])); ?>
+
+            <?php if ($messages = $form->get('password')->getMessages()): ?>
+                <span class="help-block">
+                    <?php foreach ($messages as $message): ?>
+                        <small><?= $message; ?></small>
+                    <?php endforeach; ?>
+                </span>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <label><?= $this->translate('Confirm'); ?>:</label>
+            <?= $this->formElement($form->get('confirm')->setAttributes([
+                'class' => 'form-control',
+                'placeholder' => $this->translate('Confirm'),
+            ])); ?>
+
+            <?php if ($messages = $form->get('confirm')->getMessages()): ?>
+                <span class="help-block">
+                    <?php foreach ($messages as $message): ?>
+                        <small><?= $message; ?></small>
+                    <?php endforeach; ?>
+                </span>
+            <?php endif; ?>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">
+                <?= $this->translate('Sign up'); ?> <i class="icon-circle-right2 position-right"></i>
+            </button>
+        </div>
+
+    </div>
+    <?= $this->formElement($form->get('redirect')); ?>
+    <?= $this->form()->closeTag($form); ?>
+    <!-- /simple join form -->
+</div>

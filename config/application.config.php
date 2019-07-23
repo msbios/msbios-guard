@@ -24,6 +24,7 @@ return [
         'Zend\Form',
         'Zend\I18n',
 
+        'MSBios',
         'MSBios\Validator',
         'MSBios\Cache',
         'MSBios\View',

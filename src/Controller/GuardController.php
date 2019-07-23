@@ -12,6 +12,7 @@ use MSBios\Authentication\AuthenticationServiceAwareInterface;
 use MSBios\Authentication\AuthenticationServiceAwareTrait;
 use MSBios\Form\FormElementManagerAwareInterface;
 use MSBios\Form\FormElementManagerAwareTrait;
+use MSBios\Guard\Form\JoinForm;
 use MSBios\Guard\Form\LoginForm;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\AuthenticationServiceInterface;
@@ -33,13 +34,15 @@ class GuardController extends DefaultIndexController implements
 
     /**
      * IndexController constructor.
+     *
      * @param AuthenticationServiceInterface $authenticationService
      * @param FormElementManagerV3Polyfill $formElementManager
      */
     public function __construct(
         AuthenticationServiceInterface $authenticationService,
         FormElementManagerV3Polyfill $formElementManager
-    ) {
+    )
+    {
         $this->setAuthenticationService($authenticationService);
         $this->setFormElementManager($formElementManager);
     }
@@ -97,7 +100,27 @@ class GuardController extends DefaultIndexController implements
      */
     public function joinAction()
     {
-        return new ViewModel;
+        /** @var FormInterface|JoinForm $form */
+        $form = $this->getFormElementManager()
+            ->get(JoinForm::class);
+
+        if ($this->getRequest()->isPost()) {
+
+            /** @var array $data */
+            $data = $this->params()
+                ->fromPost();
+
+            if ($form->setData($data)->isValid()) {
+
+                /** @var array $values */
+                $values = $form->getData();
+
+            }
+        }
+
+        return new ViewModel([
+            'form' => $form
+        ]);
     }
 
     /**

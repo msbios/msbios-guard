@@ -9,7 +9,7 @@ namespace MSBios\Guard\Router\Http;
 use MSBios\Guard\GuardInterface;
 use Zend\Router\Http\TreeRouteStack as DefaultTreeRouteStack;
 use Zend\Router\RouteInterface;
-use Zend\Router\RouteMatch as DefaultRouteMatch;
+use Zend\Router\RouteMatch;
 use Zend\Stdlib\RequestInterface as Request;
 
 /**
@@ -18,28 +18,33 @@ use Zend\Stdlib\RequestInterface as Request;
  */
 class TreeRouteStack extends DefaultTreeRouteStack
 {
+
+    protected $protectedRoutes = [
+        Literal::class
+    ];
+
     /**
      * @inheritdoc
      *
      * @param Request $request
      * @param null $pathOffset
      * @param array $options
-     * @return RouteMatch|null|\Zend\Router\Http\RouteMatch|DefaultRouteMatch
+     * @return ProxyRouteMatch|RouteMatch
      */
     public function match(Request $request, $pathOffset = null, array $options = [])
     {
-        /** @var DefaultRouteMatch $match */
+        /** @var RouteMatch $match */
         $match = parent::match($request, $pathOffset, $options);
 
-        if ($match instanceof DefaultRouteMatch) {
+        if ($match instanceof RouteMatch) {
 
             /** @var RouteInterface $route */
             $route = $this->routes->get(
                 $match->getMatchedRouteName()
             );
 
-            if ($route instanceof GuardInterface) {
-                return new RouteMatch($match);
+            if (in_array(get_class($route), $this->protectedRoutes) ) {
+                return new ProxyRouteMatch($match);
             }
         }
 

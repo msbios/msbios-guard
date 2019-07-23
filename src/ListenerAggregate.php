@@ -6,9 +6,9 @@
 
 namespace MSBios\Guard;
 
-use MSBios\Guard\Exception\ForbiddenExceprion;
+use MSBios\Guard\Exception\ForbiddenException;
 use MSBios\Guard\Form\LoginForm;
-use MSBios\Guard\Router\Http\RouteMatch;
+use MSBios\Guard\Router\Http\ProxyRouteMatch;
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManagerInterface;
@@ -70,24 +70,24 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
      */
     public function onRoute(EventInterface $e)
     {
-        /** @var null|RouteMatch $routeMatch */
+        /** @var null|ProxyRouteMatch $routeMatch */
         $routeMatch = $e->getRouteMatch();
 
-        if (! $routeMatch instanceof GuardInterface) {
+        if (! $routeMatch instanceof ResourceInterface) {
             return;
         }
 
         /** @var string $matchedRouteName */
         $matchedRouteName = $routeMatch
-            ->getMatchedRouteName();
+            ->getResourceId();
 
         try {
-            if ($this->guardManager->isAllowed("route/{$matchedRouteName}")) {
+            if ($this->getGuardManager()->isAllowed($matchedRouteName)) {
                 return;
             }
 
-            /** @var ForbiddenExceprion $exception */
-            $exception = new ForbiddenExceprion(
+            /** @var ForbiddenException $exception */
+            $exception = new ForbiddenException(
                 "You are not authorized to access {$matchedRouteName}"
             );
 
@@ -99,7 +99,9 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
                 ->getTarget()
                 ->getEventManager()
                 ->triggerEvent($e);
+
         } catch (InvalidArgumentException $exception) {
+
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);
             $e->setParam('exception', $exception);
@@ -108,6 +110,7 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
                 ->getTarget()
                 ->getEventManager()
                 ->triggerEvent($e);
+
         } catch (ServiceNotCreatedException $exception) {
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);
@@ -121,25 +124,27 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
     }
 
     /**
-     * @param EventInterface|MvcEvent $e
+     * @param EventInterface $e
+     * @return mixed|void
      */
     public function onDispatch(EventInterface $e)
     {
         /** @var DispatchableInterface $target */
         $target = $e->getTarget();
 
-        if (! $target instanceof GuardInterface) {
+        if (! $target instanceof ResourceInterface) {
             return;
         }
 
         try {
 
-            /** @var RouteMatch $routeMatch */
+            /** @var ProxyRouteMatch $routeMatch */
             $routeMatch = $e->getRouteMatch();
 
             /** @var string $controllerName */
-            $controllerName = ($target instanceof ResourceInterface)
-                ? $target->getResourceId() : $routeMatch->getParam('controller');
+            $controllerName = $target->getResourceId();
+
+            /** @var string $actionName */
             $actionName = $routeMatch->getParam('action');
 
             if ($this->guardManager->isAllowed($controllerName, $actionName)) {
@@ -148,7 +153,7 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
 
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(self::ERROR_UNAUTHORIZED_CONTROLLER);
-            $e->setParam('exception', new ForbiddenExceprion(
+            $e->setParam('exception', new ForbiddenException(
                 sprintf("You are not authorized to access %s::%s", $controllerName, $actionName)
             ));
 
@@ -161,6 +166,7 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
             if (! empty($results)) {
                 return $results->last();
             }
+
         } catch (InvalidArgumentException $exception) {
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);
@@ -175,7 +181,9 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
             if (! empty($results)) {
                 return $results->last();
             }
+
         } catch (ServiceNotCreatedException $exception) {
+
             $e->setName(MvcEvent::EVENT_DISPATCH_ERROR);
             $e->setError(Application::ERROR_EXCEPTION);
             $e->setParam('exception', $exception);
@@ -199,7 +207,7 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
             return;
         }
 
-        if (! $e->getParam('exception') instanceof ForbiddenExceprion) {
+        if (! $e->getParam('exception') instanceof ForbiddenException) {
             return;
         }
 
@@ -213,7 +221,6 @@ class ListenerAggregate extends AbstractListenerAggregate implements GuardManage
 
         /** @var LoginForm $form */
         $form = $serviceManager->get('FormElementManager')->get(LoginForm::class);
-
 
         /** @var RequestInterface $request */
         $request = $e->getRequest();

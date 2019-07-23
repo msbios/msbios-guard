@@ -7,9 +7,15 @@
 namespace MSBios\Guard;
 
 use MSBios\Factory\ModuleFactory;
+use MSBios\Guard\Form\JoinForm;
+use MSBios\Guard\Form\LoginForm;
+use Zend\InputFilter\InputFilterAbstractServiceFactory;
 use Zend\Router\Http\Method;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Validator\Identical;
+use Zend\Validator\NotEmpty;
+use Zend\Validator\StringLength;
 
 return [
     'router' => [
@@ -92,13 +98,6 @@ return [
             ListenerAggregate::class =>
                 Factory\ListenerAggregateFactory::class,
 
-            // Listener\DispatchListener::class =>
-            //     InvokableFactory::class,
-            // Listener\ForbiddenListener::class =>
-            //     InvokableFactory::class,
-            // Listener\RouteListener::class =>
-            //     InvokableFactory::class,
-
             // Providers
             Provider\IdentityProviderInterface::class =>
                 Factory\IdentityProviderFactory::class,
@@ -115,9 +114,9 @@ return [
             GuardManager::class =>
                 Factory\GuardManagerFactory::class,
 
-            // Customs
-            Module::class =>
-                ModuleFactory::class
+            // // Customs
+            // Module::class =>
+            //     ModuleFactory::class
         ],
     ],
 
@@ -141,16 +140,106 @@ return [
 
     'form_elements' => [
         'factories' => [
+            Form\JoinForm::class =>
+                Factory\JoinFormFactory::class,
             Form\LoginForm::class =>
-                Factory\LoginFormFactory::class,
+                Factory\FormInvokableFactory::class,
         ]
     ],
 
     'input_filters' => [
+        'abstract_factories' => [
+            InputFilterAbstractServiceFactory::class =>
+                InputFilterAbstractServiceFactory::class
+        ],
         'factories' => [
             InputFilter\LoginInputFilter::class =>
                 InvokableFactory::class
         ]
+    ],
+
+    'validators' => [
+        'factories' => [
+            Validator\Db\UsernameExists::class =>
+                Factory\UsernameExistsFactory::class
+        ]
+    ],
+
+    'input_filter_specs' => [
+        JoinForm::class => [
+            [
+                'name' => 'username',
+                'required' => true,
+                'validators' => [
+                    [
+                        'name' => NotEmpty::class,
+                    ], [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'min' => 8
+                        ],
+                    ],
+                ],
+            ], [
+                'name' => 'password',
+                'required' => true,
+                'validators' => [
+                    [
+                        'name' => NotEmpty::class,
+                    ], [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'min' => 8
+                        ],
+                    ],
+                ],
+            ], [
+                'name' => 'confirm',
+                'required' => true,
+                'validators' => [
+                    [
+                        'name' => Identical::class,
+                        'options' => [
+                            'token' => 'password',
+                        ],
+                    ],
+                ],
+            ], [
+                'name' => 'redirect',
+                'required' => false,
+                'validators' => [
+                    // ...
+                ],
+            ]
+        ],
+        LoginForm::class => [
+            [
+                'name' => 'username',
+                'required' => true,
+                'validators' => [
+                    [
+                        'name' => NotEmpty::class,
+                    ], [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'min' => 8
+                        ],
+                    ],
+                ],
+            ], [
+                'name' => 'password',
+                'required' => true,
+                'validators' => [
+                    // ...
+                ],
+            ], [
+                'name' => 'redirect',
+                'required' => false,
+                'validators' => [
+                    // ...
+                ],
+            ]
+        ],
     ],
 
     \MSBios\Authentication\Module::class => [

@@ -5,14 +5,13 @@
  */
 namespace MSBios\Guard\Router\Http;
 
-use MSBios\Guard\GuardInterface;
 use Zend\Router\Http\Literal as DefaultLiteral;
 
 /**
  * Class Literal
  * @package MSBios\Guard\Router\Http
  */
-class Literal extends DefaultLiteral implements GuardInterface
+class Literal extends DefaultLiteral
 {
     // ...
 }

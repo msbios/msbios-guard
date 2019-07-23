@@ -6,35 +6,38 @@
 namespace MSBios\Guard\Factory;
 
 use Interop\Container\ContainerInterface;
-use MSBios\Guard\Form\LoginForm;
-use MSBios\Guard\InputFilter\LoginInputFilter;
+use Zend\Form\FormInterface;
 use Zend\InputFilter\InputFilterPluginManager;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
- * Class LoginFormFactory
+ * Class FormInvokableFactory
  * @package MSBios\Guard\Factory
  */
-class LoginFormFactory implements FactoryInterface
+class FormInvokableFactory implements FactoryInterface
 {
     /**
+     * @inheritdoc
+     *
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return LoginForm|object
+     * @return FormInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        /** @var LoginForm $form */
-        $form = new LoginForm;
+        /** @var FormInterface $form */
+        $form = new $requestedName;
 
         /** @var InputFilterPluginManager $inputFilterManager */
         $inputFilterManager = $container
             ->get('InputFilterManager');
 
-        $form->setInputFilter(
-            $inputFilterManager->get(LoginInputFilter::class)
-        );
+        if ($inputFilterManager->has($requestedName)) {
+            $form->setInputFilter(
+                $inputFilterManager->get($requestedName)
+            );
+        }
 
         return $form;
     }

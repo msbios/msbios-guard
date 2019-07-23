@@ -6,7 +6,7 @@
 
 namespace MSBios\Guard;
 
-use MSBios\Db\Initializer\TableManagerInitializer;
+use MSBios\Db\TableManagerInitializer;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
@@ -20,6 +20,7 @@ return [
 
     'service_manager' => [
         'initializers' => [
+            TableManagerInitializer::class =>
             new TableManagerInitializer
         ],
     ],

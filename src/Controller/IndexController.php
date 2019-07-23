@@ -7,13 +7,21 @@
 namespace MSBios\Guard\Controller;
 
 use MSBios\Application\Controller\IndexController as DefaultIndexController;
-use MSBios\Guard\GuardInterface;
+use Zend\Permissions\Acl\Resource\ResourceInterface;
 
 /**
  * Class IndexController
  * @package MSBios\Guard\Controller
  */
-class IndexController extends DefaultIndexController implements GuardInterface
+class IndexController extends DefaultIndexController implements ResourceInterface
 {
-    // ...
+    /**
+     * @inheritdoc
+     *
+     * @return mixed
+     */
+    public function getResourceId()
+    {
+        return DefaultIndexController::class;
+    }
 }
